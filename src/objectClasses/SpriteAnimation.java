@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 
-public class SpriteAnimation extends Transition{
+public class SpriteAnimation extends Transition {
     private final ImageView imageView;
     private final int count;
     private final int columns;
@@ -33,10 +33,10 @@ public class SpriteAnimation extends Transition{
     @Override
     protected void interpolate(double frac) {
         final int index = Math.min((int) Math.floor(frac * count), count - 1);
-        if(index != lastIndex){
+        if (index != lastIndex) {
             final int x = (index % columns) * width + offsetX;
             final int y = (index / columns) * height + offsetY;
-            imageView.setViewport(new Rectangle2D(x,y, width,height));
+            imageView.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
         }
 
