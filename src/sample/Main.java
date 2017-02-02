@@ -2,11 +2,13 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import objectClasses.AnimatedImage;
 import objectClasses.Asteroid;
@@ -20,6 +22,8 @@ public class Main extends Application {
 
     //obsolete for now
     //private Timer timer = new Timer();
+
+    boolean goLeft, goRight, goUp, goDown;
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -40,6 +44,47 @@ public class Main extends Application {
 
         Random rndY = new Random();
         Random rndX = new Random();
+
+        //Add event listener
+        theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case UP:
+                        goUp = true;
+                        break;
+                    case DOWN:
+                        goDown = true;
+                        break;
+                    case LEFT:
+                        goLeft = true;
+                        break;
+                    case RIGHT:
+                        goRight = true;
+                        break;
+                }
+            }
+        });
+
+        theScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case UP:
+                        goUp = false;
+                        break;
+                    case DOWN:
+                        goDown = false;
+                        break;
+                    case LEFT:
+                        goLeft = false;
+                        break;
+                    case RIGHT:
+                        goRight = false;
+                        break;
+                }
+            }
+        });
 
         //UFO object
         AnimatedImage ufo = new AnimatedImage();
@@ -85,10 +130,12 @@ public class Main extends Application {
 
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
+
                 //background image clears canvas
                 gc.drawImage(space, 0, 0);
                 gc.drawImage(earth, x, y);
                 gc.drawImage(sun, 196, 196);
+
                 //draw UFO
                 gc.drawImage(ufo.getFrame(t), 100, 25);
 
@@ -100,6 +147,7 @@ public class Main extends Application {
                 }
 
                 playerObject.drawPlayer(gc, player, 0, playerObject.x, playerObject.y);
+                playerObject.updateLocation(playerObject, goUp, goDown, goLeft, goRight);
             }
         }.start();
 

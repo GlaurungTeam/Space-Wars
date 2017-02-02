@@ -18,4 +18,11 @@ public class Player {
     public void drawPlayer(GraphicsContext gc, AnimatedImage player, double frame, double x, double y) {
         gc.drawImage(player.getFrame(frame), x, y);
     }
+
+    public void updateLocation(Player player, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
+        if (goUp) player.y -= 2;
+        if (goDown) player.y += 2;
+        if (goLeft) player.x -= 2;
+        if (goRight) player.x += 2;
+    }
 }
