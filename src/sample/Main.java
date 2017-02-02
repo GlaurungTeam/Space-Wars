@@ -2,20 +2,17 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import objectClasses.AnimatedImage;
 import objectClasses.Asteroid;
 import objectClasses.Player;
 
 import java.util.Random;
-import java.util.Timer;
 
 
 public class Main extends Application {
@@ -46,43 +43,37 @@ public class Main extends Application {
         Random rndX = new Random();
 
         //Add event listener
-        theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:
-                        goUp = true;
-                        break;
-                    case DOWN:
-                        goDown = true;
-                        break;
-                    case LEFT:
-                        goLeft = true;
-                        break;
-                    case RIGHT:
-                        goRight = true;
-                        break;
-                }
+        theScene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    goUp = true;
+                    break;
+                case DOWN:
+                    goDown = true;
+                    break;
+                case LEFT:
+                    goLeft = true;
+                    break;
+                case RIGHT:
+                    goRight = true;
+                    break;
             }
         });
 
-        theScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:
-                        goUp = false;
-                        break;
-                    case DOWN:
-                        goDown = false;
-                        break;
-                    case LEFT:
-                        goLeft = false;
-                        break;
-                    case RIGHT:
-                        goRight = false;
-                        break;
-                }
+        theScene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    goUp = false;
+                    break;
+                case DOWN:
+                    goDown = false;
+                    break;
+                case LEFT:
+                    goLeft = false;
+                    break;
+                case RIGHT:
+                    goRight = false;
+                    break;
             }
         });
 
@@ -102,7 +93,9 @@ public class Main extends Application {
         asteroid.frames = asteroidImageArr;
         asteroid.duration = 0.100;
         Asteroid[] asteroidArr = new Asteroid[20];
-        int speed = 2;
+
+        int asteroidSpeed = 2;
+        int playerSpeed = 2;
 
         //Initialize all asteroids
         for (int i = 0; i < asteroidArr.length; i++) {
@@ -136,18 +129,18 @@ public class Main extends Application {
                 gc.drawImage(earth, x, y);
                 gc.drawImage(sun, 196, 196);
 
-                //draw UFO
-                gc.drawImage(ufo.getFrame(t), 100, 25);
+//                //draw UFO
+//                gc.drawImage(ufo.getFrame(t), 100, 25);
 
                 for (int i = 0; i < asteroidArr.length; i++) {
                     asteroidArr[i].drawAsteroid(gc, asteroid, 0, asteroidArr[i].x, asteroidArr[i].y);
 
                     //Update asteroid location
-                    asteroidArr[i].updateAsteroid(canvas, asteroidArr[i], speed, rndY);
+                    asteroidArr[i].updateAsteroid(canvas, asteroidArr[i], asteroidSpeed, rndY);
                 }
 
                 playerObject.drawPlayer(gc, player, 0, playerObject.x, playerObject.y);
-                playerObject.updateLocation(playerObject, goUp, goDown, goLeft, goRight);
+                playerObject.updateLocation(playerObject, canvas, goUp, goDown, goLeft, goRight, playerSpeed);
             }
         }.start();
 
