@@ -10,9 +10,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import objectClasses.AnimatedImage;
 import objectClasses.Asteroid;
+import objectClasses.AsteroidSpawnCoordinates;
 import objectClasses.Player;
-
-import java.util.Random;
 
 
 public class Main extends Application {
@@ -39,8 +38,6 @@ public class Main extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-        Random rndY = new Random();
-        Random rndX = new Random();
 
         //Add event listener
         theScene.setOnKeyPressed(event -> {
@@ -94,13 +91,18 @@ public class Main extends Application {
         asteroid.duration = 0.100;
         Asteroid[] asteroidArr = new Asteroid[20];
 
+        //Adjustable player and asteroid speed
         int asteroidSpeed = 2;
         int playerSpeed = 2;
+
+
+        //Method class for getting random X and Y coordinates for initial asteroid spawning
+        AsteroidSpawnCoordinates asteroidSpawnCoordinates = new AsteroidSpawnCoordinates();
 
         //Initialize all asteroids
         for (int i = 0; i < asteroidArr.length; i++) {
             asteroidArr[i] = new Asteroid
-                    (asteroidImageArr, 0.100, gc, 0, rndX.nextInt((int) canvas.getWidth()) + 750, rndY.nextInt((int) canvas.getHeight()), 30);
+                    (asteroidImageArr, 0.100, gc, 0, asteroidSpawnCoordinates.getSpawnX(canvas), asteroidSpawnCoordinates.getSpawnY(canvas), 30);
         }
 
         //Player object
@@ -136,7 +138,7 @@ public class Main extends Application {
                     asteroidArr[i].drawAsteroid(gc, asteroid, 0, asteroidArr[i].x, asteroidArr[i].y);
 
                     //Update asteroid location
-                    asteroidArr[i].updateAsteroid(canvas, asteroidArr[i], asteroidSpeed, rndY);
+                    asteroidArr[i].updateAsteroid(canvas, asteroidArr[i], asteroidSpeed);
                 }
 
                 playerObject.drawPlayer(gc, player, 0, playerObject.x, playerObject.y);
