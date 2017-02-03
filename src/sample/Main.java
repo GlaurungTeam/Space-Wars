@@ -20,7 +20,9 @@ public class Main extends Application {
     //private Timer timer = new Timer();
 
     boolean goLeft, goRight, goUp, goDown;
-
+    //variables for "reactive" speed of the player
+    int timeHeld;
+    public static boolean held = false;
     @Override
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
@@ -41,6 +43,12 @@ public class Main extends Application {
 
         //Add event listener
         theScene.setOnKeyPressed(event -> {
+            if(timeHeld < 20){
+                timeHeld++;
+            }
+            else{
+                held = true;
+            }
             switch (event.getCode()) {
                 case UP:
                     goUp = true;
@@ -58,6 +66,8 @@ public class Main extends Application {
         });
 
         theScene.setOnKeyReleased(event -> {
+            timeHeld = 0;
+            held = false;
             switch (event.getCode()) {
                 case UP:
                     goUp = false;

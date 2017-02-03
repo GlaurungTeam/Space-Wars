@@ -3,6 +3,7 @@ package objectClasses;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import sample.Main;
 
 public class Player {
     public double y;
@@ -24,7 +25,10 @@ public class Player {
         //Offset Formula
         double heightOffset = canvas.getHeight() - 37;
         double widthOffset = canvas.getWidth() - 54;
-
+        //speed up if held var is true(see Main key events)
+        if(Main.held){
+            speed *= 2;
+        }
         if(goUp){
             player.y = Math.max(0, player.y - speed);
         }
