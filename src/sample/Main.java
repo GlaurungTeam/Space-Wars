@@ -8,21 +8,19 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import objectClasses.AnimatedImage;
 import objectClasses.Asteroid;
 import objectClasses.AsteroidSpawnCoordinates;
 import objectClasses.Player;
 
-
 public class Main extends Application {
 
-    //obsolete for now
-    //private Timer timer = new Timer();
-
+    //Variables for the direction in which the player is moving at the current time
     boolean goLeft, goRight, goUp, goDown;
-    //variables for "reactive" speed of the player
+
+    //Variables for "reactive" speed of the player
     int timeHeld;
     public static boolean held = false;
+
     @Override
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
@@ -40,13 +38,11 @@ public class Main extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-
         //Add event listener
         theScene.setOnKeyPressed(event -> {
-            if(timeHeld < 20){
+            if (timeHeld < 20) {
                 timeHeld++;
-            }
-            else{
+            } else {
                 held = true;
             }
             switch (event.getCode()) {
@@ -84,75 +80,59 @@ public class Main extends Application {
             }
         });
 
-        //UFO object
-        AnimatedImage ufo = new AnimatedImage();
-        Image[] imageArray = new Image[6];
-        for (int i = 0; i < 6; i++) {
-            imageArray[i] = new Image("resources/ufo_" + i + ".png");
-        }
-        ufo.frames = imageArray;
-        ufo.duration = 0.100;
-
-        //Asteroid object
-        AnimatedImage asteroid = new AnimatedImage();
-        Image[] asteroidImageArr = new Image[1];
-        asteroidImageArr[0] = new Image("resources/asteroid/asteroid1.png");
-        asteroid.frames = asteroidImageArr;
-        asteroid.duration = 0.100;
-        Asteroid[] asteroidArr = new Asteroid[20];
-
         //Adjustable player and asteroid speed
         int asteroidSpeed = 2;
-        int playerSpeed = 2;
-
+        double playerSpeed = 2;
 
         //Method class for getting random X and Y coordinates for initial asteroid spawning
         AsteroidSpawnCoordinates asteroidSpawnCoordinates = new AsteroidSpawnCoordinates();
 
+        //Make an array holding all asteroids
+        Asteroid[] asteroids = new Asteroid[20];
+
         //Initialize all asteroids
-        for (int i = 0; i < asteroidArr.length; i++) {
-            asteroidArr[i] = new Asteroid
-                    (asteroidImageArr, 0.100, gc, 0, asteroidSpawnCoordinates.getSpawnX(canvas), asteroidSpawnCoordinates.getSpawnY(canvas), 30);
+        for (int i = 0; i < asteroids.length; i++) {
+            Asteroid currentAsteroid = new Asteroid();
+
+            currentAsteroid.setImage(new Image("resources/asteroid/asteroid1.png"));
+            currentAsteroid.setPosition(asteroidSpawnCoordinates.getSpawnX(canvas), asteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
+
+            asteroids[i] = currentAsteroid;
         }
 
-        //Player object
-        AnimatedImage player = new AnimatedImage();
-        Image[] playerImageArr = new Image[1];
-        playerImageArr[0] = new Image("resources/spaceship/spaceship1.png");
-        player.frames = playerImageArr;
-        player.duration = 0.100;
-
-        //Initialize player object
-        Player playerObject = new Player
-                (playerImageArr, 0.100, gc, 0, 100, canvas.getHeight() / 2);
+        //Make new player object
+        Player player = new Player();
+        player.setImage(new Image("resources/spaceship/spaceship1.png"));
+        player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
 
         final long startNanoTime = System.nanoTime();
 
+        //The main game loop begins below
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
+                //The 4 rows below are used to help make the earth move around the sun
+                //No need to understand it
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
 
-                //background image clears canvas
+                //Background image clears canvas
                 gc.drawImage(space, 0, 0);
                 gc.drawImage(earth, x, y);
                 gc.drawImage(sun, 196, 196);
 
-//                //draw UFO
-//                gc.drawImage(ufo.getFrame(t), 100, 25);
+                //Iterate through all asteroids
+                for (Asteroid asteroidToRenderAndUpdate : asteroids) {
 
-                for (int i = 0; i < asteroidArr.length; i++) {
-                    asteroidArr[i].drawAsteroid(gc, asteroid, 0, asteroidArr[i].x, asteroidArr[i].y);
-
-                    //Update asteroid location
-                    asteroidArr[i].updateAsteroid(canvas, asteroidArr[i], asteroidSpeed);
+                    asteroidToRenderAndUpdate.render(gc);
+                    asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
                 }
 
-                playerObject.drawPlayer(gc, player, 0, playerObject.x, playerObject.y);
-                playerObject.updateLocation(playerObject, canvas, goUp, goDown, goLeft, goRight, playerSpeed);
+                player.render(gc);
+                player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
+
             }
         }.start();
 

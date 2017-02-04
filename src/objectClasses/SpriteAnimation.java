@@ -6,7 +6,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-
 public class SpriteAnimation extends Transition {
     private final ImageView imageView;
     private final int count;

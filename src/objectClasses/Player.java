@@ -1,45 +1,32 @@
 package objectClasses;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import sample.Main;
 
-public class Player {
-    public double y;
-    public double x;
+public class Player extends Sprite {
 
-    public Player(Image[] arr, double duration, GraphicsContext gc, double frame, double x, double y) {
-        AnimatedImage object = new AnimatedImage();
-        object.frames = arr;
-        object.duration = duration;
-        this.y = y;
-        this.x = x;
-    }
-
-    public void drawPlayer(GraphicsContext gc, AnimatedImage player, double frame, double x, double y) {
-        gc.drawImage(player.getFrame(frame), x, y);
-    }
-
-    public void updateLocation(Player player, Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight, int speed) {
+    public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
         //Offset Formula
         double heightOffset = canvas.getHeight() - 37;
         double widthOffset = canvas.getWidth() - 54;
-        //speed up if held var is true(see Main key events)
-        if(Main.held){
-            speed *= 2;
+
+        int speedMultiplier = 1;
+
+        //Speed up if held var is true(see Main key events)
+        if (Main.held) {
+            speedMultiplier = 2;
         }
-        if(goUp){
-            player.y = Math.max(0, player.y - speed);
+        if (goUp) {
+            this.positionY = Math.max(0, this.positionY - this.speed * speedMultiplier);
         }
-        if(goDown){
-            player.y = Math.min(heightOffset, player.y + speed);
+        if (goDown) {
+            this.positionY = Math.min(heightOffset, this.positionY + this.speed * speedMultiplier);
         }
-        if(goLeft){
-            player.x = Math.max(0, player.x - speed);
+        if (goLeft) {
+            this.positionX = Math.max(0, this.positionX - this.speed * speedMultiplier);
         }
-        if(goRight){
-            player.x = Math.min(widthOffset, player.x+speed);
+        if (goRight) {
+            this.positionX = Math.min(widthOffset, this.positionX + this.speed * speedMultiplier);
         }
     }
 }
