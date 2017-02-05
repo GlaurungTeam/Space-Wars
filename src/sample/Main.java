@@ -91,19 +91,24 @@ public class Main extends Application {
         int asteroidSpeed = 2;
         double playerSpeed = 2;
 
-        //Method class for getting random X and Y coordinates for initial asteroid spawning
-        AsteroidSpawnCoordinates asteroidSpawnCoordinates = new AsteroidSpawnCoordinates();
 
         //Make an array holding all asteroids
         Asteroid[] asteroids = new Asteroid[20];
 
+
+        //experimental asteroid animation
+//        BufferedImage asteroidSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\asteroid\\asteroids1.png"));
+//        Asteroid.loadAsteroidSpriteSheet(asteroidSpriteSheet);
+//        Asteroid.splitAsteroidSprites(1, 4, 35, 35);
+
         //Initialize all asteroids
         for (int i = 0; i < asteroids.length; i++) {
             Asteroid currentAsteroid = new Asteroid();
+            String path = "resources\\asteroid\\asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) +".png";
+            Image image = new Image(path);
 
-            currentAsteroid.setImage(new Image("resources/asteroid/asteroid1.png"));
-            currentAsteroid.setPosition(asteroidSpawnCoordinates.getSpawnX(canvas), asteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
-
+            currentAsteroid.setImage(image);
+            currentAsteroid.setPosition(AsteroidSpawnCoordinates.getSpawnX(canvas), AsteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
             asteroids[i] = currentAsteroid;
         }
 

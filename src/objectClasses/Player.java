@@ -7,37 +7,14 @@ import java.io.IOException;
 
 public class Player extends Sprite {
 
-//    final int width = 82;
-//    final int height = 82;
-//    final int rows = 2;
-//    final int cols = 3;
-//    public Image[] sprites = new Image[rows * cols];
-//    public BufferedImage spriteSheet;
-//
-//    //load sprites from image
-//    public void setSprites(BufferedImage bigImg){
-//        for (int i = 0; i < rows; i++)
-//        {
-//            for (int j = 0; j < cols; j++)
-//            {
-//                this.sprites[(i * cols) + j] = SwingFXUtils.toFXImage(bigImg.getSubimage(
-//                        j * width,
-//                        i * height,
-//                        width,
-//                        height
-//                ), null);
-//            }
-//        }
-//    }
-
     public Player() throws IOException {
     }
 
 
     public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
         //Offset Formula
-        double heightOffset = canvas.getHeight() - 37;
-        double widthOffset = canvas.getWidth() - 54;
+        double heightOffset = canvas.getHeight() - 72;
+        double widthOffset = canvas.getWidth() - 82;
 
         int speedMultiplier = 1;
 
