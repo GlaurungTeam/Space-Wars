@@ -18,10 +18,6 @@ import java.io.File;
 
 public class Main extends Application {
 
-
-    //Project Path
-    String projectPath = System.getProperty("user.dir");
-
     //private final static String path = "/src/resources/input.txt";
 
 
@@ -114,8 +110,10 @@ public class Main extends Application {
         //Make new player object
         Player player = new Player();
         //load sprites from file
-        BufferedImage bigImg = ImageIO.read(new File(projectPath + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
-        player.setSprites(bigImg);
+        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
+        player.setSpriteParameters(82, 82, 2 ,3);
+        player.loadSpriteSheet(playerSpriteSheet);
+        player.splitSprites();
 
         player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
 

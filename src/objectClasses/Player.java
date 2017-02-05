@@ -1,36 +1,34 @@
 package objectClasses;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 import sample.Main;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Sprite {
 
-    final int width = 82;
-    final int height = 82;
-    final int rows = 2;
-    final int cols = 3;
-    public Image[] sprites = new Image[rows * cols];
-
-    //load sprites from image
-    public void setSprites(BufferedImage bigImg){
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                this.sprites[(i * cols) + j] = SwingFXUtils.toFXImage(bigImg.getSubimage(
-                        j * width,
-                        i * height,
-                        width,
-                        height
-                ), null);
-            }
-        }
-    }
+//    final int width = 82;
+//    final int height = 82;
+//    final int rows = 2;
+//    final int cols = 3;
+//    public Image[] sprites = new Image[rows * cols];
+//    public BufferedImage spriteSheet;
+//
+//    //load sprites from image
+//    public void setSprites(BufferedImage bigImg){
+//        for (int i = 0; i < rows; i++)
+//        {
+//            for (int j = 0; j < cols; j++)
+//            {
+//                this.sprites[(i * cols) + j] = SwingFXUtils.toFXImage(bigImg.getSubimage(
+//                        j * width,
+//                        i * height,
+//                        width,
+//                        height
+//                ), null);
+//            }
+//        }
+//    }
 
     public Player() throws IOException {
     }
