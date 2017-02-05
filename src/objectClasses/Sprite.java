@@ -36,6 +36,11 @@ public class Sprite {
         this.speed = speed;
     }
 
+    public Image getFrame(Image[] sprites, double time, double duration) {
+        int index = (int) ((time % (sprites.length * duration)) / duration);
+        return sprites[index];
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(this.image, this.positionX, this.positionY);
     }
@@ -52,4 +57,5 @@ public class Sprite {
         return "Position: [" + this.positionX + "," + this.positionY + "]" +
                 "Velocity: [" + this.speed + "]";
     }
+
 }

@@ -12,7 +12,18 @@ import objectClasses.Asteroid;
 import objectClasses.AsteroidSpawnCoordinates;
 import objectClasses.Player;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 public class Main extends Application {
+
+
+    //Project Path
+    String projectPath = System.getProperty("user.dir");
+
+    //private final static String path = "/src/resources/input.txt";
+
 
     //Variables for the direction in which the player is moving at the current time
     boolean goLeft, goRight, goUp, goDown;
@@ -102,7 +113,10 @@ public class Main extends Application {
 
         //Make new player object
         Player player = new Player();
-        player.setImage(new Image("resources/spaceship/spaceship1.png"));
+        //load sprites from file
+        BufferedImage bigImg = ImageIO.read(new File(projectPath + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
+        player.setSprites(bigImg);
+
         player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
 
         final long startNanoTime = System.nanoTime();
@@ -130,6 +144,7 @@ public class Main extends Application {
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
                 }
 
+                player.setImage(player.getFrame(player.sprites, t, 0.100));
                 player.render(gc);
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
 
