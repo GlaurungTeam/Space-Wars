@@ -28,6 +28,7 @@ public class Asteroid extends Sprite {
 //        Asteroid.spriteSheet = spriteSheet;
 //    }
 
+
     public void updateAsteroidLocation(Canvas canvas) {
 
         //Offset so that asteroids don't spawn outside of boundaries

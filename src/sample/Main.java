@@ -144,6 +144,10 @@ public class Main extends Application {
                 for (Asteroid asteroidToRenderAndUpdate : asteroids) {
 
                     asteroidToRenderAndUpdate.render(gc);
+
+                    //Asteroid speed updating every rotation making them faster:
+                    asteroidToRenderAndUpdate.speed+=0.00001;
+
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
                 }
 
