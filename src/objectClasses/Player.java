@@ -53,7 +53,7 @@ public class Player extends Sprite {
         //load missile sprites
         BufferedImage missileSpriteSheet = null;
         try {
-            missileSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\missiles\\largeMissiles.png"));
+            missileSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "/src/resources/missiles/largeMissiles.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

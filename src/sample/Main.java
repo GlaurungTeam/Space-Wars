@@ -8,16 +8,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import objectClasses.Asteroid;
-import objectClasses.AsteroidSpawnCoordinates;
-import objectClasses.Missile;
-import objectClasses.Player;
+import objectClasses.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,7 +58,7 @@ public class Main extends Application {
         //Make new player object
         Player player = new Player();
         //load sprites from file
-        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
+        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "/src/resources/spaceship/spaceshipSprites4.png"));
         player.setSpriteParameters(82, 82, 2, 3);
         player.loadSpriteSheet(playerSpriteSheet);
         player.splitSprites();
@@ -120,8 +119,10 @@ public class Main extends Application {
         });
 
         //Make an array holding all asteroids
-        Asteroid[] asteroids = new Asteroid[20];
+         //----------Asteroid[] asteroids = new Asteroid[20];
 
+        // Made asteroid ArrayList to implement collision detection!!!!!!!
+        ArrayList<Asteroid> asteroids = new ArrayList<>();
 
         //experimental asteroid animation
 //        BufferedImage asteroidSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\asteroid\\asteroids1.png"));
@@ -129,14 +130,14 @@ public class Main extends Application {
 //        Asteroid.splitAsteroidSprites(1, 4, 35, 35);
 
         //Initialize all asteroids
-        for (int i = 0; i < asteroids.length; i++) {
+        for (int i = 0; i < 20; i++) {
             Asteroid currentAsteroid = new Asteroid();
-            String path = "resources\\asteroid\\asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) + ".png";
+            String path = "resources/asteroid/asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) + ".png";
             Image image = new Image(path);
 
             currentAsteroid.setImage(image);
             currentAsteroid.setPosition(AsteroidSpawnCoordinates.getSpawnX(canvas), AsteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
-            asteroids[i] = currentAsteroid;
+            asteroids.add(currentAsteroid);
         }
 
         final long startNanoTime = System.nanoTime();
@@ -179,8 +180,21 @@ public class Main extends Application {
                         m.setImage(m.getFrame(m.sprites, t, 0.100));
                         m.render(gc);
                         m.updateMissileLocation();
+
+                        // Collision detection Missile hits asteroid and removes it from canvas
+                        Iterator<Asteroid> asteroidIter = asteroids.iterator();
+                        while (asteroidIter.hasNext()){
+                            Asteroid hit = asteroidIter.next();
+                            if (m.intersects(hit)){
+                                asteroidIter.remove();
+
+                                //TODO Implement score tracker
+                            }
+                        }
+
                     }
                     System.out.println(player.missiles.size());
+
                 }
             }
         }.start();
