@@ -172,12 +172,16 @@ public class Main extends Application {
 
                 if (player.missiles.size() != 0) {
                     for (Missile m : player.missiles) {
+                        if(m.positionX > canvas.getWidth()){
+                            player.missiles.remove(m);
+                            return;
+                        }
                         m.setImage(m.getFrame(m.sprites, t, 0.100));
                         m.render(gc);
                         m.updateMissileLocation();
                     }
+                    System.out.println(player.missiles.size());
                 }
-
             }
         }.start();
 
