@@ -194,8 +194,19 @@ public class Main extends Application {
 
                     }
                     System.out.println(player.missiles.size());
-
                 }
+                Iterator<Asteroid> asteroidIter = asteroids.iterator();
+                while (asteroidIter.hasNext()){
+                    Asteroid hit = asteroidIter.next();
+                    if (player.intersects(hit)){
+
+                        //TODO Change color of ship when hit, or some kind of visual effect
+                        System.out.println("Danger ship hit!!");
+
+                        //TODO Implement ship damage tracker
+                    }
+                }
+
             }
         }.start();
 
