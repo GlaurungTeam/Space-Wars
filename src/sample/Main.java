@@ -10,11 +10,16 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import objectClasses.Asteroid;
 import objectClasses.AsteroidSpawnCoordinates;
+import objectClasses.Missile;
 import objectClasses.Player;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main extends Application {
 
@@ -28,6 +33,8 @@ public class Main extends Application {
     int timeHeld;
     public static boolean held = false;
 
+    //time elapsed
+    private Timer timer = new Timer();
     @Override
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
@@ -44,6 +51,28 @@ public class Main extends Application {
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
+
+
+        //Adjustable player and asteroid speed
+        int asteroidSpeed = 2;
+        double playerSpeed = 2;
+        //Make new player object
+        Player player = new Player();
+        //load sprites from file
+        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
+        player.setSpriteParameters(82, 82, 2, 3);
+        player.loadSpriteSheet(playerSpriteSheet);
+        player.splitSprites();
+        player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
+
+
+        //disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                player.fired = false;
+            }
+        }, 0, 1000);
 
         //Add event listener
         theScene.setOnKeyPressed(event -> {
@@ -64,6 +93,9 @@ public class Main extends Application {
                     break;
                 case RIGHT:
                     goRight = true;
+                    break;
+                case SPACE:
+                    player.fire();
                     break;
             }
         });
@@ -87,11 +119,6 @@ public class Main extends Application {
             }
         });
 
-        //Adjustable player and asteroid speed
-        int asteroidSpeed = 2;
-        double playerSpeed = 2;
-
-
         //Make an array holding all asteroids
         Asteroid[] asteroids = new Asteroid[20];
 
@@ -104,7 +131,7 @@ public class Main extends Application {
         //Initialize all asteroids
         for (int i = 0; i < asteroids.length; i++) {
             Asteroid currentAsteroid = new Asteroid();
-            String path = "resources\\asteroid\\asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) +".png";
+            String path = "resources\\asteroid\\asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) + ".png";
             Image image = new Image(path);
 
             currentAsteroid.setImage(image);
@@ -112,18 +139,7 @@ public class Main extends Application {
             asteroids[i] = currentAsteroid;
         }
 
-        //Make new player object
-        Player player = new Player();
-        //load sprites from file
-        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\spaceship\\spaceshipSprites4.png"));
-        player.setSpriteParameters(82, 82, 2 ,3);
-        player.loadSpriteSheet(playerSpriteSheet);
-        player.splitSprites();
-
-        player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
-
         final long startNanoTime = System.nanoTime();
-
         //The main game loop begins below
         new AnimationTimer() {
             @Override
@@ -131,7 +147,6 @@ public class Main extends Application {
                 //The 4 rows below are used to help make the earth move around the sun
                 //No need to understand it
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
 
@@ -146,7 +161,7 @@ public class Main extends Application {
                     asteroidToRenderAndUpdate.render(gc);
 
                     //Asteroid speed updating every rotation making them faster:
-                    asteroidToRenderAndUpdate.speed+=0.00001;
+                    asteroidToRenderAndUpdate.speed += 0.00001;
 
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
                 }
@@ -154,6 +169,14 @@ public class Main extends Application {
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
                 player.render(gc);
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
+
+                if (player.missiles.size() != 0) {
+                    for (Missile m : player.missiles) {
+                        m.setImage(m.getFrame(m.sprites, t, 0.100));
+                        m.render(gc);
+                        m.updateMissileLocation();
+                    }
+                }
 
             }
         }.start();
