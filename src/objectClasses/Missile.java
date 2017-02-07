@@ -1,6 +1,7 @@
 package objectClasses;
 
 public class Missile extends Sprite{
+
     public Missile(){
     }
 

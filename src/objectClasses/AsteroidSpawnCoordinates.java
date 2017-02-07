@@ -11,7 +11,7 @@ public class AsteroidSpawnCoordinates {
     static Random rndX = new Random();
     static Random rndY = new Random();
 
-    public static int getRandom(int number){
+    public static int getRandom(int number) {
         return rnd.nextInt(number);
     }
 

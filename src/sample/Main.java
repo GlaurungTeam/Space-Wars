@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 import objectClasses.*;
@@ -18,15 +17,11 @@ import javafx.scene.text.Font;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main extends Application {
-
     //private final static String path = "/src/resources/input.txt";
-
 
     //Variables for the direction in which the player is moving at the current time
     boolean goLeft, goRight, goUp, goDown;
@@ -35,7 +30,7 @@ public class Main extends Application {
     int timeHeld;
     public static boolean held = false;
 
-    //time elapsed
+    //Time elapsed
     private Timer timer = new Timer();
     private long points = 0;
 
@@ -52,39 +47,37 @@ public class Main extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-
-        Text scoreLine = new Text (20, 30,"");
+        Text scoreLine = new Text(20, 30, "");
         root.getChildren().add(scoreLine);
-        scoreLine.setFont(Font.font ("Verdana", 20));
+        scoreLine.setFont(Font.font("Verdana", 20));
         scoreLine.setFill(Color.WHITE);
-        String score = toString().format("Score: %d",points);
+        String score = toString().format("Score: %d", points);
         scoreLine.setText(score);
-
 
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-        Rectangle r = new Rectangle();
-        Rectangle rv = new Rectangle();
-        Rectangle rv2 = new Rectangle();
-        root.getChildren().addAll(r,rv,rv2);
-
-
         //Adjustable player and asteroid speed
         int asteroidSpeed = 2;
         double playerSpeed = 2;
+
         //Make new player object
         Player player = new Player();
-        //load sprites from file
+
+        player.initializeHitboxes();
+
+        //Add hitboxes to canvas
+        root.getChildren().addAll(player.r, player.rv, player.rv2);
+
+        //Load sprites from file
         BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "/src/resources/spaceship/spaceshipSprites4.png"));
         player.setSpriteParameters(82, 82, 2, 3);
         player.loadSpriteSheet(playerSpriteSheet);
         player.splitSprites();
         player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
 
-
-        //disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
+        //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -138,25 +131,22 @@ public class Main extends Application {
         });
 
         //Make an array holding all asteroids
-         //----------Asteroid[] asteroids = new Asteroid[20];
+        Asteroid[] asteroids = new Asteroid[20];
 
-        // Made asteroid ArrayList to implement collision detection!!!!!!!
-        ArrayList<Asteroid> asteroids = new ArrayList<>();
-
-        //experimental asteroid animation
+        //Experimental asteroid animation
 //        BufferedImage asteroidSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\asteroid\\asteroids1.png"));
 //        Asteroid.loadAsteroidSpriteSheet(asteroidSpriteSheet);
 //        Asteroid.splitAsteroidSprites(1, 4, 35, 35);
 
         //Initialize all asteroids
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < asteroids.length; i++) {
             Asteroid currentAsteroid = new Asteroid();
             String path = "resources/asteroid/asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) + ".png";
             Image image = new Image(path);
 
             currentAsteroid.setImage(image);
             currentAsteroid.setPosition(AsteroidSpawnCoordinates.getSpawnX(canvas), AsteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
-            asteroids.add(currentAsteroid);
+            asteroids[i] = currentAsteroid;
         }
 
         final long startNanoTime = System.nanoTime();
@@ -175,58 +165,28 @@ public class Main extends Application {
                 gc.drawImage(earth, x, y);
                 gc.drawImage(sun, 196, 196);
 
-                r.setY(player.positionY+38);
-                r.setX(player.positionX+13);
-                r.setWidth(57);
-                r.setHeight(7);
-                r.setStroke(Color.TRANSPARENT);
-                r.setFill(Color.GREEN);
-
-                rv.setY(player.positionY+11);
-                rv.setX(player.positionX+20);
-                rv.setWidth(4);
-                rv.setHeight(58);
-                rv.setStroke(Color.TRANSPARENT);
-                rv.setFill(Color.RED);
-
-                rv2.setY(player.positionY+27);
-                rv2.setX(player.positionX+38);
-                rv2.setWidth(3);
-                rv2.setHeight(28);
-                rv2.setStroke(Color.TRANSPARENT);
-                rv2.setFill(Color.BLUE);
                 //Iterate through all asteroids
                 for (Asteroid asteroidToRenderAndUpdate : asteroids) {
 
-                    asteroidToRenderAndUpdate.render(gc);
+                    if (!asteroidToRenderAndUpdate.isHit) {
+                        asteroidToRenderAndUpdate.render(gc);
+
+                        if (asteroidToRenderAndUpdate.checkCollision(player)) {
+                            System.out.println(asteroidToRenderAndUpdate.getBoundary().getWidth());
+                            System.out.println(asteroidToRenderAndUpdate.getBoundary().getHeight());
+
+                            //TODO Change color of ship when hit, or some kind of visual effect
+                            System.out.println("Danger ship hit!");
+                            Platform.exit();
+                            System.exit(0);
+                            //TODO Implement ship damage tracker
+                        }
+                    }
 
                     //Asteroid speed updating every rotation making them faster:
                     asteroidToRenderAndUpdate.speed += 0.00001;
 
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
-
-
-                    Integer hitX = (int)asteroidToRenderAndUpdate.positionX;
-                    Integer hitY = (int)asteroidToRenderAndUpdate.positionY;
-                    Integer mainX = (int)r.getX();
-                    Integer mainY = (int)r.getY();
-                    Integer mainX1 = (int)rv.getX();
-                    Integer mainY1 = (int)rv.getY();
-                    Integer mainX2 = (int)rv2.getX();
-                    Integer mainY2 = (int)rv2.getY();
-                    if (
-                            (hitX<=mainX+(int)r.getWidth() && hitX+32>=mainX && hitY<=mainY+(int)r.getHeight()&& hitY+32>=mainY) ||
-                                    (hitX<=mainX1+(int)rv.getWidth() && hitX+32>=mainX1 && hitY<=mainY1+(int)rv.getHeight()&& hitY+32>=mainY1)||
-                                    (hitX<=mainX2+(int)rv2.getWidth() && hitX+32>=mainX2 && hitY<=mainY2+(int)rv2.getHeight()&& hitY+32>=mainY2)
-                            ){
-                        System.out.println(asteroidToRenderAndUpdate.getBoundary().getWidth());
-                        System.out.println(asteroidToRenderAndUpdate.getBoundary().getHeight());
-                        //TODO Change color of ship when hit, or some kind of visual effect
-                        System.out.println("Danger ship hit!!");
-                        Platform.exit();
-                        System.exit(0);
-                        //TODO Implement ship damage tracker
-                    }
                 }
 
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
@@ -234,22 +194,29 @@ public class Main extends Application {
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
 
                 if (player.missiles.size() != 0) {
+
                     for (int i = 0; i < player.missiles.size(); i++) {
                         Missile m = player.missiles.get(i);
-                        if(m.positionX > canvas.getWidth()){
+
+                        if (m.positionX > canvas.getWidth()) {
                             player.missiles.remove(m);
                             return;
                         }
+
                         m.setImage(m.getFrame(m.sprites, t, 0.100));
                         m.render(gc);
                         m.updateMissileLocation();
 
-                        // Collision detection Missile hits asteroid and removes it from canvas
-                        Iterator<Asteroid> asteroidIter = asteroids.iterator();
-                        while (asteroidIter.hasNext()){
-                            Asteroid hit = asteroidIter.next();
-                            if (m.intersects(hit)){
-                                asteroidIter.remove();
+                        //Collision detection missile hits asteroid and removes it from canvas
+                        for (Asteroid asteroidToCheck : asteroids) {
+
+                            if (asteroidToCheck.isHit) {
+                                continue;
+                            }
+
+                            if (m.intersects(asteroidToCheck)) {
+                                asteroidToCheck.isHit = true;
+
                                 //Remove missile from missiles array and explode
                                 Explosion explosion = new Explosion();
                                 explosion.explode(m);
@@ -257,7 +224,7 @@ public class Main extends Application {
 
                                 //TODO Move that one to the killing aliens method to display score
                                 points++;
-                                String score = toString().format("Score: %d",points);
+                                String score = toString().format("Score: %d", points);
                                 scoreLine.setText(score);
 
                                 //TODO Implement score tracker
@@ -265,17 +232,18 @@ public class Main extends Application {
                         }
                     }
                 }
+
                 //Iterate through all explosions
-                if(Explosion.explosions.size() != 0){
+                if (Explosion.explosions.size() != 0) {
                     for (int i = 0; i < Explosion.explosions.size(); i++) {
                         Explosion explosion = Explosion.explosions.get(i);
                         Image currentFrame = explosion.getCurrentExplosionFrame(explosion.currentFrameIndex);
-                        if(explosion.currentFrameIndex < explosion.sprites.length - 1){
+
+                        if (explosion.currentFrameIndex < explosion.sprites.length - 1) {
                             explosion.setImage(currentFrame);
                             explosion.render(gc);
                             explosion.currentFrameIndex++;
-                        }
-                        else{
+                        } else {
                             Explosion.explosions.remove(i);
                         }
                     }

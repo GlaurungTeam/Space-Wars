@@ -40,7 +40,7 @@ public class Sprite {
         this.height = height;
         this.rows = rows;
         this.cols = cols;
-        this.sprites = new Image[rows*cols];
+        this.sprites = new Image[rows * cols];
     }
 
     public Sprite() {
@@ -91,5 +91,4 @@ public class Sprite {
     public void loadSpriteSheet(BufferedImage spriteSheet) {
         this.spriteSheet = spriteSheet;
     }
-
 }
