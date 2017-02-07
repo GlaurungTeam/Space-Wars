@@ -7,8 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 import objectClasses.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -49,6 +53,11 @@ public class Main extends Application {
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
+
+        Rectangle r = new Rectangle();
+        Rectangle rv = new Rectangle();
+        Rectangle rv2 = new Rectangle();
+        root.getChildren().addAll(r,rv,rv2);
 
 
         //Adjustable player and asteroid speed
@@ -155,6 +164,26 @@ public class Main extends Application {
                 gc.drawImage(earth, x, y);
                 gc.drawImage(sun, 196, 196);
 
+                r.setY(player.positionY+38);
+                r.setX(player.positionX+13);
+                r.setWidth(57);
+                r.setHeight(7);
+                r.setStroke(Color.TRANSPARENT);
+                r.setFill(Color.GREEN);
+
+                rv.setY(player.positionY+11);
+                rv.setX(player.positionX+20);
+                rv.setWidth(4);
+                rv.setHeight(58);
+                rv.setStroke(Color.TRANSPARENT);
+                rv.setFill(Color.RED);
+
+                rv2.setY(player.positionY+27);
+                rv2.setX(player.positionX+38);
+                rv2.setWidth(3);
+                rv2.setHeight(28);
+                rv2.setStroke(Color.TRANSPARENT);
+                rv2.setFill(Color.BLUE);
                 //Iterate through all asteroids
                 for (Asteroid asteroidToRenderAndUpdate : asteroids) {
 
@@ -164,6 +193,29 @@ public class Main extends Application {
                     asteroidToRenderAndUpdate.speed += 0.00001;
 
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
+
+
+                    Integer hitX = (int)asteroidToRenderAndUpdate.positionX;
+                    Integer hitY = (int)asteroidToRenderAndUpdate.positionY;
+                    Integer mainX = (int)r.getX();
+                    Integer mainY = (int)r.getY();
+                    Integer mainX1 = (int)rv.getX();
+                    Integer mainY1 = (int)rv.getY();
+                    Integer mainX2 = (int)rv2.getX();
+                    Integer mainY2 = (int)rv2.getY();
+                    if (
+                            (hitX<=mainX+(int)r.getWidth() && hitX+32>=mainX && hitY<=mainY+(int)r.getHeight()&& hitY+32>=mainY) ||
+                                    (hitX<=mainX1+(int)rv.getWidth() && hitX+32>=mainX1 && hitY<=mainY1+(int)rv.getHeight()&& hitY+32>=mainY1)||
+                                    (hitX<=mainX2+(int)rv2.getWidth() && hitX+32>=mainX2 && hitY<=mainY2+(int)rv2.getHeight()&& hitY+32>=mainY2)
+                            ){
+                        System.out.println(asteroidToRenderAndUpdate.getBoundary().getWidth());
+                        System.out.println(asteroidToRenderAndUpdate.getBoundary().getHeight());
+                        //TODO Change color of ship when hit, or some kind of visual effect
+                        System.out.println("Danger ship hit!!");
+                        Platform.exit();
+                        System.exit(0);
+                        //TODO Implement ship damage tracker
+                    }
                 }
 
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
@@ -212,17 +264,6 @@ public class Main extends Application {
                     }
                 }
 
-                Iterator<Asteroid> asteroidIter = asteroids.iterator();
-                while (asteroidIter.hasNext()){
-                    Asteroid hit = asteroidIter.next();
-                    if (player.intersects(hit)){
-
-                        //TODO Change color of ship when hit, or some kind of visual effect
-                        System.out.println("Danger ship hit!!");
-
-                        //TODO Implement ship damage tracker
-                    }
-                }
 
             }
         }.start();
