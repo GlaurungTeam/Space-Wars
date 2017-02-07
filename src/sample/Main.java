@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import objectClasses.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -36,6 +37,7 @@ public class Main extends Application {
 
     //time elapsed
     private Timer timer = new Timer();
+    private long points = 0;
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -49,6 +51,15 @@ public class Main extends Application {
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+
+        Text scoreLine = new Text (20, 30,"");
+        root.getChildren().add(scoreLine);
+        scoreLine.setFont(Font.font ("Verdana", 20));
+        scoreLine.setFill(Color.WHITE);
+        String score = toString().format("Score: %d",points);
+        scoreLine.setText(score);
+
 
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
@@ -243,6 +254,12 @@ public class Main extends Application {
                                 Explosion explosion = new Explosion();
                                 explosion.explode(m);
                                 player.missiles.remove(m);
+
+                                //TODO Move that one to the killing aliens method to display score
+                                points++;
+                                String score = toString().format("Score: %d",points);
+                                scoreLine.setText(score);
+
                                 //TODO Implement score tracker
                             }
                         }
