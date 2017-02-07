@@ -11,10 +11,8 @@ import javafx.stage.Stage;
 import objectClasses.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;
@@ -34,6 +32,7 @@ public class Main extends Application {
 
     //time elapsed
     private Timer timer = new Timer();
+
     @Override
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
@@ -172,7 +171,8 @@ public class Main extends Application {
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
 
                 if (player.missiles.size() != 0) {
-                    for (Missile m : player.missiles) {
+                    for (int i = 0; i < player.missiles.size(); i++) {
+                        Missile m = player.missiles.get(i);
                         if(m.positionX > canvas.getWidth()){
                             player.missiles.remove(m);
                             return;
@@ -187,14 +187,31 @@ public class Main extends Application {
                             Asteroid hit = asteroidIter.next();
                             if (m.intersects(hit)){
                                 asteroidIter.remove();
-
+                                //Remove missile from missiles array and explode
+                                Explosion explosion = new Explosion();
+                                explosion.explode(m);
+                                player.missiles.remove(m);
                                 //TODO Implement score tracker
                             }
                         }
-
                     }
-                    System.out.println(player.missiles.size());
                 }
+                //Iterate through all explosions
+                if(Explosion.explosions.size() != 0){
+                    for (int i = 0; i < Explosion.explosions.size(); i++) {
+                        Explosion explosion = Explosion.explosions.get(i);
+                        Image currentFrame = explosion.getCurrentExplosionFrame(explosion.currentFrameIndex);
+                        if(explosion.currentFrameIndex < explosion.sprites.length - 1){
+                            explosion.setImage(currentFrame);
+                            explosion.render(gc);
+                            explosion.currentFrameIndex++;
+                        }
+                        else{
+                            Explosion.explosions.remove(i);
+                        }
+                    }
+                }
+
                 Iterator<Asteroid> asteroidIter = asteroids.iterator();
                 while (asteroidIter.hasNext()){
                     Asteroid hit = asteroidIter.next();
