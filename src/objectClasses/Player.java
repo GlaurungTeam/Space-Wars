@@ -21,7 +21,7 @@ public class Player extends Sprite {
     public Rectangle rv2 = new Rectangle();
 
     public Player() throws IOException {
-    }
+}
 
     public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
         //Offset Formula
@@ -31,9 +31,9 @@ public class Player extends Sprite {
         int speedMultiplier = 1;
 
         //Speed up if held var is true(see Main key events)
-        if (Main.held) {
-            speedMultiplier = 2;
-        }
+//        if (Main.held) {
+//            speedMultiplier = 2;
+//        }
         if (goUp) {
             this.positionY = Math.max(0, this.positionY - this.speed * speedMultiplier);
         }
