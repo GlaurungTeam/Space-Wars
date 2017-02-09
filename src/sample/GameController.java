@@ -18,9 +18,12 @@ import javafx.stage.Stage;
 import objectClasses.*;
 
 import javax.imageio.ImageIO;
+import javafx.scene.media.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,6 +45,7 @@ public class GameController extends Application{
 
     @Override
     public void start(Stage theStage) throws Exception {
+
         theStage.setTitle("Space Wars");
 
         Group root = new Group();
@@ -112,6 +116,8 @@ public class GameController extends Application{
                     goRight = true;
                     break;
                 case SPACE:
+                    AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
+                    shoot.play(0.7);
                     player.fire();
                     break;
             }
@@ -199,6 +205,8 @@ public class GameController extends Application{
                 player.render(gc);
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
 
+
+
                 if (player.missiles.size() != 0) {
 
                     for (int i = 0; i < player.missiles.size(); i++) {
@@ -222,6 +230,9 @@ public class GameController extends Application{
 
                             if (m.intersects(asteroidToCheck)) {
                                 asteroidToCheck.isHit = true;
+
+                                AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
+                                explode.play(1.0);
 
                                 //Remove missile from missiles array and explode
                                 Explosion explosion = new Explosion();
