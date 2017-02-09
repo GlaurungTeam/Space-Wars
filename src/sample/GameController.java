@@ -232,7 +232,7 @@ public class GameController extends Application{
                                 asteroidToCheck.isHit = true;
 
                                 AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
-                                explode.play(1.0);
+                                explode.play(0.6);
 
                                 //Remove missile from missiles array and explode
                                 Explosion explosion = new Explosion();
