@@ -4,8 +4,8 @@ import javafx.scene.canvas.Canvas;
 
 import java.util.Random;
 
-public class AsteroidSpawnCoordinates {
-    //Method class for getting random X and Y coordinates for initial asteroid spawning
+public class SpawnCoordinates {
+    //Method class for getting random X and Y coordinates for initial spawning of various objects
     static double heightOffset = 37;
     static Random rnd = new Random();
     static Random rndX = new Random();
@@ -20,7 +20,7 @@ public class AsteroidSpawnCoordinates {
     }
 
     public static double getSpawnY(Canvas canvas) {
-        //Offset so that asteroids don't spawn out of boundaries
+        //Offset so that objects don't spawn out of boundaries
         //Offset Formula
         double offset = canvas.getHeight() - heightOffset;
         return rndY.nextInt((int) offset);

@@ -1,6 +1,7 @@
 package objectClasses;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 
 import java.util.Random;
 
@@ -65,5 +66,17 @@ public class Asteroid extends Sprite {
             return true;
         }
         return false;
+    }
+
+    public static void initializeAsteroids (Asteroid[] asteroids, Canvas canvas, int asteroidSpeed) {
+        for (int i = 0; i < asteroids.length; i++) {
+            Asteroid currentAsteroid = new Asteroid();
+            String path = "resources/asteroid/asteroid" + String.valueOf(SpawnCoordinates.getRandom(4)) + ".png";
+            Image image = new Image(path);
+
+            currentAsteroid.setImage(image);
+            currentAsteroid.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
+            asteroids[i] = currentAsteroid;
+        }
     }
 }

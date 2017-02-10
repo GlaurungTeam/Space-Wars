@@ -2,11 +2,9 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,21 +16,18 @@ import javafx.stage.Stage;
 import objectClasses.*;
 
 import javax.imageio.ImageIO;
+
 import javafx.scene.media.AudioClip;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Kristina on 08-Feb-17.
- */
-public class GameController extends Application{
-    boolean goLeft, goRight, goUp, goDown;
+public class GameController extends Application {
+    public boolean goLeft, goRight, goUp, goDown;
 
     @FXML
     public Label spaceWars;
@@ -40,6 +35,7 @@ public class GameController extends Application{
     //Variables for "reactive" speed of the player
     int timeHeld;
     public static boolean held = false;
+
     //Time elapsed
     private Timer timer = new Timer();
     private long points = 0;
@@ -48,7 +44,6 @@ public class GameController extends Application{
 
     @Override
     public void start(Stage theStage) throws Exception {
-
         theStage.setTitle("Space Wars");
 
         Group root = new Group();
@@ -127,8 +122,6 @@ public class GameController extends Application{
                     goRight = true;
                     break;
                 case SPACE:
-                    AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
-                    shoot.play(0.7);
                     player.fire();
                     break;
             }
@@ -156,35 +149,19 @@ public class GameController extends Application{
         //Make an array holding all asteroids
         Asteroid[] asteroids = new Asteroid[20];
 
+        //Initialize all asteroids
+        Asteroid.initializeAsteroids(asteroids, canvas, asteroidSpeed);
+
         //Experimental asteroid animation
 //        BufferedImage asteroidSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "\\src\\resources\\asteroid\\asteroids1.png"));
 //        Asteroid.loadAsteroidSpriteSheet(asteroidSpriteSheet);
 //        Asteroid.splitAsteroidSprites(1, 4, 35, 35);
 
-        //Initialize all asteroids
-        for (int i = 0; i < asteroids.length; i++) {
-            Asteroid currentAsteroid = new Asteroid();
-            String path = "resources/asteroid/asteroid" + String.valueOf(AsteroidSpawnCoordinates.getRandom(4)) + ".png";
-            Image image = new Image(path);
-
-            currentAsteroid.setImage(image);
-            currentAsteroid.setPosition(AsteroidSpawnCoordinates.getSpawnX(canvas), AsteroidSpawnCoordinates.getSpawnY(canvas), asteroidSpeed);
-            asteroids[i] = currentAsteroid;
-        }
-
-        Ufo[] ufos = new Ufo[10];
-
-        for (int i = 0; i < ufos.length; i++) {
-            Ufo ufo = new Ufo();
-            String path = "resources/UFO/ufo_" + String.valueOf(UfoSpawnCoordinates.getRandom(6)) + ".png";
-            Image image = new Image(path);
-
-            ufo.setImage(image);
-            ufo.setPosition(UfoSpawnCoordinates.getSpawnX(canvas), UfoSpawnCoordinates.getSpawnY(canvas), ufoSpeed);
-            ufos[i] = ufo;
-        }
+        Ufo[] ufos = new Ufo[2];
+        Ufo.initializeUfos(ufos, canvas, ufoSpeed);
 
         final long startNanoTime = System.nanoTime();
+
         //The main game loop begins below
         new AnimationTimer() {
             @Override
@@ -213,14 +190,7 @@ public class GameController extends Application{
 
                             livesCount--;
 
-                            if(livesCount < 0) {
-                                try {
-                                    theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
-                                } catch (Exception exc) {
-                                    exc.printStackTrace();
-                                    throw new RuntimeException(exc);
-                                }
-                            }
+                            checkIfPlayerIsDead(livesCount, theScene);
 
                             String livesC = toString().format("Lives: %d", livesCount);
                             lives.setText(livesC);
@@ -228,42 +198,33 @@ public class GameController extends Application{
 
                             //TODO Change color of ship when hit, or some kind of visual effect
 
-
                             //TODO Implement ship damage tracker
                         }
                     }
 
                     //Asteroid speed updating every rotation making them faster:
                     asteroidToRenderAndUpdate.speed += 0.00001;
-
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
                 }
 
-                for(Ufo ufo : ufos) {
-                    if(!ufo.isHit) {
+                for (Ufo ufo : ufos) {
+                    if (!ufo.isHit) {
                         ufo.render(gc);
 
-                        if(ufo.checkCollision(player)) {
+                        if (ufo.checkCollision(player)) {
                             player.positionX = 10;
                             ufo.positionX = -1300;
-//                            System.out.println(ufo.getBoundary().getWidth());
-//                            System.out.println(ufo.getBoundary().getHeight());
+
                             livesCount--;
 
-                            if(livesCount < 0) {
-                                try {
-                                    theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
-                                } catch (Exception exc) {
-                                    exc.printStackTrace();
-                                    throw new RuntimeException(exc);
-                                }
-                            }
+                            checkIfPlayerIsDead(livesCount, theScene);
+
                             String livesC = toString().format("Lives: %d", livesCount);
                             lives.setText(livesC);
                             continue;
-
                         }
                     }
+
                     ufo.speed += 0.00002;
                     ufo.updateUfoLocation(canvas);
                 }
@@ -271,8 +232,6 @@ public class GameController extends Application{
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
                 player.render(gc);
                 player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
-
-
 
                 if (player.missiles.size() != 0) {
 
@@ -315,11 +274,12 @@ public class GameController extends Application{
                             }
                         }
 
-                        for(Ufo ufoToCheck : ufos) {
-                            if(ufoToCheck.isHit) {
+                        for (Ufo ufoToCheck : ufos) {
+                            if (ufoToCheck.isHit) {
                                 continue;
                             }
-                            if(m.intersects(ufoToCheck)) {
+
+                            if (m.intersects(ufoToCheck)) {
                                 ufoToCheck.isHit = true;
 
                                 AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
@@ -353,11 +313,20 @@ public class GameController extends Application{
                     }
                 }
 
-
             }
         }.start();
 
         theStage.show();
     }
 
+    private void checkIfPlayerIsDead(int livesCount, Scene theScene) {
+        if (livesCount < 0) {
+            try {
+                theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
+            } catch (Exception exc) {
+                exc.printStackTrace();
+                throw new RuntimeException(exc);
+            }
+        }
+    }
 }

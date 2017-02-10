@@ -51,7 +51,7 @@ public class Controller {
         userName = usernameField.getText();
         if (userName.length() != 0) {
             Stage stage = new Stage();
-            ((Stage)this.startGameButton.getScene().getWindow()).close();
+            ((Stage) this.startGameButton.getScene().getWindow()).close();
             GameController gameController = new GameController();
             gameController.start(stage);
 

@@ -1,8 +1,8 @@
 package objectClasses;
 
-public class Missile extends Sprite{
+public class Missile extends Sprite {
 
-    public Missile(){
+    public Missile() {
     }
 
     public void updateMissileLocation() {

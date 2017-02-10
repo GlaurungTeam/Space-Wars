@@ -4,25 +4,27 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import sample.Controller;
-import sample.Main;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import javafx.scene.media.AudioClip;
+import sample.GameController;
 
 public class Player extends Sprite {
     public ArrayList<Missile> missiles = new ArrayList<>();
     public boolean fired = false;
-
 
     public Rectangle r = new Rectangle();
     public Rectangle rv = new Rectangle();
     public Rectangle rv2 = new Rectangle();
 
     public Player() throws IOException {
-}
+    }
 
     public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
         //Offset Formula
@@ -31,10 +33,11 @@ public class Player extends Sprite {
 
         int speedMultiplier = 1;
 
-        //Speed up if held var is true(see Main key events)
-//        if (Main.held) {
-//            speedMultiplier = 2;
-//        }
+        //Speed up if held var is true(see GameController key events)
+        if (GameController.held) {
+            speedMultiplier = 2;
+        }
+
         if (goUp) {
             this.positionY = Math.max(0, this.positionY - this.speed * speedMultiplier);
         }
@@ -63,6 +66,9 @@ public class Player extends Sprite {
         if (fired) {
             return;
         }
+
+        AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
+        shoot.play(0.7);
 
         //Make missile
         Missile missile = new Missile();

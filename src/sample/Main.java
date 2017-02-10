@@ -23,8 +23,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Main extends Application {
-
-
     @Override
     public void start(Stage theStage) throws Exception {
 

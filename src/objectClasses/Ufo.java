@@ -2,6 +2,7 @@ package objectClasses;
 
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 
 import java.util.Random;
 
@@ -41,5 +42,17 @@ public class Ufo extends Sprite {
             return true;
         }
         return false;
+    }
+
+    public static void initializeUfos(Ufo[] ufos, Canvas canvas, double ufoSpeed) {
+        for (int i = 0; i < ufos.length; i++) {
+            Ufo ufo = new Ufo();
+            String path = "resources/UFO/ufo_" + String.valueOf(SpawnCoordinates.getRandom(6)) + ".png";
+            Image image = new Image(path);
+
+            ufo.setImage(image);
+            ufo.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas), ufoSpeed);
+            ufos[i] = ufo;
+        }
     }
 }
