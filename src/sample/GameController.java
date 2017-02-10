@@ -183,7 +183,7 @@ public class GameController extends Application {
                     if (!asteroidToRenderAndUpdate.isHit) {
                         asteroidToRenderAndUpdate.render(gc);
 
-                        if (asteroidToRenderAndUpdate.checkCollision(player)) {
+                        if (player.checkCollision(asteroidToRenderAndUpdate.positionX, asteroidToRenderAndUpdate.positionY, 32)) {
 
                             asteroidToRenderAndUpdate.positionX = -1300;
                             player.positionX = 10;
@@ -211,7 +211,7 @@ public class GameController extends Application {
                     if (!ufo.isHit) {
                         ufo.render(gc);
 
-                        if (ufo.checkCollision(player)) {
+                        if (player.checkCollision(ufo.positionX, ufo.positionY, 32)) {
                             player.positionX = 10;
                             ufo.positionX = -1300;
 

@@ -107,4 +107,24 @@ public class Player extends Sprite {
         this.rv2.setStroke(Color.TRANSPARENT);
         this.rv2.setFill(Color.TRANSPARENT);
     }
+
+    //Method that checks if the player collides with a given object
+    public boolean checkCollision(double x, double y, int offset) {
+        int hitX = (int) x;
+        int hitY = (int) y;
+        int mainX = (int) this.r.getX();
+        int mainY = (int) this.r.getY();
+        int mainX1 = (int) this.rv.getX();
+        int mainY1 = (int) this.rv.getY();
+        int mainX2 = (int) this.rv2.getX();
+        int mainY2 = (int) this.rv2.getY();
+
+        if ((hitX <= mainX + (int) this.r.getWidth() && hitX + offset >= mainX && hitY <= mainY + (int) this.r.getHeight() && hitY + offset >= mainY) ||
+                (hitX <= mainX1 + (int) this.rv.getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int) this.rv.getHeight() && hitY + offset >= mainY1) ||
+                (hitX <= mainX2 + (int) this.rv2.getWidth() && hitX + offset >= mainX2 && hitY <= mainY2 + (int) this.rv2.getHeight() && hitY + offset >= mainY2)
+                ) {
+            return true;
+        }
+        return false;
+    }
 }
