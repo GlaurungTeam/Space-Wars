@@ -22,6 +22,7 @@ import javafx.scene.media.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Timer;
@@ -42,6 +43,8 @@ public class GameController extends Application{
     //Time elapsed
     private Timer timer = new Timer();
     private long points = 0;
+
+    private int livesCount = 3;
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -64,6 +67,13 @@ public class GameController extends Application{
         String score = toString().format("Score: %d", points);
         scoreLine.setText(score);
 
+        Text lives = new Text(20, 50, "");
+        root.getChildren().add(lives);
+        lives.setFont(Font.font("Verdana", 20));
+        lives.setFill(Color.WHITE);
+        String livesNumber = toString().format("Lives: %d", livesCount);
+        lives.setText(livesNumber);
+
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
@@ -71,6 +81,7 @@ public class GameController extends Application{
         //Adjustable player and asteroid speed
         int asteroidSpeed = 2;
         double playerSpeed = 2;
+        double ufoSpeed = 1.50;
 
         //Make new player object
         Player player = new Player();
@@ -161,6 +172,18 @@ public class GameController extends Application{
             asteroids[i] = currentAsteroid;
         }
 
+        Ufo[] ufos = new Ufo[10];
+
+        for (int i = 0; i < ufos.length; i++) {
+            Ufo ufo = new Ufo();
+            String path = "resources/UFO/ufo_" + String.valueOf(UfoSpawnCoordinates.getRandom(6)) + ".png";
+            Image image = new Image(path);
+
+            ufo.setImage(image);
+            ufo.setPosition(UfoSpawnCoordinates.getSpawnX(canvas), UfoSpawnCoordinates.getSpawnY(canvas), ufoSpeed);
+            ufos[i] = ufo;
+        }
+
         final long startNanoTime = System.nanoTime();
         //The main game loop begins below
         new AnimationTimer() {
@@ -184,13 +207,28 @@ public class GameController extends Application{
                         asteroidToRenderAndUpdate.render(gc);
 
                         if (asteroidToRenderAndUpdate.checkCollision(player)) {
-                            System.out.println(asteroidToRenderAndUpdate.getBoundary().getWidth());
-                            System.out.println(asteroidToRenderAndUpdate.getBoundary().getHeight());
+
+                            asteroidToRenderAndUpdate.positionX = -1300;
+                            player.positionX = 10;
+
+                            livesCount--;
+
+                            if(livesCount < 0) {
+                                try {
+                                    theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
+                                } catch (Exception exc) {
+                                    exc.printStackTrace();
+                                    throw new RuntimeException(exc);
+                                }
+                            }
+
+                            String livesC = toString().format("Lives: %d", livesCount);
+                            lives.setText(livesC);
+                            continue;
 
                             //TODO Change color of ship when hit, or some kind of visual effect
-                            System.out.println("Danger ship hit!");
-                            Platform.exit();
-                            System.exit(0);
+
+
                             //TODO Implement ship damage tracker
                         }
                     }
@@ -199,6 +237,35 @@ public class GameController extends Application{
                     asteroidToRenderAndUpdate.speed += 0.00001;
 
                     asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
+                }
+
+                for(Ufo ufo : ufos) {
+                    if(!ufo.isHit) {
+                        ufo.render(gc);
+
+                        if(ufo.checkCollision(player)) {
+                            player.positionX = 10;
+                            ufo.positionX = -1300;
+//                            System.out.println(ufo.getBoundary().getWidth());
+//                            System.out.println(ufo.getBoundary().getHeight());
+                            livesCount--;
+
+                            if(livesCount < 0) {
+                                try {
+                                    theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
+                                } catch (Exception exc) {
+                                    exc.printStackTrace();
+                                    throw new RuntimeException(exc);
+                                }
+                            }
+                            String livesC = toString().format("Lives: %d", livesCount);
+                            lives.setText(livesC);
+                            continue;
+
+                        }
+                    }
+                    ufo.speed += 0.00002;
+                    ufo.updateUfoLocation(canvas);
                 }
 
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
@@ -247,6 +314,26 @@ public class GameController extends Application{
                                 //TODO Implement score tracker
                             }
                         }
+
+                        for(Ufo ufoToCheck : ufos) {
+                            if(ufoToCheck.isHit) {
+                                continue;
+                            }
+                            if(m.intersects(ufoToCheck)) {
+                                ufoToCheck.isHit = true;
+
+                                AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
+                                explode.play(0.2);
+
+                                Explosion explosion = new Explosion();
+                                explosion.explode(m);
+                                player.missiles.remove(m);
+
+                                points += 3;
+                                String score = toString().format("Score: %d", points);
+                                scoreLine.setText(score);
+                            }
+                        }
                     }
                 }
 
@@ -272,4 +359,5 @@ public class GameController extends Application{
 
         theStage.show();
     }
+
 }

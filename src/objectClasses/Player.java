@@ -16,6 +16,7 @@ public class Player extends Sprite {
     public ArrayList<Missile> missiles = new ArrayList<>();
     public boolean fired = false;
 
+
     public Rectangle r = new Rectangle();
     public Rectangle rv = new Rectangle();
     public Rectangle rv2 = new Rectangle();
