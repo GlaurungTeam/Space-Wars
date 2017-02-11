@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 
 public class Controller {
@@ -49,7 +48,7 @@ public class Controller {
 
     public void startGame(ActionEvent actionEvent) throws Exception {
         userName = usernameField.getText();
-        if (userName.length() != 0) {
+        if (userName.trim().length() != 0) {
             Stage stage = new Stage();
             ((Stage) this.startGameButton.getScene().getWindow()).close();
             GameController gameController = new GameController();
