@@ -1,6 +1,5 @@
 package objectClasses;
 
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 

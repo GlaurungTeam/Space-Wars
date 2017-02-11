@@ -54,7 +54,6 @@ public class Controller {
             ((Stage) this.startGameButton.getScene().getWindow()).close();
             GameController gameController = new GameController();
             gameController.start(stage);
-
         }
     }
 }

@@ -49,7 +49,7 @@ public class Asteroid extends Sprite {
         }
     }
 
-    public static void initializeAsteroids(Asteroid[] asteroids, Canvas canvas, int asteroidSpeed) {
+    public static void initializeAsteroids(Asteroid[] asteroids, Canvas canvas, double asteroidSpeed) {
         for (int i = 0; i < asteroids.length; i++) {
             Asteroid currentAsteroid = new Asteroid();
             String path = "resources/asteroid/asteroid" + String.valueOf(SpawnCoordinates.getRandom(4)) + ".png";

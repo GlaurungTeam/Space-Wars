@@ -1,6 +1,6 @@
 package sample;
 
-import javafx.animation.AnimationTimer;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import objectClasses.*;
 
 import javax.imageio.ImageIO;
@@ -27,20 +28,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController extends Application {
-    public boolean goLeft, goRight, goUp, goDown;
 
     @FXML
     public Label spaceWars;
-
-    //Variables for "reactive" speed of the player
-    int timeHeld;
-    public static boolean held = false;
 
     //Time elapsed
     private Timer timer = new Timer();
     private long points = 0;
 
     private int livesCount = 3;
+
+    private int backgroundX = 0;
+    private int backgroundY = 0;
+
+    private int planetX = 500;
+    private int planetY = 196;
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -73,10 +75,11 @@ public class GameController extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-        //Adjustable player and asteroid speed
-        int asteroidSpeed = 2;
-        double playerSpeed = 2;
-        double ufoSpeed = 1.50;
+        //Adjustable speeds
+        double asteroidSpeed = 2.5;
+        double playerSpeed = 3;
+        double ufoSpeed = 2;
+        double backGroundSpeed = 1.5;
 
         //Make new player object
         Player player = new Player();
@@ -101,50 +104,8 @@ public class GameController extends Application {
             }
         }, 0, 1000);
 
-        //Add event listener
-        theScene.setOnKeyPressed(event -> {
-            if (timeHeld < 20) {
-                timeHeld++;
-            } else {
-                held = true;
-            }
-            switch (event.getCode()) {
-                case UP:
-                    goUp = true;
-                    break;
-                case DOWN:
-                    goDown = true;
-                    break;
-                case LEFT:
-                    goLeft = true;
-                    break;
-                case RIGHT:
-                    goRight = true;
-                    break;
-                case SPACE:
-                    player.fire();
-                    break;
-            }
-        });
-
-        theScene.setOnKeyReleased(event -> {
-            timeHeld = 0;
-            held = false;
-            switch (event.getCode()) {
-                case UP:
-                    goUp = false;
-                    break;
-                case DOWN:
-                    goDown = false;
-                    break;
-                case LEFT:
-                    goLeft = false;
-                    break;
-                case RIGHT:
-                    goRight = false;
-                    break;
-            }
-        });
+        //Make new key listener which is going to monitor the keys pressed
+        KeyListener.initialize(theScene, player);
 
         //Make an array holding all asteroids
         Asteroid[] asteroids = new Asteroid[20];
@@ -169,13 +130,24 @@ public class GameController extends Application {
                 //The 4 rows below are used to help make the earth move around the sun
                 //No need to understand it
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                double x = 232 + 128 * Math.cos(t);
-                double y = 232 + 128 * Math.sin(t);
+                double earthX = planetX + 36 + 128 * Math.cos(t);
+                double earthY = 232 + 128 * Math.sin(t);
+
+                //Update background, planet and earth location
+                backgroundX -= backGroundSpeed;
+                planetX -= backGroundSpeed - 0.5;
+
+                if (backgroundX < -1280) {
+                    backgroundX = 0;
+                }
+                if (planetX < -1280) {
+                    planetX = (int) canvas.getWidth() + 50;
+                }
 
                 //Background image clears canvas
-                gc.drawImage(space, 0, 0);
-                gc.drawImage(earth, x, y);
-                gc.drawImage(sun, 196, 196);
+                gc.drawImage(space, backgroundX, backgroundY);
+                gc.drawImage(earth, earthX, earthY);
+                gc.drawImage(sun, planetX, planetY);
 
                 //Iterate through all asteroids
                 for (Asteroid asteroidToRenderAndUpdate : asteroids) {
@@ -184,7 +156,6 @@ public class GameController extends Application {
                         asteroidToRenderAndUpdate.render(gc);
 
                         if (player.checkCollision(asteroidToRenderAndUpdate.positionX, asteroidToRenderAndUpdate.positionY, 32)) {
-
                             asteroidToRenderAndUpdate.positionX = -1300;
                             player.positionX = 10;
 
@@ -231,10 +202,9 @@ public class GameController extends Application {
 
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
                 player.render(gc);
-                player.updatePlayerLocation(canvas, goUp, goDown, goLeft, goRight);
+                player.updatePlayerLocation(canvas, KeyListener.goUp, KeyListener.goDown, KeyListener.goLeft, KeyListener.goRight);
 
                 if (player.missiles.size() != 0) {
-
                     for (int i = 0; i < player.missiles.size(); i++) {
                         Missile m = player.missiles.get(i);
 
@@ -249,7 +219,6 @@ public class GameController extends Application {
 
                         //Collision detection missile hits asteroid and removes it from canvas
                         for (Asteroid asteroidToCheck : asteroids) {
-
                             if (asteroidToCheck.isHit) {
                                 continue;
                             }

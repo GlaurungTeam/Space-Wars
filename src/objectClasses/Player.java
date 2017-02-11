@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javafx.scene.media.AudioClip;
-import sample.GameController;
 
 public class Player extends Sprite {
     public ArrayList<Missile> missiles = new ArrayList<>();
@@ -31,11 +30,11 @@ public class Player extends Sprite {
         double heightOffset = canvas.getHeight() - 72;
         double widthOffset = canvas.getWidth() - 82;
 
-        int speedMultiplier = 1;
+        double speedMultiplier = 1;
 
         //Speed up if held var is true(see GameController key events)
-        if (GameController.held) {
-            speedMultiplier = 2;
+        if (KeyListener.held) {
+            speedMultiplier = 1.5;
         }
 
         if (goUp) {
