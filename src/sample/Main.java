@@ -17,7 +17,6 @@ public class Main extends Application {
         AudioClip soundtrack = new AudioClip(Paths.get("src/resources/sound/soundtrack.mp3").toUri().toString());
         soundtrack.play(0.1);
 
-
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         theStage.setTitle("Launcher");
         theStage.setScene(new Scene(root, 1280, 720));

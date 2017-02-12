@@ -23,11 +23,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController extends Application {
-
     @FXML
     public Label spaceWars;
 
@@ -42,6 +42,19 @@ public class GameController extends Application {
 
     private int planetX = 500;
     private int planetY = 196;
+
+    private GameController gameController = this;
+
+    private ArrayList<Explosion> explosions = new ArrayList<>();
+    private ArrayList<Missile> missiles = new ArrayList<>();
+
+    public void setExplosions(Explosion e){
+        this.explosions.add(e);
+    }
+
+    public void setMissiles(Missile m){
+        this.missiles.add(m);
+    }
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -81,7 +94,7 @@ public class GameController extends Application {
         double backGroundSpeed = 1.5;
 
         //Make new player object
-        Player player = new Player();
+        Player player = new Player(gameController);
 
         player.initializeHitboxes();
 
@@ -203,12 +216,12 @@ public class GameController extends Application {
                 player.render(gc);
                 player.updatePlayerLocation(canvas, KeyListener.goUp, KeyListener.goDown, KeyListener.goLeft, KeyListener.goRight);
 
-                if (player.missiles.size() != 0) {
-                    for (int i = 0; i < player.missiles.size(); i++) {
-                        Missile m = player.missiles.get(i);
+                if (missiles.size() != 0) {
+                    for (int i = 0; i < missiles.size(); i++) {
+                        Missile m = missiles.get(i);
 
                         if (m.positionX > canvas.getWidth()) {
-                            player.missiles.remove(m);
+                            missiles.remove(m);
                             return;
                         }
 
@@ -229,9 +242,8 @@ public class GameController extends Application {
                                 explode.play(0.6);
 
                                 //Remove missile from missiles array and explode
-                                Explosion explosion = new Explosion();
-                                explosion.explode(m);
-                                player.missiles.remove(m);
+                                Explosion explosion = new Explosion(gameController,m);
+                                missiles.remove(m);
 
                                 //TODO Move that one to the killing aliens method to display score
                                 points++;
@@ -253,9 +265,9 @@ public class GameController extends Application {
                                 AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
                                 explode.play(0.2);
 
-                                Explosion explosion = new Explosion();
-                                explosion.explode(m);
-                                player.missiles.remove(m);
+                                Explosion explosion = new Explosion(gameController, m);
+                                explosion.explode();
+                                missiles.remove(m);
 
                                 points += 3;
                                 String score = toString().format("Score: %d", points);
@@ -264,11 +276,10 @@ public class GameController extends Application {
                         }
                     }
                 }
-
                 //Iterate through all explosions
-                if (Explosion.explosions.size() != 0) {
-                    for (int i = 0; i < Explosion.explosions.size(); i++) {
-                        Explosion explosion = Explosion.explosions.get(i);
+                if (explosions.size() != 0) {
+                    for (int i = 0; i < explosions.size(); i++) {
+                        Explosion explosion = explosions.get(i);
                         Image currentFrame = explosion.getCurrentExplosionFrame(explosion.currentFrameIndex);
 
                         if (explosion.currentFrameIndex < explosion.sprites.length - 1) {
@@ -276,7 +287,7 @@ public class GameController extends Application {
                             explosion.render(gc);
                             explosion.currentFrameIndex++;
                         } else {
-                            Explosion.explosions.remove(i);
+                            explosions.remove(i);
                         }
                     }
                 }

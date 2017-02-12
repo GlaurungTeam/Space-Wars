@@ -13,16 +13,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javafx.scene.media.AudioClip;
+import sample.GameController;
 
 public class Player extends Sprite {
-    public ArrayList<Missile> missiles = new ArrayList<>();
+    private GameController gameController;
     public boolean fired = false;
 
     public Rectangle r = new Rectangle();
     public Rectangle rv = new Rectangle();
     public Rectangle rv2 = new Rectangle();
 
-    public Player() throws IOException {
+    public Player(GameController gameController) throws IOException {
+        this.gameController = gameController;
     }
 
     public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
@@ -85,8 +87,7 @@ public class Player extends Sprite {
         missile.setSpriteParameters(31, 7, 1, 23);
         missile.loadSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
-
-        this.missiles.add(missile);
+        gameController.setMissiles(missile);
         fired = true;
     }
 
