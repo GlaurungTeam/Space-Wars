@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5d5ca50-8ff9-4d1f-8d09-c246c0d3d522" name="Default" comment="Move explosions and missile arrays to the GameController  class (get rid of the static variables).">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/resources/fuelcan/fuelCan.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/objectClasses/FuelCan.java" />
+    <list default="true" id="e5d5ca50-8ff9-4d1f-8d09-c246c0d3d522" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Space_Battles/objectClasses/Player.class" afterPath="$PROJECT_DIR$/out/production/Space_Battles/objectClasses/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/background.jpg" afterPath="$PROJECT_DIR$/src/resources/background.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/objectClasses/FuelBar.java" afterPath="$PROJECT_DIR$/src/objectClasses/FuelBar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/objectClasses/Player.java" afterPath="$PROJECT_DIR$/src/objectClasses/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/GameController.java" afterPath="$PROJECT_DIR$/src/sample/GameController.java" />
     </list>
     <ignored path="Space-Wars.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,7 +33,7 @@
         <entry file="file://$PROJECT_DIR$/src/sample/GameController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="352">
-              <caret line="104" column="8" lean-forward="false" selection-start-line="104" selection-start-column="8" selection-end-line="104" selection-end-column="8" />
+              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1334#1335#0" expanded="true" />
@@ -761,12 +755,20 @@
       <workItem from="1487169733914" duration="1513000" />
       <workItem from="1487224482331" duration="2085000" />
       <workItem from="1487227046792" duration="25000" />
-      <workItem from="1487227332381" duration="22071000" />
+      <workItem from="1487227332381" duration="22237000" />
     </task>
+    <task id="LOCAL-00001" summary="Add fuel cans to the field with the proper functionality. Fix the background. Clean up the code">
+      <created>1487254668496</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1487254668496</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33076000" />
+    <option name="totallyTimeSpent" value="33242000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1098" extended-state="6" />
@@ -852,7 +854,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Move explosions and missile arrays to the GameController  class (get rid of the static variables)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Move explosions and missile arrays to the GameController  class (get rid of the static variables)." />
+    <MESSAGE value="Add fuel cans to the field with the proper functionality. Fix the background. Clean up the code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add fuel cans to the field with the proper functionality. Fix the background. Clean up the code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1260,7 +1263,7 @@
     <entry file="file://$PROJECT_DIR$/src/sample/GameController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
-          <caret line="104" column="8" lean-forward="false" selection-start-line="104" selection-start-column="8" selection-end-line="104" selection-end-column="8" />
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1334#1335#0" expanded="true" />
