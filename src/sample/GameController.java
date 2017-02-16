@@ -171,7 +171,7 @@ public class GameController extends Application {
         final long startNanoTime = System.nanoTime();
 
         //The main game loop begins below
-        new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
                 //The 4 rows below are used to help make the earth move around the sun
@@ -197,6 +197,7 @@ public class GameController extends Application {
                     countDown.playFromStart();
 
                     checkIfPlayerIsDead(livesCount, theScene);
+                    if(livesCount<0) this.stop();
 
                     String livesC = toString().format("Lives: %d", livesCount);
                     lives.setText(livesC);
@@ -238,6 +239,7 @@ public class GameController extends Application {
                             livesCount--;
                             countDown.playFromStart();
                             checkIfPlayerIsDead(livesCount, theScene);
+                            if(livesCount<0) this.stop();
 
                             String livesC = toString().format("Lives: %d", livesCount);
                             lives.setText(livesC);
@@ -265,6 +267,8 @@ public class GameController extends Application {
                             livesCount--;
                             countDown.playFromStart();
                             checkIfPlayerIsDead(livesCount, theScene);
+                            if(livesCount<0) this.stop();
+
 
                             String livesC = toString().format("Lives: %d", livesCount);
                             lives.setText(livesC);
@@ -357,7 +361,8 @@ public class GameController extends Application {
                     }
                 }
             }
-        }.start();
+        };
+        timer.start();
 
         theStage.show();
     }
