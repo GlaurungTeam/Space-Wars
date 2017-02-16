@@ -2,6 +2,7 @@ package sample;
 
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -9,17 +10,18 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import objectClasses.*;
 
 import javax.imageio.ImageIO;
 
 import javafx.scene.media.AudioClip;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Paths;
@@ -29,8 +31,6 @@ import java.util.TimerTask;
 
 public class GameController extends Application {
     @FXML
-    public Label spaceWars;
-
     //Time elapsed
     private Timer timer = new Timer();
     private long points = 0;
@@ -86,6 +86,36 @@ public class GameController extends Application {
         Image earth = new Image("resources/earth.png");
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
+
+        //FuelBar
+
+        int TotalFuel = 50;
+        String FUEL_BURNED_FORMAT = "%.0f";
+        ReadOnlyDoubleWrapper workDone  = new ReadOnlyDoubleWrapper();
+
+        FuelBar bar = new FuelBar(
+                workDone.getReadOnlyProperty(),
+                TotalFuel,
+               FUEL_BURNED_FORMAT
+        );
+        Timeline countDown = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(workDone, TotalFuel)),
+                new KeyFrame(Duration.seconds(20), new KeyValue(workDone, 0))
+        );
+        countDown.play();
+
+        VBox layout = new VBox(20);
+        layout.setLayoutX(80);
+        layout.setLayoutY(60);
+        layout.getChildren().addAll(bar);
+        root.getChildren().add(layout);
+
+
+        //FuelBar Text
+        Text fuelBarText = new Text(20,80,"Fuel: ");
+        root.getChildren().add(fuelBarText);
+        fuelBarText.setFont(Font.font("Verdana", 20));
+        fuelBarText.setFill(Color.WHITE);
 
         //Adjustable speeds
         double asteroidSpeed = 2.5;
@@ -148,6 +178,18 @@ public class GameController extends Application {
                 //Update background, planet and earth location
                 backgroundX -= backGroundSpeed;
                 planetX -= backGroundSpeed - 0.5;
+
+                //Check fuel
+                if(bar.workDone.getValue() == 0.0){
+                    livesCount --;
+
+                    countDown.playFromStart();
+
+                    checkIfPlayerIsDead(livesCount, theScene);
+
+                    String livesC = toString().format("Lives: %d", livesCount);
+                    lives.setText(livesC);
+                }
 
                 if (backgroundX < -1280) {
                     backgroundX = 0;
