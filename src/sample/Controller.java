@@ -23,7 +23,7 @@ public class Controller {
     public AnchorPane launcherPane;
     public Label loginLabel;
     public AnchorPane loginPane;
-    public String userName;
+    public static String userName;
     public Label spaceWars;
 
     public void start(ActionEvent actionEvent) throws Exception {

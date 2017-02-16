@@ -23,11 +23,12 @@ import javax.imageio.ImageIO;
 import javafx.scene.media.AudioClip;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameController extends Application {
     @FXML
@@ -370,11 +371,53 @@ public class GameController extends Application {
     private void checkIfPlayerIsDead(int livesCount, Scene theScene) {
         if (livesCount < 0) {
             try {
+                writeInLeaderboard(Controller.userName,points);
                 theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);
             }
+        }
+    }
+
+    public void writeInLeaderboard(String name, long score) throws IOException {
+        SortedMap<String,Long> scores = new TreeMap<>();
+        Path path = Paths.get("src\\sample\\leaderBoard.txt");
+        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+
+        try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
+            int i = 0;
+            String scoreLine = in.readLine();
+            while (scoreLine != null && i<10) {
+                String[] scoreLineArr = scoreLine.split(":");
+                String userName = scoreLineArr[0];
+                Long result = Long.parseLong(scoreLineArr[1]);
+                scores.put(userName,result);
+                scoreLine = in.readLine();
+                i++;
+            }
+            scores.put(name,score);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+        ArrayList<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
+                .sorted(Comparator.<Map.Entry<String,Long>>comparingLong(pair -> pair.getValue()).reversed())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(realPath.toString()))) {
+            Iterator it = sortedScores.iterator();
+            int i = 0;
+            while(it.hasNext() && i<10){
+                Map.Entry pair = (Map.Entry)it.next();
+                out.println(pair.getKey() + ":" + pair.getValue());
+                i++;
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
