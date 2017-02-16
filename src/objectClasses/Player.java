@@ -127,4 +127,11 @@ public class Player extends Sprite {
         }
         return false;
     }
+
+    public void resetPlayerPosition(Canvas canvas) {
+        this.positionX = 50;
+        this.positionY = canvas.getHeight() / 2;
+
+    }
+
 }

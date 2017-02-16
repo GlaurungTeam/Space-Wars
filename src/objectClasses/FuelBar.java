@@ -7,24 +7,25 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public  class FuelBar extends StackPane {
+public class FuelBar extends StackPane {
     public ReadOnlyDoubleProperty workDone;
     public double totalWork;
 
-    final private ProgressBar bar  = new ProgressBar();
+    final private ProgressBar bar = new ProgressBar();
     final private Text text = new Text();
-    final private String      labelFormatSpecifier;
+    final private String labelFormatSpecifier;
 
     final private static int DEFAULT_LABEL_PADDING = 5;
 
     public FuelBar(final ReadOnlyDoubleProperty workDone, final double totalWork, final String labelFormatSpecifier) {
-        this.workDone  = workDone;
+        this.workDone = workDone;
         this.totalWork = totalWork;
         this.labelFormatSpecifier = labelFormatSpecifier;
 
         syncProgress();
         workDone.addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 syncProgress();
             }
         });
@@ -33,7 +34,6 @@ public  class FuelBar extends StackPane {
 
         getChildren().setAll(bar, text);
     }
-
 
     // synchronizes the progress indicated with the work done.
     private void syncProgress() {
@@ -46,6 +46,6 @@ public  class FuelBar extends StackPane {
         }
 
         bar.setMinHeight(text.getBoundsInLocal().getHeight() + DEFAULT_LABEL_PADDING * 2);
-        bar.setMinWidth (text.getBoundsInLocal().getWidth()  + DEFAULT_LABEL_PADDING * 2);
+        bar.setMinWidth(text.getBoundsInLocal().getWidth() + DEFAULT_LABEL_PADDING * 2);
     }
 }

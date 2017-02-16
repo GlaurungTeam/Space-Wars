@@ -48,11 +48,11 @@ public class GameController extends Application {
     private ArrayList<Explosion> explosions = new ArrayList<>();
     private ArrayList<Missile> missiles = new ArrayList<>();
 
-    public void setExplosions(Explosion e){
+    public void setExplosions(Explosion e) {
         this.explosions.add(e);
     }
 
-    public void setMissiles(Missile m){
+    public void setMissiles(Missile m) {
         this.missiles.add(m);
     }
 
@@ -88,20 +88,21 @@ public class GameController extends Application {
         Image space = new Image("resources/space.png");
 
         //FuelBar
-
-        int TotalFuel = 50;
+        int totalFuel = 50;
         String FUEL_BURNED_FORMAT = "%.0f";
-        ReadOnlyDoubleWrapper workDone  = new ReadOnlyDoubleWrapper();
+        ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
 
         FuelBar bar = new FuelBar(
                 workDone.getReadOnlyProperty(),
-                TotalFuel,
-               FUEL_BURNED_FORMAT
+                totalFuel,
+                FUEL_BURNED_FORMAT
         );
+
         Timeline countDown = new Timeline(
-                new KeyFrame(Duration.seconds(0), new KeyValue(workDone, TotalFuel)),
-                new KeyFrame(Duration.seconds(20), new KeyValue(workDone, 0))
+                new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
+                new KeyFrame(Duration.seconds(30), new KeyValue(workDone, 0))
         );
+
         countDown.play();
 
         VBox layout = new VBox(20);
@@ -110,9 +111,8 @@ public class GameController extends Application {
         layout.getChildren().addAll(bar);
         root.getChildren().add(layout);
 
-
         //FuelBar Text
-        Text fuelBarText = new Text(20,80,"Fuel: ");
+        Text fuelBarText = new Text(20, 80, "Fuel: ");
         root.getChildren().add(fuelBarText);
         fuelBarText.setFont(Font.font("Verdana", 20));
         fuelBarText.setFill(Color.WHITE);
@@ -122,6 +122,7 @@ public class GameController extends Application {
         double playerSpeed = 3;
         double ufoSpeed = 2;
         double backGroundSpeed = 1.5;
+        double fuelSpeed = 1;
 
         //Make new player object
         Player player = new Player(gameController);
@@ -163,6 +164,10 @@ public class GameController extends Application {
         Ufo[] ufos = new Ufo[2];
         Ufo.initializeUfos(ufos, canvas, ufoSpeed);
 
+        FuelCan fuelCan = new FuelCan();
+        fuelCan.initializeFuelCan(canvas);
+        fuelCan.speed = fuelSpeed;
+
         final long startNanoTime = System.nanoTime();
 
         //The main game loop begins below
@@ -175,14 +180,20 @@ public class GameController extends Application {
                 double earthX = planetX + 36 + 128 * Math.cos(t);
                 double earthY = 232 + 128 * Math.sin(t);
 
+                if (KeyListener.held) {
+                    countDown.setRate(3);
+                } else {
+                    countDown.setRate(1);
+                }
+
                 //Update background, planet and earth location
                 backgroundX -= backGroundSpeed;
                 planetX -= backGroundSpeed - 0.5;
 
                 //Check fuel
-                if(bar.workDone.getValue() == 0.0){
-                    livesCount --;
-
+                if (bar.workDone.getValue() == 0.0) {
+                    livesCount--;
+                    player.resetPlayerPosition(canvas);
                     countDown.playFromStart();
 
                     checkIfPlayerIsDead(livesCount, theScene);
@@ -203,6 +214,17 @@ public class GameController extends Application {
                 gc.drawImage(earth, earthX, earthY);
                 gc.drawImage(sun, planetX, planetY);
 
+                if (!fuelCan.isTaken) {
+                    fuelCan.render(gc);
+                }
+
+                if (!fuelCan.isTaken && player.checkCollision(fuelCan.positionX, fuelCan.positionY, 45)) {
+                    countDown.playFromStart();
+                    fuelCan.isTaken = true;
+                }
+
+                fuelCan.updateFuelCanLocation(canvas);
+
                 //Iterate through all asteroids
                 for (Asteroid asteroidToRenderAndUpdate : asteroids) {
 
@@ -211,10 +233,10 @@ public class GameController extends Application {
 
                         if (player.checkCollision(asteroidToRenderAndUpdate.positionX, asteroidToRenderAndUpdate.positionY, 32)) {
                             asteroidToRenderAndUpdate.positionX = -1300;
-                            player.positionX = 10;
+                            player.resetPlayerPosition(canvas);
 
                             livesCount--;
-
+                            countDown.playFromStart();
                             checkIfPlayerIsDead(livesCount, theScene);
 
                             String livesC = toString().format("Lives: %d", livesCount);
@@ -237,11 +259,11 @@ public class GameController extends Application {
                         ufo.render(gc);
 
                         if (player.checkCollision(ufo.positionX, ufo.positionY, 32)) {
-                            player.positionX = 10;
+                            player.resetPlayerPosition(canvas);
                             ufo.positionX = -1300;
 
                             livesCount--;
-
+                            countDown.playFromStart();
                             checkIfPlayerIsDead(livesCount, theScene);
 
                             String livesC = toString().format("Lives: %d", livesCount);
@@ -284,7 +306,7 @@ public class GameController extends Application {
                                 explode.play(0.6);
 
                                 //Remove missile from missiles array and explode
-                                Explosion explosion = new Explosion(gameController,m);
+                                Explosion explosion = new Explosion(gameController, m);
                                 missiles.remove(m);
 
                                 //TODO Move that one to the killing aliens method to display score
@@ -318,6 +340,7 @@ public class GameController extends Application {
                         }
                     }
                 }
+
                 //Iterate through all explosions
                 if (explosions.size() != 0) {
                     for (int i = 0; i < explosions.size(); i++) {
@@ -333,7 +356,6 @@ public class GameController extends Application {
                         }
                     }
                 }
-
             }
         }.start();
 
