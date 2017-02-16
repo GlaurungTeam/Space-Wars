@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import java.util.Random;
 
 public class FuelCan extends Sprite {
-
     public boolean isTaken = false;
 
     public void initializeFuelCan(Canvas canvas) {

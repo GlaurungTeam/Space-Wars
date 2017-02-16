@@ -30,12 +30,13 @@ public class FuelBar extends StackPane {
             }
         });
 
-        bar.setMaxWidth(Double.MAX_VALUE); // allows the progress bar to expand to fill available horizontal space.
+        //Allows the progress bar to expand to fill available horizontal space
+        bar.setMaxWidth(Double.MAX_VALUE);
 
         getChildren().setAll(bar, text);
     }
 
-    // synchronizes the progress indicated with the work done.
+    //Synchronizes the progress indicated with the work done
     private void syncProgress() {
         if (workDone == null || totalWork == 0) {
             text.setText("");
