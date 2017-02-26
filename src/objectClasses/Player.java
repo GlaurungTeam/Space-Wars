@@ -1,5 +1,6 @@
 package objectClasses;
 
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,24 +11,84 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.scene.media.AudioClip;
 import sample.GameController;
 
 public class Player extends Sprite {
     private GameController gameController;
-    public boolean fired = false;
+    private Double speed;
+    private Integer lives;
+    private long points;
+    private Scene theScene;
+    private boolean fired;
+    private Timer timer;
+
+    private boolean goLeft;
+    private boolean goRight;
+    private boolean goUp;
+    private boolean goDown;
+    private boolean held = false;
+
 
     public Rectangle r = new Rectangle();
     public Rectangle rv = new Rectangle();
     public Rectangle rv2 = new Rectangle();
 
-    public Player(GameController gameController) throws IOException {
-        this.gameController = gameController;
+    public long getPoints() {
+        return points;
     }
 
-    public void updatePlayerLocation(Canvas canvas, boolean goUp, boolean goDown, boolean goLeft, boolean goRight) {
+    public void setPoints(long points) {
+        this.points = points;
+    }
+
+    public Scene getTheScene() {
+        return theScene;
+    }
+
+    public void setTheScene(Scene theScene) {
+        this.theScene = theScene;
+    }
+
+    public Player(GameController gameController, Double speed, Integer lives, Scene theScene) throws IOException {
+        this.gameController = gameController;
+        this.speed = speed;
+        this.fired = false;
+        this.lives = lives;
+        this.points = 0L;
+        this.theScene = theScene;
+        this.timer = new Timer();
+
+    }
+
+    public boolean isFired() {
+        return fired;
+    }
+
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
+
+    public Integer getLives() {
+        return lives;
+    }
+
+    public void setLives(Integer lives) {
+        this.lives = lives;
+    }
+
+    public Double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
+    public void updatePlayerLocation(Canvas canvas) {
         //Offset Formula
         double heightOffset = canvas.getHeight() - 72;
         double widthOffset = canvas.getWidth() - 82;
@@ -35,9 +96,9 @@ public class Player extends Sprite {
         double speedMultiplier = 1;
 
         //Speed up if held var is true(see GameController key events)
-        if (KeyListener.held) {
-            speedMultiplier = 1.5;
-        }
+        //if (KeyListener.held) {//TODO
+            //speedMultiplier = 1.5;
+        //}
 
         if (goUp) {
             this.positionY = Math.max(0, this.positionY - this.speed * speedMultiplier);
@@ -63,11 +124,21 @@ public class Player extends Sprite {
         this.rv2.setX(this.positionX + 38);
     }
 
-    public void fire() {
-        if (fired) {
-            return;
-        }
+    public void getFirePermition(){
+        Player that = this;
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                that.setFired(false);
+            }
+        }, 0, 1000);
+    }
 
+
+    public Missile fire() {
+        if (fired) {
+            return null;
+        }
         AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
         shoot.play(0.7);
 
@@ -87,9 +158,59 @@ public class Player extends Sprite {
         missile.setSpriteParameters(31, 7, 1, 23);
         missile.loadSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
-        gameController.setMissiles(missile);
-        fired = true;
+        //gameController.setMissiles(missile);//TODO update current level missiles
+        this.setFired(true);
+        return missile;
     }
+
+    public void initializePlayerControls(Scene theScene, Level level) {
+        //Add event listener
+        theScene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    this.goUp = true;
+                    break;
+                case DOWN:
+                    this.goDown = true;
+                    break;
+                case LEFT:
+                    this.goLeft = true;
+                    break;
+                case RIGHT:
+                    this.goRight = true;
+                    break;
+                case SPACE:
+                    //System.out.println(player.isFired());
+                    if(!this.isFired()){
+                        level.getMissiles().add(this.fire());
+                        this.setFired(true);
+                    }
+                    break;
+                case SHIFT:
+                    this.held = true;
+            }
+        });
+
+        theScene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    this.goUp = false;
+                    break;
+                case DOWN:
+                    this.goDown = false;
+                    break;
+                case LEFT:
+                    this.goLeft = false;
+                    break;
+                case RIGHT:
+                    this.goRight = false;
+                    break;
+                case SHIFT:
+                    this.held = false;
+            }
+        });
+    }
+
 
     public void initializeHitboxes() {
         this.r.setWidth(57);
@@ -131,7 +252,6 @@ public class Player extends Sprite {
     public void resetPlayerPosition(Canvas canvas) {
         this.positionX = 50;
         this.positionY = canvas.getHeight() / 2;
-
     }
 
 }

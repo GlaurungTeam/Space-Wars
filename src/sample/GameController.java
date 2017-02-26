@@ -4,7 +4,6 @@ import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,24 +19,12 @@ import objectClasses.*;
 
 import javax.imageio.ImageIO;
 
-import javafx.scene.media.AudioClip;
-
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameController extends Application {
     @FXML
-    //Time elapsed
-    private Timer timer = new Timer();
-    private long points = 0;
-
-    private int livesCount = 3;
-
     private int backgroundX = 0;
     private int backgroundY = 0;
 
@@ -61,6 +48,8 @@ public class GameController extends Application {
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
 
+
+
         Group root = new Group();
         Scene theScene = new Scene(root);
         theStage.setScene(theScene);
@@ -70,18 +59,28 @@ public class GameController extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        //Make new player object
+        Player player = new Player(gameController, 3.0, 3, theScene);
+        player.initializeHitboxes();
+        //Make Level object
+        Level level1 = new Level(root,player,gc,canvas,gameController,theScene,0.0);
+        level1.initializeAsteroids();
+        level1.initializeUfos();
+        player.getFirePermition();
+        player.initializePlayerControls(theScene,level1);
+
         Text scoreLine = new Text(20, 30, "");
         root.getChildren().add(scoreLine);
         scoreLine.setFont(Font.font("Verdana", 20));
         scoreLine.setFill(Color.WHITE);
-        String score = toString().format("Score: %d", points);
+        String score = toString().format("Score: %d", player.getPoints());
         scoreLine.setText(score);
 
         Text lives = new Text(20, 50, "");
         root.getChildren().add(lives);
         lives.setFont(Font.font("Verdana", 20));
         lives.setFill(Color.WHITE);
-        String livesNumber = toString().format("Lives: %d", livesCount);
+        String livesNumber = toString().format("Lives: %d", player.getLives());
         lives.setText(livesNumber);
 
         Image earth = new Image("resources/earth.png");
@@ -119,16 +118,10 @@ public class GameController extends Application {
         fuelBarText.setFill(Color.WHITE);
 
         //Adjustable speeds
-        double asteroidSpeed = 2.5;
-        double playerSpeed = 3;
-        double ufoSpeed = 2;
         double backGroundSpeed = 1.5;
         double fuelSpeed = 1;
 
-        //Make new player object
-        Player player = new Player(gameController);
 
-        player.initializeHitboxes();
 
         //Add hitboxes to canvas
         root.getChildren().addAll(player.r, player.rv, player.rv2);
@@ -138,27 +131,27 @@ public class GameController extends Application {
         player.setSpriteParameters(82, 82, 2, 3);
         player.loadSpriteSheet(playerSpriteSheet);
         player.splitSprites();
-        player.setPosition(100, canvas.getHeight() / 2, playerSpeed);
+        player.setPosition(100, canvas.getHeight() / 2, player.getSpeed());
 
         //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
-        timer.scheduleAtFixedRate(new TimerTask() {
+        /*timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 player.fired = false;
             }
-        }, 0, 1000);
+        }, 0, 1000);*/
 
         //Make new key listener which is going to monitor the keys pressed
-        KeyListener.initialize(theScene, player);
+        //KeyListener.initializePlayerControls(theScene, player); Key Listener is in Player class
 
         //Make an array holding all asteroids
-        Asteroid[] asteroids = new Asteroid[20];
+        //Asteroid[] asteroids = new Asteroid[20];
 
         //Initialize all asteroids
-        Asteroid.initializeAsteroids(asteroids, canvas, asteroidSpeed);
+        //Asteroid.initializeAsteroids(asteroids, canvas);
 
-        Ufo[] ufos = new Ufo[2];
-        Ufo.initializeUfos(ufos, canvas, ufoSpeed);
+        /*Ufo[] ufos = new Ufo[2];
+        Ufo.initializeUfos(ufos, canvas, ufoSpeed);*/
 
         FuelCan fuelCan = new FuelCan();
         fuelCan.initializeFuelCan(canvas);
@@ -172,35 +165,36 @@ public class GameController extends Application {
             public void handle(long currentNanoTime) {
                 //The 4 rows below are used to help make the earth move around the sun
                 //No need to understand it
+
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 double earthX = planetX + 36 + 128 * Math.cos(t);
                 double earthY = 232 + 128 * Math.sin(t);
 
-                if (KeyListener.held) {
+                /*if (KeyListener.held) {
                     countDown.setRate(3);
                 } else {
                     countDown.setRate(1);
-                }
+                }*/
 
                 //Update background, planet and earth location
                 backgroundX -= backGroundSpeed;
                 planetX -= backGroundSpeed - 0.5;
 
                 //Check fuel
-                if (bar.workDone.getValue() == 0.0) {
-                    livesCount--;
+                /*if (bar.workDone.getValue() == 0.0) {
+                    player.setLives(player.getLives() - 1);
                     player.resetPlayerPosition(canvas);
                     countDown.playFromStart();
 
                     try {
-                        checkIfPlayerIsDead(livesCount, theScene);
+                        checkIfPlayerIsDead(player.getLives(), theScene);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    String livesC = toString().format("Lives: %d", livesCount);
+                    String livesC = toString().format("Lives: %d", player.getLives());
                     lives.setText(livesC);
-                }
+                }*/
 
                 if (backgroundX < -1280) {
                     backgroundX = 0;
@@ -222,209 +216,21 @@ public class GameController extends Application {
                     countDown.playFromStart();
                     fuelCan.isTaken = true;
                 }
-
                 fuelCan.updateFuelCanLocation(canvas);
 
-                //Iterate through all asteroids
-                for (Asteroid asteroidToRenderAndUpdate : asteroids) {
-
-                    if (!asteroidToRenderAndUpdate.isHit) {
-                        asteroidToRenderAndUpdate.render(gc);
-
-                        if (player.checkCollision(asteroidToRenderAndUpdate.positionX, asteroidToRenderAndUpdate.positionY, 32)) {
-                            asteroidToRenderAndUpdate.positionX = -1300;
-                            player.resetPlayerPosition(canvas);
-
-                            livesCount--;
-                            countDown.playFromStart();
-                            try {
-                                checkIfPlayerIsDead(livesCount, theScene);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            String livesC = toString().format("Lives: %d", livesCount);
-                            lives.setText(livesC);
-                            continue;
-
-                            //TODO Change color of ship when hit, or some kind of visual effect
-
-                            //TODO Implement ship damage tracker
-                        }
-                    }
-
-                    //Asteroid speed updating every rotation making them faster:
-                    asteroidToRenderAndUpdate.speed += 0.00001;
-                    asteroidToRenderAndUpdate.updateAsteroidLocation(canvas);
-                }
-
-                for (Ufo ufo : ufos) {
-                    if (!ufo.isHit) {
-                        ufo.render(gc);
-
-                        if (player.checkCollision(ufo.positionX, ufo.positionY, 32)) {
-                            player.resetPlayerPosition(canvas);
-                            ufo.positionX = -1300;
-
-                            livesCount--;
-                            countDown.playFromStart();
-                            try {
-                                checkIfPlayerIsDead(livesCount, theScene);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            String livesC = toString().format("Lives: %d", livesCount);
-                            lives.setText(livesC);
-                            continue;
-                        }
-                    }
-
-                    ufo.speed += 0.00002;
-                    ufo.updateUfoLocation(canvas);
-                }
-
+                level1.setCurrentFrame(t);
+                level1.manageAsteroids();
+                level1.manageUfos();
+                level1.manageExplosions();
+                //System.out.println(level1.getExplosions());
+                level1.manageMissiles();
                 player.setImage(player.getFrame(player.sprites, t, 0.100));
                 player.render(gc);
-                player.updatePlayerLocation(canvas, KeyListener.goUp, KeyListener.goDown, KeyListener.goLeft, KeyListener.goRight);
-
-                if (missiles.size() != 0) {
-                    for (int i = 0; i < missiles.size(); i++) {
-                        Missile m = missiles.get(i);
-
-                        if (m.positionX > canvas.getWidth()) {
-                            missiles.remove(m);
-                            return;
-                        }
-
-                        m.setImage(m.getFrame(m.sprites, t, 0.100));
-                        m.render(gc);
-                        m.updateMissileLocation();
-
-                        //Collision detection missile hits asteroid and removes it from canvas
-                        for (Asteroid asteroidToCheck : asteroids) {
-                            if (asteroidToCheck.isHit) {
-                                continue;
-                            }
-
-                            if (m.intersects(asteroidToCheck)) {
-                                asteroidToCheck.isHit = true;
-
-                                AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
-                                explode.play(0.6);
-
-                                //Remove missile from missiles array and explode
-                                Explosion explosion = new Explosion(gameController, m);
-                                missiles.remove(m);
-
-                                //TODO Move that one to the killing aliens method to display score
-                                points++;
-                                String score = toString().format("Score: %d", points);
-                                scoreLine.setText(score);
-
-                                //TODO Implement score tracker
-                            }
-                        }
-
-                        for (Ufo ufoToCheck : ufos) {
-                            if (ufoToCheck.isHit) {
-                                continue;
-                            }
-
-                            if (m.intersects(ufoToCheck)) {
-                                ufoToCheck.isHit = true;
-
-                                AudioClip explode = new AudioClip(Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
-                                explode.play(0.2);
-
-                                Explosion explosion = new Explosion(gameController, m);
-                                explosion.explode();
-                                missiles.remove(m);
-
-                                points += 3;
-                                String score = toString().format("Score: %d", points);
-                                scoreLine.setText(score);
-                            }
-                        }
-                    }
-                }
-
-                //Iterate through all explosions
-                if (explosions.size() != 0) {
-                    for (int i = 0; i < explosions.size(); i++) {
-                        Explosion explosion = explosions.get(i);
-                        Image currentFrame = explosion.getCurrentExplosionFrame(explosion.currentFrameIndex);
-
-                        if (explosion.currentFrameIndex < explosion.sprites.length - 1) {
-                            explosion.setImage(currentFrame);
-                            explosion.render(gc);
-                            explosion.currentFrameIndex++;
-                        } else {
-                            explosions.remove(i);
-                        }
-                    }
-                }
+                player.updatePlayerLocation(canvas);
             }
         };
         timer.start();
 
         theStage.show();
-    }
-
-    private void checkIfPlayerIsDead(int livesCount, Scene theScene) throws Exception {
-        if (livesCount < 0) {
-            this.stop();
-
-            try {
-                writeInLeaderboard(Controller.userName, points);
-                theScene.setRoot(FXMLLoader.load(getClass().getResource("sample.fxml")));
-            } catch (Exception exc) {
-                exc.printStackTrace();
-                throw new RuntimeException(exc);
-            }
-        }
-    }
-
-    public void writeInLeaderboard(String name, long score) throws IOException {
-        SortedMap<String, Long> scores = new TreeMap<>();
-
-        Path path = Paths.get("src\\sample\\leaderBoard.txt");
-        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
-
-        try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
-            String scoreLine = in.readLine();
-            int i = 0;
-
-            while (scoreLine != null && i < 10) {
-                String[] scoreLineArr = scoreLine.split(":");
-                String userName = scoreLineArr[0];
-                Long result = Long.parseLong(scoreLineArr[1]);
-                scores.put(userName, result);
-                scoreLine = in.readLine();
-                i++;
-            }
-
-            scores.put(name, score);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
-                .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(pair -> pair.getValue()).reversed())
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(realPath.toString()))) {
-            Iterator it = sortedScores.iterator();
-
-            int i = 0;
-
-            while (it.hasNext() && i < 10) {
-                Map.Entry pair = (Map.Entry) it.next();
-                out.println(pair.getKey() + ":" + pair.getValue());
-                i++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

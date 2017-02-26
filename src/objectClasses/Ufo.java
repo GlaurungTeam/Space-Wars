@@ -7,6 +7,19 @@ import java.util.Random;
 
 public class Ufo extends Sprite {
     public boolean isHit = false;
+    private Double speed;
+
+    public Double getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
+    public Ufo(Double speed){
+        this.speed = speed;
+    }
 
     public void updateUfoLocation(Canvas canvas) {
         double heightOffset = 37;
@@ -24,15 +37,5 @@ public class Ufo extends Sprite {
         }
     }
 
-    public static void initializeUfos(Ufo[] ufos, Canvas canvas, double ufoSpeed) {
-        for (int i = 0; i < ufos.length; i++) {
-            Ufo ufo = new Ufo();
-            String path = "resources/UFO/ufo_" + String.valueOf(SpawnCoordinates.getRandom(6)) + ".png";
-            Image image = new Image(path);
 
-            ufo.setImage(image);
-            ufo.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas), ufoSpeed);
-            ufos[i] = ufo;
-        }
-    }
 }

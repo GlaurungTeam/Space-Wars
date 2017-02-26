@@ -1,3 +1,4 @@
+/*
 package objectClasses;
 
 import javafx.scene.Scene;
@@ -9,7 +10,7 @@ public class KeyListener {
     public static boolean goDown;
     public static boolean held = false;
 
-    public static void initialize(Scene theScene, Player player) {
+    public static void initializePlayerControls(Scene theScene, Player player) {
 
         //Add event listener
         theScene.setOnKeyPressed(event -> {
@@ -27,7 +28,11 @@ public class KeyListener {
                     goRight = true;
                     break;
                 case SPACE:
-                    player.fire();
+                    //System.out.println(player.isFired());
+                    if(!player.isFired()){
+                        player.setFired(true);
+                        player.fire();
+                    }
                     break;
                 case SHIFT:
                     held = true;
@@ -53,4 +58,4 @@ public class KeyListener {
             }
         });
     }
-}
+}*/
