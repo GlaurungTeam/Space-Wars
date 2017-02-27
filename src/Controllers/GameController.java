@@ -182,20 +182,20 @@ public class GameController extends Application {
                 planetX -= backGroundSpeed - 0.5;
 
                 //Check fuel
-                /*if (bar.workDone.getValue() == 0.0) {
-                    player.setLives(player.getLives() - 1);
-                    player.resetPlayerPosition(canvas);
+                if (bar.getWorkDone().getValue() == 0.0) {
+                    level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
+                    level1.getPlayer().resetPlayerPosition(canvas);
                     countDown.playFromStart();
 
                     try {
-                        checkIfPlayerIsDead(player.getLives(), theScene);
+                        level1.checkIfPlayerIsDead(theScene, this);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     String livesC = toString().format("Lives: %d", player.getLives());
                     lives.setText(livesC);
-                }*/
+                }
 
                 if (backgroundX < -1280) {
                     backgroundX = 0;

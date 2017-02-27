@@ -2,6 +2,7 @@ package Entities;
 
 import Controllers.GameController;
 import Controllers.MenuController;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -161,13 +162,13 @@ public class Level {
         }
     }
 
-    private void checkIfPlayerIsDead(Scene theScene) throws Exception {
-        if (this.getPlayer().getLives() < 0) {
-            this.getGameController().stop();
+    public void checkIfPlayerIsDead(Scene theScene, AnimationTimer timer) throws Exception {
+        if (this.getPlayer().getLives() <= 0) {
+            timer.stop();
 
             try {
+                theScene.setRoot(FXMLLoader.load(getClass().getResource("../Views/sample.fxml")));
                 this.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
-                theScene.setRoot(FXMLLoader.load(getClass().getResource("Views.fxml")));
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);
