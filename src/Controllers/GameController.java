@@ -36,8 +36,6 @@ public class GameController extends Application {
     private int planetX = 500;
     private int planetY = 196;
 
-    private GameController gameController = this;
-
     private ArrayList<Explosion> explosions = new ArrayList<>();
 
     public void addExplosions(Explosion e) {
@@ -58,7 +56,7 @@ public class GameController extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Make new player object
-        Player player = new Player(gameController, 3.0, 3, theScene);
+        Player player = new Player(this, 3.0, 3, theScene);
 
         EnemyManager enemyManager = new EnemyManager();
         AsteroidManager asteroidManager = new AsteroidManager();
@@ -68,7 +66,8 @@ public class GameController extends Application {
         ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas);
 
         //Make Level object
-        Level level1 = new Level(root, player, gc, canvas, gameController, theScene, 0.0, ufos, asteroids);
+        Level level1 = new Level
+                (root, player, gc, canvas, this, theScene, 0.0, ufos, asteroids);
 
         player.getFirePermition();
         player.initializePlayerControls(theScene, level1);
@@ -77,14 +76,14 @@ public class GameController extends Application {
         root.getChildren().add(scoreLine);
         scoreLine.setFont(Font.font("Verdana", 20));
         scoreLine.setFill(Color.WHITE);
-        String score = toString().format("Score: %d", player.getPoints());
+        String score = String.format("Score: %d", player.getPoints());
         scoreLine.setText(score);
 
         Text lives = new Text(20, 50, "");
         root.getChildren().add(lives);
         lives.setFont(Font.font("Verdana", 20));
         lives.setFill(Color.WHITE);
-        String livesNumber = toString().format("Lives: %d", player.getLives());
+        String livesNumber = String.format("Lives: %d", player.getLives());
         lives.setText(livesNumber);
 
         Image earth = new Image("Resources/earth.png");
@@ -130,7 +129,9 @@ public class GameController extends Application {
         root.getChildren().addAll(player.r, player.rv, player.rv2);
 
         //Load sprites from file
-        BufferedImage playerSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/Resources/spaceship/spaceshipSprites4.png"));
+        BufferedImage playerSpriteSheet =
+                ImageIO.read(new File(MenuController.PROJECT_PATH +
+                        "/src/Resources/spaceship/spaceshipSprites4.png"));
         player.setSpriteParameters(82, 82, 2, 3);
         player.loadSpriteSheet(playerSpriteSheet);
         player.splitSprites();
@@ -143,18 +144,6 @@ public class GameController extends Application {
                 player.fired = false;
             }
         }, 0, 1000);*/
-
-        //Make new key listener which is going to monitor the keys pressed
-        //KeyListener.initializePlayerControls(theScene, player); Key Listener is in Player class
-
-        //Make an array holding all asteroids
-        //Asteroid[] asteroids = new Asteroid[20];
-
-        //Initialize all asteroids
-        //Asteroid.initializeAsteroids(asteroids, canvas);
-
-        /*Ufo[] ufos = new Ufo[2];
-        Ufo.initializeUfos(ufos, canvas, ufoSpeed);*/
 
         FuelCan fuelCan = new FuelCan(canvas, fuelSpeed);
 
@@ -193,7 +182,7 @@ public class GameController extends Application {
                         e.printStackTrace();
                     }
 
-                    String livesC = toString().format("Lives: %d", player.getLives());
+                    String livesC = String.format("Lives: %d", player.getLives());
                     lives.setText(livesC);
                 }
 
@@ -213,7 +202,9 @@ public class GameController extends Application {
                     fuelCan.render(gc);
                 }
 
-                if (!fuelCan.getTakenStatus() && player.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
+                if (!fuelCan.getTakenStatus() &&
+                        player.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
+
                     countDown.playFromStart();
                     fuelCan.setTakenStatus(true);
                 }
@@ -221,8 +212,9 @@ public class GameController extends Application {
 
                 level1.setCurrentFrame(t);
 
-                enemyManager.manageUfos(level1);
-                asteroidManager.manageAsteroids(level1);
+                //Here we are using our shiny new managers! :)
+                enemyManager.manageUfos(level1, this);
+                asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
 
                 level1.manageExplosions();

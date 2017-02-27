@@ -49,8 +49,6 @@ public class Level {
         this.setGameController(gameController);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
-
-        //this.initializeAsteroids();
         this.setUfos(ufos);
         this.setAsteroids(asteroids);
     }
