@@ -143,11 +143,17 @@ public class Level {
     }
 
     public void manageAsteroids() {
+<<<<<<< HEAD
         //Iterate through all asteroids
         for (Asteroid asteroidToRenderAndUpdate : this.getAsteroids()) {
 
             if (!asteroidToRenderAndUpdate.getHitStatus()) {
                 asteroidToRenderAndUpdate.render(this.getGc());
+=======
+        //goes in AsteroidManager
+        //TODO: Iterate through all asteroids AND remove the asteroid that was hit and/or remove the missle that was hit + add explosion to list
+        for (Asteroid asteroidToRenderAndUpdate : this.Asteroids) {
+>>>>>>> 5f810050fb3099e74986e24d1517bf5c85996247
 
                 if (player.checkCollision(asteroidToRenderAndUpdate.getPositionX(),
                         asteroidToRenderAndUpdate.getPositionY(), 32)) {
@@ -196,7 +202,13 @@ public class Level {
         }
     }
 
+<<<<<<< HEAD
     public void manageUfos() {
+=======
+    public void manageUfos(){
+        //goes in EnemyManager
+        //TODO: Iterate through all UFOs AND remove the UFO that was hit and/or remove the missle that was hit + add explosion to list
+>>>>>>> 5f810050fb3099e74986e24d1517bf5c85996247
         for (Ufo ufo : this.getUfos()) {
             if (!ufo.getHitStatus()) {
                 ufo.render(gc);
@@ -237,8 +249,14 @@ public class Level {
         }
     }
 
+<<<<<<< HEAD
     public void manageMissiles() {
         if (this.getMissiles().size() != 0) {
+=======
+    public void manageMissiles(){
+        //TODO:Remove method so that the missile is removed in the manageUfos() and manageAsteroids() methods
+        if (this.missiles.size() != 0) {
+>>>>>>> 5f810050fb3099e74986e24d1517bf5c85996247
             for (int i = 0; i < missiles.size(); i++) {
                 Missile currentMissile = this.getMissiles().get(i);
 
@@ -309,7 +327,12 @@ public class Level {
         }
     }
 
+<<<<<<< HEAD
     public void manageExplosions() {
+=======
+    public void manageExplosions(){
+        //goes in EffectsManager
+>>>>>>> 5f810050fb3099e74986e24d1517bf5c85996247
         //Iterate through all explosions
         if (this.getExplosions().size() != 0) {
             for (int i = 0; i < this.getExplosions().size(); i++) {
