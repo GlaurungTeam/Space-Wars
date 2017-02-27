@@ -1,4 +1,4 @@
-package sample;
+package controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ public class Main extends Application {
         AudioClip soundtrack = new AudioClip(Paths.get("src/resources/sound/soundtrack.mp3").toUri().toString());
         soundtrack.play(0.1);
 
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../misc/sample.fxml"));
 
         theStage.setTitle("Launcher");
         theStage.setScene(new Scene(root, 1280, 720));

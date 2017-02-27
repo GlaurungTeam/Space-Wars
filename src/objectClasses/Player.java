@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import sample.Controller;
+import controllers.MenuController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,14 +15,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.scene.media.AudioClip;
-import sample.GameController;
+import controllers.GameController;
 
 public class Player extends Sprite {
     private GameController gameController;
-    private Double speed;
     private Integer lives;
     private long points;
-    private Scene theScene;
+    private Scene scene;
     private boolean fired;
     private Timer timer;
 
@@ -31,7 +30,6 @@ public class Player extends Sprite {
     private boolean goUp;
     private boolean goDown;
     private boolean held = false;
-
 
     public Rectangle r = new Rectangle();
     public Rectangle rv = new Rectangle();
@@ -45,23 +43,23 @@ public class Player extends Sprite {
         this.points = points;
     }
 
-    public Scene getTheScene() {
-        return theScene;
+    public Scene getScene() {
+        return scene;
     }
 
-    public void setTheScene(Scene theScene) {
-        this.theScene = theScene;
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
-    public Player(GameController gameController, Double speed, Integer lives, Scene theScene) throws IOException {
+    public Player(GameController gameController, Double speed, Integer lives, Scene scene) throws IOException {
         this.gameController = gameController;
-        this.speed = speed;
+        this.setSpeed(speed);
         this.fired = false;
         this.lives = lives;
         this.points = 0L;
-        this.theScene = theScene;
+        this.scene = scene;
         this.timer = new Timer();
-
+        this.initializeHitboxes();
     }
 
     public boolean isFired() {
@@ -80,14 +78,6 @@ public class Player extends Sprite {
         this.lives = lives;
     }
 
-    public Double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(Double speed) {
-        this.speed = speed;
-    }
-
     public void updatePlayerLocation(Canvas canvas) {
         //Offset Formula
         double heightOffset = canvas.getHeight() - 72;
@@ -96,35 +86,35 @@ public class Player extends Sprite {
         double speedMultiplier = 1;
 
         //Speed up if held var is true(see GameController key events)
-        //if (KeyListener.held) {//TODO
-            //speedMultiplier = 1.5;
-        //}
+        if (this.held) {
+            speedMultiplier = 1.5;
+        }
 
         if (goUp) {
-            this.positionY = Math.max(0, this.positionY - this.speed * speedMultiplier);
+            this.setPositionY(Math.max(0, this.getPositionY() - this.getSpeed() * speedMultiplier));
         }
         if (goDown) {
-            this.positionY = Math.min(heightOffset, this.positionY + this.speed * speedMultiplier);
+            this.setPositionY(Math.min(heightOffset, this.getPositionY() + this.getSpeed() * speedMultiplier));
         }
         if (goLeft) {
-            this.positionX = Math.max(0, this.positionX - this.speed * speedMultiplier);
+            this.setPositionX(Math.max(0, this.getPositionX() - this.getSpeed() * speedMultiplier));
         }
         if (goRight) {
-            this.positionX = Math.min(widthOffset, this.positionX + this.speed * speedMultiplier);
+            this.setPositionX(Math.min(widthOffset, this.getPositionX() + this.getSpeed() * speedMultiplier));
         }
 
         //Updates the hitbox with every player update
-        this.r.setY(this.positionY + 38);
-        this.r.setX(this.positionX + 13);
+        this.r.setY(this.getPositionY() + 38);
+        this.r.setX(this.getPositionX() + 13);
 
-        this.rv.setY(this.positionY + 11);
-        this.rv.setX(this.positionX + 20);
+        this.rv.setY(this.getPositionY() + 11);
+        this.rv.setX(this.getPositionX() + 20);
 
-        this.rv2.setY(this.positionY + 27);
-        this.rv2.setX(this.positionX + 38);
+        this.rv2.setY(this.getPositionY() + 27);
+        this.rv2.setX(this.getPositionX() + 38);
     }
 
-    public void getFirePermition(){
+    public void getFirePermition() {
         Player that = this;
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -134,7 +124,6 @@ public class Player extends Sprite {
         }, 0, 1000);
     }
 
-
     public Missile fire() {
         if (fired) {
             return null;
@@ -143,14 +132,15 @@ public class Player extends Sprite {
         shoot.play(0.7);
 
         //Make missile
-        Missile missile = new Missile();
-        missile.setPosition(this.positionX + this.width / 1.2, this.positionY + this.height / 2, 2);
+        Missile missile = new Missile(this.getPositionX() + this.getWidth() / 1.2,
+                this.getPositionY() + this.getHeight() / 2,
+                2);
 
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;
 
         try {
-            missileSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "/src/resources/missiles/largeMissiles.png"));
+            missileSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/resources/missiles/largeMissiles.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,7 +148,10 @@ public class Player extends Sprite {
         missile.setSpriteParameters(31, 7, 1, 23);
         missile.loadSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
-        //gameController.setMissiles(missile);//TODO update current level missiles
+
+        //gameController.setMissiles(missile);
+        //TODO update current level missiles
+
         this.setFired(true);
         return missile;
     }
@@ -181,7 +174,7 @@ public class Player extends Sprite {
                     break;
                 case SPACE:
                     //System.out.println(player.isFired());
-                    if(!this.isFired()){
+                    if (!this.isFired()) {
                         level.getMissiles().add(this.fire());
                         this.setFired(true);
                     }
@@ -250,8 +243,7 @@ public class Player extends Sprite {
     }
 
     public void resetPlayerPosition(Canvas canvas) {
-        this.positionX = 50;
-        this.positionY = canvas.getHeight() / 2;
+        this.setPositionX(50);
+        this.setPositionY(canvas.getHeight() / 2);
     }
-
 }

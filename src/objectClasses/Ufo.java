@@ -6,19 +6,18 @@ import javafx.scene.image.Image;
 import java.util.Random;
 
 public class Ufo extends Sprite {
-    public boolean isHit = false;
-    private Double speed;
+    private boolean isHit = false;
 
-    public Double getSpeed() {
-        return this.speed;
+    public Ufo(Double speed) {
+        this.setSpeed(speed);
     }
 
-    public void setSpeed(Double speed) {
-        this.speed = speed;
+    public boolean getHitStatus() {
+        return this.isHit;
     }
 
-    public Ufo(Double speed){
-        this.speed = speed;
+    public void setHitStatus(boolean isHit) {
+        this.isHit = isHit;
     }
 
     public void updateUfoLocation(Canvas canvas) {
@@ -28,14 +27,12 @@ public class Ufo extends Sprite {
 
         Random rnd = new Random();
 
-        this.positionX -= this.speed;
+        this.setPositionX(this.getPositionX() - this.getSpeed());
 
-        if (this.positionX < -20) {
-            this.positionX = canvas.getWidth();
-            this.positionY = rnd.nextInt((int) offset);
-            this.isHit = false;
+        if (this.getPositionX() < -20) {
+            this.setPositionX(canvas.getWidth());
+            this.setPositionY(rnd.nextInt((int) offset));
+            this.setHitStatus(false);
         }
     }
-
-
 }

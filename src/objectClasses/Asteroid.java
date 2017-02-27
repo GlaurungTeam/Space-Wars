@@ -6,19 +6,19 @@ import javafx.scene.image.Image;
 import java.util.Random;
 
 public class Asteroid extends Sprite {
-    public boolean isHit = false;
-    private double speed;
+    private boolean isHit;
 
-    public Asteroid(double speed){
-        this.speed = speed;
+    public Asteroid(double speed) {
+        this.setSpeed(speed);
+        this.setHitStatus(false);
     }
 
-    public double getSpeed() {
-        return speed;
+    public boolean getHitStatus() {
+        return this.isHit;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
+    public boolean setHitStatus(boolean isHit) {
+        return this.isHit = isHit;
     }
 
     public void updateAsteroidLocation(Canvas canvas) {
@@ -30,12 +30,12 @@ public class Asteroid extends Sprite {
 
         Random rnd = new Random();
 
-        this.positionX -= this.speed;
+        this.setPositionX(this.getPositionX() - this.getSpeed());
 
-        if (this.positionX < -20) {
-            this.positionX = canvas.getWidth();
-            this.positionY = rnd.nextInt((int) offset);
-            this.isHit = false;
+        if (this.getPositionX() < -20) {
+            this.setPositionX(canvas.getWidth());
+            this.setPositionY(rnd.nextInt((int) offset));
+            this.setHitStatus(false);
         }
     }
 

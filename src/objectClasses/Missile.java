@@ -2,11 +2,12 @@ package objectClasses;
 
 public class Missile extends Sprite {
 
-    public Missile() {
+    public Missile(double x, double y, double speed) {
+        this.setPosition(x, y, speed);
     }
 
     public void updateMissileLocation() {
         int speedMultiplier = 2;
-        this.positionX = Math.max(0, this.positionX + this.speed * speedMultiplier);
+        this.setPositionX(Math.max(0, this.getPositionX() + this.getSpeed() * speedMultiplier));
     }
 }

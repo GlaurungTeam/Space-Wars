@@ -1,4 +1,4 @@
-package sample;
+package controllers;
 
 import javafx.animation.*;
 import javafx.application.Application;
@@ -36,7 +36,7 @@ public class GameController extends Application {
     private ArrayList<Explosion> explosions = new ArrayList<>();
     private ArrayList<Missile> missiles = new ArrayList<>();
 
-    public void setExplosions(Explosion e) {
+    public void addExplosions(Explosion e) {
         this.explosions.add(e);
     }
 
@@ -47,8 +47,6 @@ public class GameController extends Application {
     @Override
     public void start(Stage theStage) throws Exception {
         theStage.setTitle("Space Wars");
-
-
 
         Group root = new Group();
         Scene theScene = new Scene(root);
@@ -61,13 +59,11 @@ public class GameController extends Application {
 
         //Make new player object
         Player player = new Player(gameController, 3.0, 3, theScene);
-        player.initializeHitboxes();
+
         //Make Level object
-        Level level1 = new Level(root,player,gc,canvas,gameController,theScene,0.0);
-        level1.initializeAsteroids();
-        level1.initializeUfos();
+        Level level1 = new Level(root, player, gc, canvas, gameController, theScene, 0.0);
         player.getFirePermition();
-        player.initializePlayerControls(theScene,level1);
+        player.initializePlayerControls(theScene, level1);
 
         Text scoreLine = new Text(20, 30, "");
         root.getChildren().add(scoreLine);
@@ -122,12 +118,11 @@ public class GameController extends Application {
         double fuelSpeed = 1;
 
 
-
         //Add hitboxes to canvas
         root.getChildren().addAll(player.r, player.rv, player.rv2);
 
         //Load sprites from file
-        BufferedImage playerSpriteSheet = ImageIO.read(new File(Controller.PROJECT_PATH + "/src/resources/spaceship/spaceshipSprites4.png"));
+        BufferedImage playerSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/resources/spaceship/spaceshipSprites4.png"));
         player.setSpriteParameters(82, 82, 2, 3);
         player.loadSpriteSheet(playerSpriteSheet);
         player.splitSprites();
@@ -153,9 +148,7 @@ public class GameController extends Application {
         /*Ufo[] ufos = new Ufo[2];
         Ufo.initializeUfos(ufos, canvas, ufoSpeed);*/
 
-        FuelCan fuelCan = new FuelCan();
-        fuelCan.initializeFuelCan(canvas);
-        fuelCan.speed = fuelSpeed;
+        FuelCan fuelCan = new FuelCan(canvas, fuelSpeed);
 
         final long startNanoTime = System.nanoTime();
 
@@ -208,13 +201,13 @@ public class GameController extends Application {
                 gc.drawImage(earth, earthX, earthY);
                 gc.drawImage(sun, planetX, planetY);
 
-                if (!fuelCan.isTaken) {
+                if (!fuelCan.getTakenStatus()) {
                     fuelCan.render(gc);
                 }
 
-                if (!fuelCan.isTaken && player.checkCollision(fuelCan.positionX, fuelCan.positionY, 45)) {
+                if (!fuelCan.getTakenStatus() && player.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
                     countDown.playFromStart();
-                    fuelCan.isTaken = true;
+                    fuelCan.setTakenStatus(true);
                 }
                 fuelCan.updateFuelCanLocation(canvas);
 
@@ -222,9 +215,8 @@ public class GameController extends Application {
                 level1.manageAsteroids();
                 level1.manageUfos();
                 level1.manageExplosions();
-                //System.out.println(level1.getExplosions());
                 level1.manageMissiles();
-                player.setImage(player.getFrame(player.sprites, t, 0.100));
+                player.setImage(player.getFrame(player.getSprites(), t, 0.100));
                 player.render(gc);
                 player.updatePlayerLocation(canvas);
             }

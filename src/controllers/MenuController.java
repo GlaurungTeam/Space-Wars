@@ -1,4 +1,4 @@
-package sample;
+package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Controller {
+public class MenuController {
     //Project Path
     public static String PROJECT_PATH = System.getProperty("user.dir");
     public Button startButton;
@@ -36,9 +36,9 @@ public class Controller {
 
     public void start(ActionEvent actionEvent) throws Exception {
         Image space = new Image("resources/space.png");
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../misc/login.fxml"));
 
-        Stage loginStage = (Stage) spaceWars.getScene().getWindow();
+        Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
         loginStage.setTitle("User Login");
         loginStage.setScene(new Scene(root, 1280, 720));
@@ -48,14 +48,14 @@ public class Controller {
     public void openHighScores(ActionEvent actionEvent) throws IOException, InterruptedException {
         Stage primaryStage = (Stage) spaceWars.getScene().getWindow();
 
-        Pane root = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("../misc/leaderboard.fxml"));
         Scene scene = new Scene(root, 1280, 720);
 
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        Path path = Paths.get("src\\sample\\leaderBoard.txt");
+        Path path = Paths.get("src\\misc\\leaderBoard.txt");
         Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
 
         try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
@@ -96,7 +96,7 @@ public class Controller {
     }
 
     public void goBack(ActionEvent actionEvent) throws Exception {
-        Pane root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("../misc/sample.fxml"));
 
         Stage leaderBoardStage = (Stage) spaceWars.getScene().getWindow();
 
@@ -108,7 +108,7 @@ public class Controller {
     public void startGame(ActionEvent actionEvent) throws Exception {
         userName = usernameField.getText();
 
-        if (userName.trim().length() != 0 && userName.trim().length() <=10) {
+        if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
             Stage stage = new Stage();
             ((Stage) this.startGameButton.getScene().getWindow()).close();
             GameController gameController = new GameController();
