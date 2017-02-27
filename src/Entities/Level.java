@@ -1,14 +1,14 @@
 package Entities;
 
+import Controllers.GameController;
+import Controllers.MenuController;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-import Controllers.MenuController;
-import Controllers.GameController;
 
 import java.io.*;
 import java.nio.file.LinkOption;
@@ -37,11 +37,10 @@ public class Level {
                  GameController gameController,
                  Scene scene,
                  Double currentFrame,
-                 ArrayList ufos) {
+                 ArrayList ufos,
+                 ArrayList asteroids) {
         this.explosions = new ArrayList<>();
         this.missiles = new ArrayList<>();
-        this.ufos = new ArrayList<>();
-        this.asteroids = new ArrayList<>();
 
         this.setGroup(group);
         this.setPlayer(player);
@@ -50,9 +49,8 @@ public class Level {
         this.setGameController(gameController);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
-
-        //this.initializeAsteroids();
         this.setUfos(ufos);
+        this.setAsteroids(asteroids);
     }
 
     public Canvas getCanvas() {
@@ -162,13 +160,13 @@ public class Level {
         }
     }
 
-    private void checkIfPlayerIsDead(Scene theScene) throws Exception {
-        if (this.getPlayer().getLives() < 0) {
-            this.getGameController().stop();
+    public void checkIfPlayerIsDead(Scene theScene, AnimationTimer timer) throws Exception {
+        if (this.getPlayer().getLives() <= 0) {
+            timer.stop();
 
             try {
+                theScene.setRoot(FXMLLoader.load(getClass().getResource("../Views/sample.fxml")));
                 this.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
-                theScene.setRoot(FXMLLoader.load(getClass().getResource("Views.fxml")));
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);

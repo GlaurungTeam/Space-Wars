@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 
 public class MissileManager {
     public void manageMissiles(Level level) {
+        //TODO Remove method so that the missile is removed in the manageUfos() and manageAsteroids() methods
 
-        //TODO:Remove method so that the missile is removed in the manageUfos() and manageAsteroids() methods
         if (level.getMissiles().size() != 0) {
             for (int i = 0; i < level.getMissiles().size(); i++) {
                 Missile currentMissile = level.getMissiles().get(i);
@@ -45,8 +45,8 @@ public class MissileManager {
                         //TODO Move that one to the killing aliens method to display score
 
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
-                        String score = toString().format("Score: %d", level.getPlayer().getPoints());
 
+                        //String score = String.format("Score: %d", level.getPlayer().getPoints());
                         //scoreLine.setText(score)
                         //TODO create class to work with all text fields in the game scene
                         //TODO Implement score tracker
@@ -66,12 +66,13 @@ public class MissileManager {
                         explode.play(0.2);
 
                         Explosion explosion = new Explosion(level.getGameController(), currentMissile);
-                        explosion.explode();
+
                         level.getMissiles().remove(currentMissile);
+                        level.getExplosions().add(explosion);
 
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 3);
-                        String score = toString().format("Score: %d", level.getPlayer().getPoints());
 
+                        //String score = String.format("Score: %d", level.getPlayer().getPoints());
                         //scoreLine.setText(score);
                         //TODO create class to work with all text fields in the game scene
                     }
