@@ -1,14 +1,13 @@
 package Entities;
 
+import Controllers.GameController;
+import Controllers.MenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-import Controllers.MenuController;
-import Controllers.GameController;
 
 import java.io.*;
 import java.nio.file.LinkOption;
@@ -37,11 +36,10 @@ public class Level {
                  GameController gameController,
                  Scene scene,
                  Double currentFrame,
-                 ArrayList ufos) {
+                 ArrayList ufos,
+                 ArrayList asteroids) {
         this.explosions = new ArrayList<>();
         this.missiles = new ArrayList<>();
-        this.ufos = new ArrayList<>();
-        this.asteroids = new ArrayList<>();
 
         this.setGroup(group);
         this.setPlayer(player);
@@ -53,6 +51,7 @@ public class Level {
 
         //this.initializeAsteroids();
         this.setUfos(ufos);
+        this.setAsteroids(asteroids);
     }
 
     public Canvas getCanvas() {

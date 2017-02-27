@@ -1,8 +1,13 @@
 package Controllers;
 
+import Entities.*;
+import Managers.AsteroidManager;
 import Managers.EnemyManager;
 import Managers.MissileManager;
-import javafx.animation.*;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.fxml.FXML;
@@ -17,13 +22,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import Entities.*;
 
 import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
 
 public class GameController extends Application {
     @FXML
@@ -58,12 +61,14 @@ public class GameController extends Application {
         Player player = new Player(gameController, 3.0, 3, theScene);
 
         EnemyManager enemyManager = new EnemyManager();
+        AsteroidManager asteroidManager = new AsteroidManager();
         MissileManager missileManager = new MissileManager();
 
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
+        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas);
 
         //Make Level object
-        Level level1 = new Level(root, player, gc, canvas, gameController, theScene, 0.0, ufos);
+        Level level1 = new Level(root, player, gc, canvas, gameController, theScene, 0.0, ufos, asteroids);
 
         player.getFirePermition();
         player.initializePlayerControls(theScene, level1);
@@ -217,6 +222,7 @@ public class GameController extends Application {
                 level1.setCurrentFrame(t);
 
                 enemyManager.manageUfos(level1);
+                asteroidManager.manageAsteroids(level1);
                 missileManager.manageMissiles(level1);
 
                 level1.manageExplosions();
