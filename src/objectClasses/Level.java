@@ -109,7 +109,8 @@ public class Level {
     }
 
     public void manageAsteroids() {
-        //Iterate through all asteroids
+        //goes in AsteroidManager
+        //TODO: Iterate through all asteroids AND remove the asteroid that was hit and/or remove the missle that was hit + add explosion to list
         for (Asteroid asteroidToRenderAndUpdate : this.Asteroids) {
 
             if (!asteroidToRenderAndUpdate.isHit) {
@@ -157,6 +158,8 @@ public class Level {
     }
 
     public void manageUfos(){
+        //goes in EnemyManager
+        //TODO: Iterate through all UFOs AND remove the UFO that was hit and/or remove the missle that was hit + add explosion to list
         for (Ufo ufo : this.getUfos()) {
             if (!ufo.isHit) {
                 ufo.render(gc);
@@ -195,6 +198,7 @@ public class Level {
     }
 
     public void manageMissiles(){
+        //TODO:Remove method so that the missile is removed in the manageUfos() and manageAsteroids() methods
         if (this.missiles.size() != 0) {
             for (int i = 0; i < missiles.size(); i++) {
                 Missile m = this.getMissiles().get(i);
@@ -257,6 +261,7 @@ public class Level {
     }
 
     public void manageExplosions(){
+        //goes in EffectsManager
         //Iterate through all explosions
         if (this.getExplosions().size() != 0) {
             for (int i = 0; i < this.getExplosions().size(); i++) {
