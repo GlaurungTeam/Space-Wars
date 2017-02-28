@@ -4,6 +4,7 @@ import Entities.*;
 import Managers.AsteroidManager;
 import Managers.EnemyManager;
 import Managers.MissileManager;
+import Managers.PlayerManager;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -56,12 +57,13 @@ public class GameController extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Make new player object
-        Player player = new Player(this, 3.0, 3, theScene);
-
-        EnemyManager enemyManager = new EnemyManager();
-        AsteroidManager asteroidManager = new AsteroidManager();
+        Player player = new Player(3.0, 3, theScene);
+        PlayerManager playerManager = new PlayerManager(player);
+        EnemyManager enemyManager = new EnemyManager(playerManager);
+        AsteroidManager asteroidManager = new AsteroidManager(playerManager);
         MissileManager missileManager = new MissileManager();
 
+        //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
         ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas);
 
@@ -69,8 +71,14 @@ public class GameController extends Application {
         Level level1 = new Level
                 (root, player, gc, canvas, this, theScene, 0.0, ufos, asteroids);
 
-        player.getFirePermition();
-        player.initializePlayerControls(theScene, level1);
+        //The shiny PlayerManager class :D
+        playerManager.getFirePermition();
+        playerManager.initializePlayerControls(theScene, level1);
+
+        //Add hitboxes to canvas//
+        root.getChildren().addAll(player.getR(), player.getRv(), player.getRv2());
+
+
 
         Text scoreLine = new Text(20, 30, "");
         root.getChildren().add(scoreLine);
@@ -124,10 +132,6 @@ public class GameController extends Application {
         double backGroundSpeed = 1.5;
         double fuelSpeed = 1;
 
-
-        //Add hitboxes to canvas
-        root.getChildren().addAll(player.r, player.rv, player.rv2);
-
         //Load sprites from file
         BufferedImage playerSpriteSheet =
                 ImageIO.read(new File(MenuController.PROJECT_PATH +
@@ -173,7 +177,7 @@ public class GameController extends Application {
                 //Check fuel
                 if (bar.getWorkDone().getValue() == 0.0) {
                     level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
-                    level1.getPlayer().resetPlayerPosition(canvas);
+                    playerManager.resetPlayerPosition(canvas);
                     countDown.playFromStart();
 
                     try {
@@ -203,7 +207,7 @@ public class GameController extends Application {
                 }
 
                 if (!fuelCan.getTakenStatus() &&
-                        player.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
+                        playerManager.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
 
                     countDown.playFromStart();
                     fuelCan.setTakenStatus(true);
@@ -216,11 +220,12 @@ public class GameController extends Application {
                 enemyManager.manageUfos(level1, this);
                 asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
+                playerManager.updatePlayerLocation(canvas);
 
                 level1.manageExplosions();
                 player.setImage(player.getFrame(player.getSprites(), t, 0.100));
                 player.render(gc);
-                player.updatePlayerLocation(canvas);
+
             }
         };
         timer.start();

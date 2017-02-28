@@ -17,6 +17,15 @@ public class AsteroidManager {
     //Initializing Asteroids
     //Checking Asteroid Collisions with player or missile and add explosion to List<Explosion>
     //Must implement all methods from Asteroid class
+    private PlayerManager playerManager;
+
+    public AsteroidManager(PlayerManager playerManager){
+        this.setPlayerManager(playerManager);
+    }
+
+    public void setPlayerManager(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
 
     public ArrayList<Asteroid> initializeAsteroids(Canvas canvas) {
         ArrayList<Asteroid> asteroids = new ArrayList<>();
@@ -71,11 +80,11 @@ public class AsteroidManager {
     }
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer) {
-        if (level.getPlayer().checkCollision(asteroid.getPositionX(),
+        if (this.playerManager.checkCollision(asteroid.getPositionX(),
                 asteroid.getPositionY(), 32)) {
 
             asteroid.setPositionX(-1300);
-            level.getPlayer().resetPlayerPosition(level.getCanvas());
+            this.playerManager.resetPlayerPosition(level.getCanvas());
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
