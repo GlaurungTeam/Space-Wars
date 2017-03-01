@@ -1,6 +1,6 @@
-package Managers;
+package managers;
 
-import Entities.*;
+import entities.*;
 import javafx.scene.media.AudioClip;
 
 import java.nio.file.Paths;
@@ -33,7 +33,7 @@ public class MissileManager {
                         asteroidToCheck.setHitStatus(true);
 
                         AudioClip explode = new AudioClip
-                                (Paths.get("src/Resources/sound/explosion2.mp3").toUri().toString());
+                                (Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
                         explode.play(0.6);
 
                         //Remove missile from missiles array and explode
@@ -62,7 +62,7 @@ public class MissileManager {
                         ufoToCheck.setHitStatus(true);
 
                         AudioClip explode = new AudioClip
-                                (Paths.get("src/Resources/sound/explossion.mp3").toUri().toString());
+                                (Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
                         explode.play(0.2);
 
                         Explosion explosion = new Explosion(level.getGameController(), currentMissile);
@@ -71,10 +71,6 @@ public class MissileManager {
                         level.getExplosions().add(explosion);
 
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 3);
-
-                        //String score = String.format("Score: %d", level.getPlayer().getPoints());
-                        //scoreLine.setText(score);
-                        //TODO create class to work with all text fields in the game scene
                     }
                 }
             }

@@ -1,10 +1,7 @@
-package Controllers;
+package controllers;
 
-import Entities.*;
-import Managers.AsteroidManager;
-import Managers.EnemyManager;
-import Managers.MissileManager;
-import Managers.PlayerManager;
+import entities.*;
+import managers.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,15 +15,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 public class GameController extends Application {
@@ -57,11 +48,14 @@ public class GameController extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Make new player object
-        Player player = new Player(3.0, 3, theScene);
+        Player player = new Player(3.0, 3, theScene, canvas);
+
+        //Initialize managers
         PlayerManager playerManager = new PlayerManager(player);
         EnemyManager enemyManager = new EnemyManager(playerManager);
         AsteroidManager asteroidManager = new AsteroidManager(playerManager);
         MissileManager missileManager = new MissileManager();
+        TextManager textManager = new TextManager(root);
 
         //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
@@ -72,31 +66,14 @@ public class GameController extends Application {
                 (root, player, gc, canvas, this, theScene, 0.0, ufos, asteroids);
 
         //The shiny PlayerManager class :D
-        playerManager.getFirePermition();
         playerManager.initializePlayerControls(theScene, level1);
 
-        //Add hitboxes to canvas//
+        //Add hitboxes to canvas
         root.getChildren().addAll(player.getR(), player.getRv(), player.getRv2());
 
-
-
-        Text scoreLine = new Text(20, 30, "");
-        root.getChildren().add(scoreLine);
-        scoreLine.setFont(Font.font("Verdana", 20));
-        scoreLine.setFill(Color.WHITE);
-        String score = String.format("Score: %d", player.getPoints());
-        scoreLine.setText(score);
-
-        Text lives = new Text(20, 50, "");
-        root.getChildren().add(lives);
-        lives.setFont(Font.font("Verdana", 20));
-        lives.setFill(Color.WHITE);
-        String livesNumber = String.format("Lives: %d", player.getLives());
-        lives.setText(livesNumber);
-
-        Image earth = new Image("Resources/earth.png");
-        Image sun = new Image("Resources/sun.png");
-        Image space = new Image("Resources/space.png");
+        Image earth = new Image("resources/earth.png");
+        Image sun = new Image("resources/sun.png");
+        Image space = new Image("resources/space.png");
 
         //FuelBar
         int totalFuel = 50;
@@ -122,24 +99,9 @@ public class GameController extends Application {
         layout.getChildren().addAll(bar);
         root.getChildren().add(layout);
 
-        //FuelBar Text
-        Text fuelBarText = new Text(20, 80, "Fuel: ");
-        root.getChildren().add(fuelBarText);
-        fuelBarText.setFont(Font.font("Verdana", 20));
-        fuelBarText.setFill(Color.WHITE);
-
         //Adjustable speeds
         double backGroundSpeed = 1.5;
         double fuelSpeed = 1;
-
-        //Load sprites from file
-        BufferedImage playerSpriteSheet =
-                ImageIO.read(new File(MenuController.PROJECT_PATH +
-                        "/src/Resources/spaceship/spaceshipSprites4.png"));
-        player.setSpriteParameters(82, 82, 2, 3);
-        player.loadSpriteSheet(playerSpriteSheet);
-        player.splitSprites();
-        player.setPosition(100, canvas.getHeight() / 2, player.getSpeed());
 
         //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
         /*timer.scheduleAtFixedRate(new TimerTask() {
@@ -159,7 +121,6 @@ public class GameController extends Application {
             public void handle(long currentNanoTime) {
                 //The 4 rows below are used to help make the earth move around the sun
                 //No need to understand it
-
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 double earthX = planetX + 36 + 128 * Math.cos(t);
                 double earthY = 232 + 128 * Math.sin(t);
@@ -185,9 +146,6 @@ public class GameController extends Application {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    String livesC = String.format("Lives: %d", player.getLives());
-                    lives.setText(livesC);
                 }
 
                 if (backgroundX < -1280) {
@@ -221,6 +179,7 @@ public class GameController extends Application {
                 asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
                 playerManager.updatePlayerLocation(canvas);
+                textManager.updateText(level1.getPlayer());
 
                 level1.manageExplosions();
                 player.setImage(player.getFrame(player.getSprites(), t, 0.100));

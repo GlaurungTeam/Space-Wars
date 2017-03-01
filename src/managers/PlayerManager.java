@@ -1,9 +1,9 @@
-package Managers;
+package managers;
 
-import Controllers.MenuController;
-import Entities.Level;
-import Entities.Missile;
-import Entities.Player;
+import controllers.MenuController;
+import entities.Level;
+import entities.Missile;
+import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.media.AudioClip;
@@ -24,16 +24,17 @@ public class PlayerManager {
     //Must implement all methods from Player class
     private Player player;
 
-    public PlayerManager(Player player){
+    public PlayerManager(Player player) {
         this.setPlayer(player);
         this.initializeHitboxes();
+        this.getFirePermition();
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return this.player;
     }
 
-    private void setPlayer(Player player){
+    private void setPlayer(Player player) {
         this.player = player;
     }
 
@@ -87,7 +88,7 @@ public class PlayerManager {
         if (this.player.isFired()) {
             return null;
         }
-        AudioClip shoot = new AudioClip(Paths.get("src/Resources/sound/lasergun.mp3").toUri().toString());
+        AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
         shoot.play(0.7);
 
         //Make missile
@@ -99,7 +100,7 @@ public class PlayerManager {
         BufferedImage missileSpriteSheet = null;
 
         try {
-            missileSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/Resources/missiles/largeMissiles.png"));
+            missileSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/resources/missiles/largeMissiles.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -174,10 +175,10 @@ public class PlayerManager {
         this.player.getRv().setStroke(Color.TRANSPARENT);
         this.player.getRv().setFill(Color.TRANSPARENT);
 
-        this.player.getRv().setWidth(3);
-        this.player.getRv().setHeight(28);
-        this.player.getRv().setStroke(Color.TRANSPARENT);
-        this.player.getRv().setFill(Color.TRANSPARENT);
+        this.player.getRv2().setWidth(3);
+        this.player.getRv2().setHeight(28);
+        this.player.getRv2().setStroke(Color.TRANSPARENT);
+        this.player.getRv2().setFill(Color.TRANSPARENT);
     }
 
     //Method that checks if the player collides with a given object
@@ -192,7 +193,7 @@ public class PlayerManager {
         int mainY2 = (int) this.player.getRv2().getY();
 
         if ((hitX <= mainX + (int) this.player.getR().getWidth() && hitX + offset >= mainX && hitY <= mainY + (int) this.player.getR().getHeight() && hitY + offset >= mainY) ||
-                (hitX <= mainX1 + (int) this.player.getRv().getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int)this.player.getRv().getHeight() && hitY + offset >= mainY1) ||
+                (hitX <= mainX1 + (int) this.player.getRv().getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int) this.player.getRv().getHeight() && hitY + offset >= mainY1) ||
                 (hitX <= mainX2 + (int) this.player.getRv2().getWidth() && hitX + offset >= mainX2 && hitY <= mainY2 + (int) this.player.getRv2().getHeight() && hitY + offset >= mainY2)
                 ) {
             return true;

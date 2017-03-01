@@ -1,12 +1,12 @@
-package Managers;
+package managers;
 
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import Entities.Asteroid;
-import Entities.Level;
-import Entities.SpawnCoordinates;
+import entities.Asteroid;
+import entities.Level;
+import entities.SpawnCoordinates;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +19,7 @@ public class AsteroidManager {
     //Must implement all methods from Asteroid class
     private PlayerManager playerManager;
 
-    public AsteroidManager(PlayerManager playerManager){
+    public AsteroidManager(PlayerManager playerManager) {
         this.setPlayerManager(playerManager);
     }
 
@@ -67,7 +67,6 @@ public class AsteroidManager {
 
         //Add explosion to list
         //Iterate through all asteroids
-
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (!asteroidToRenderAndUpdate.getHitStatus()) {
                 asteroidToRenderAndUpdate.render(level.getGc());
@@ -93,9 +92,6 @@ public class AsteroidManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //String livesC = String.format("Lives: %d", level.getPlayer().getLives());
-            //lives.setText(livesC);
 
             //TODO create class to work with all text fields in the game scene
             //TODO Change color of ship when hit, or some kind of visual effect

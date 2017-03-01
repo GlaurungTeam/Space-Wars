@@ -1,7 +1,13 @@
-package Entities;
+package entities;
 
+import controllers.MenuController;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.Rectangle;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 
@@ -25,17 +31,27 @@ public class Player extends Sprite {
     private Rectangle rv;
     private Rectangle rv2;
 
-    public Player(Double speed, Integer lives, Scene scene) throws IOException {
-        this.fired = DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY;
-        this.held = DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY;
-        this.points = START_POINTS;
-        this.setSpeed(speed);
+    public Player(Double speed, Integer lives, Scene scene, Canvas canvas) throws IOException {
+        this.setFired(DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.setHeld(DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.setPoints(START_POINTS);
+        super.setSpeed(speed);
         this.setLives(lives);
         this.setScene(scene);
         this.timer = new Timer();
         this.r = new Rectangle();
         this.rv = new Rectangle();
         this.rv2 = new Rectangle();
+
+        //Load sprites from file
+        BufferedImage playerSpriteSheet =
+                ImageIO.read(new File(MenuController.PROJECT_PATH +
+                        "/src/resources/spaceship/spaceshipSprites4.png"));
+        super.setSpriteParameters(82, 82, 2, 3);
+        super.loadSpriteSheet(playerSpriteSheet);
+        super.splitSprites();
+        super.setPosition(100, canvas.getHeight() / 2, super.getSpeed());
+
     }
 
     public Timer getTimer() {
@@ -55,7 +71,7 @@ public class Player extends Sprite {
         return this.rv2;
     }
 
-    //Movement getters/setters
+    //Movement getters and setters
     public boolean isGoLeft() {
         return this.goLeft;
     }
@@ -120,12 +136,11 @@ public class Player extends Sprite {
         this.scene = scene;
     }
 
-    public void setHeld(boolean value){
+    public void setHeld(boolean value) {
         this.held = value;
     }
 
-    public boolean isHeld(){
+    public boolean isHeld() {
         return this.held;
     }
-
 }

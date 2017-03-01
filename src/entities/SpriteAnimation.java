@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
@@ -38,6 +38,5 @@ public class SpriteAnimation extends Transition {
             imageView.setViewport(new Rectangle2D(x, y, width, height));
             lastIndex = index;
         }
-
     }
 }

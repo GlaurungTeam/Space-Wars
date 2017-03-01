@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;

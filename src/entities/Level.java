@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
-import Controllers.GameController;
-import Controllers.MenuController;
+import controllers.GameController;
+import controllers.MenuController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -165,7 +165,7 @@ public class Level {
             timer.stop();
 
             try {
-                theScene.setRoot(FXMLLoader.load(getClass().getResource("../Views/sample.fxml")));
+                theScene.setRoot(FXMLLoader.load(getClass().getResource("../views/sample.fxml")));
                 this.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();
@@ -177,7 +177,7 @@ public class Level {
     public void writeInLeaderboard(String name, long score) throws IOException {
         SortedMap<String, Long> scores = new TreeMap<>();
 
-        Path path = Paths.get("src\\Views\\leaderBoard.txt");
+        Path path = Paths.get("src\\views\\leaderBoard.txt");
         Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
 
         try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {

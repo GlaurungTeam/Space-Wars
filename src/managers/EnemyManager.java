@@ -1,10 +1,9 @@
-package Managers;
+package managers;
 
-import Entities.Level;
+import entities.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
-import Entities.Player;
-import Entities.Ufo;
+import entities.Ufo;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,7 +15,7 @@ public class EnemyManager {
     //Must implement all methods from UFO class
     private PlayerManager playerManager;
 
-    public EnemyManager(PlayerManager playerManager){
+    public EnemyManager(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 
@@ -52,16 +51,11 @@ public class EnemyManager {
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
-            //countDown.playFromStart();
             try {
                 level.checkIfPlayerIsDead(level.getScene(), timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //String livesC = String.format("Lives: %d", this.getPlayer().getLives());
-            //lives.setText(livesC);
-            //TODO create class to work with all text fields in the game scene
         }
     }
 
