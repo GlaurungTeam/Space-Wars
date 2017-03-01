@@ -177,7 +177,7 @@ public class Level {
     public void writeInLeaderboard(String name, long score) throws IOException {
         SortedMap<String, Long> scores = new TreeMap<>();
 
-        Path path = Paths.get("src\\views\\leaderBoard.txt");
+        Path path = Paths.get("src\\views\\leaderboard.txt");
         Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
 
         try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {

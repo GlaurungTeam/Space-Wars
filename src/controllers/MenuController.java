@@ -52,7 +52,7 @@ public class MenuController {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        Path path = Paths.get("src\\views\\leaderBoard.txt");
+        Path path = Paths.get("src\\views\\leaderboard.txt");
         Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
 
         try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
