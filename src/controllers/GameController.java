@@ -1,21 +1,18 @@
 package controllers;
 
-import entities.*;
+import entities.Asteroid;
+import entities.Level;
+import entities.Player;
+import entities.Ufo;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import managers.*;
 
 import java.util.ArrayList;
@@ -51,6 +48,7 @@ public class GameController extends Application {
         MissileManager missileManager = new MissileManager();
         TextManager textManager = new TextManager(root);
         EffectsManager effectsManager = new EffectsManager();
+        FuelManager fuelManager = new FuelManager(root, canvas);
 
         //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
@@ -70,33 +68,8 @@ public class GameController extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-//        FuelBar
-        int totalFuel = 50;
-        String FUEL_BURNED_FORMAT = "%.0f";
-        ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
-
-        FuelBar bar = new FuelBar(
-                workDone.getReadOnlyProperty(),
-                totalFuel,
-                FUEL_BURNED_FORMAT
-        );
-
-        Timeline countDown = new Timeline(
-                new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
-                new KeyFrame(Duration.seconds(30), new KeyValue(workDone, 0))
-        );
-
-        countDown.play();
-
-        VBox layout = new VBox(20);
-        layout.setLayoutX(80);
-        layout.setLayoutY(60);
-        layout.getChildren().addAll(bar);
-        root.getChildren().add(layout);
-
 //        //Adjustable speeds
         double backGroundSpeed = 1.5;
-        double fuelSpeed = 1;
 
         //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
         /*timer.scheduleAtFixedRate(new TimerTask() {
@@ -106,7 +79,6 @@ public class GameController extends Application {
             }
         }, 0, 1000);*/
 
-        FuelCan fuelCan = new FuelCan(canvas, fuelSpeed);
 
         final long startNanoTime = System.nanoTime();
 
@@ -130,19 +102,6 @@ public class GameController extends Application {
                 backgroundX -= backGroundSpeed;
                 planetX -= backGroundSpeed - 0.5;
 
-                //Check fuel
-//                if (bar.getWorkDone().getValue() == 0.0) {
-//                    level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
-//                    playerManager.resetPlayerPosition(canvas);
-//                    countDown.playFromStart();
-//
-//                    try {
-//                        level1.checkIfPlayerIsDead(theScene, this);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-
                 if (backgroundX < -1280) {
                     backgroundX = 0;
                 }
@@ -155,17 +114,6 @@ public class GameController extends Application {
                 gc.drawImage(earth, earthX, earthY);
                 gc.drawImage(sun, planetX, planetY);
 
-                if (!fuelCan.getTakenStatus()) {
-                    fuelCan.render(gc);
-                }
-
-                if (!fuelCan.getTakenStatus() &&
-                        playerManager.checkCollision(fuelCan.getPositionX(), fuelCan.getPositionY(), 45)) {
-
-                    countDown.playFromStart();
-                    fuelCan.setTakenStatus(true);
-                }
-                fuelCan.updateFuelCanLocation(canvas);
 
                 level1.setCurrentFrame(t);
 
@@ -177,6 +125,7 @@ public class GameController extends Application {
                 playerManager.refreshPlayerSprite(t);
                 textManager.updateText(level1.getPlayer());
                 effectsManager.manageExplosions(level1.getGc());
+                fuelManager.updateFuel(gc, playerManager, canvas, level1, theScene, this);
 
             }
         };
