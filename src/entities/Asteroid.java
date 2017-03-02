@@ -1,14 +1,10 @@
-package Entities;
-
-import javafx.scene.canvas.Canvas;
-
-import java.util.Random;
+package entities;
 
 public class Asteroid extends Sprite {
     private boolean isHit;
 
     public Asteroid(double speed) {
-        this.setSpeed(speed);
+        super.setSpeed(speed);
         this.setHitStatus(false);
     }
 

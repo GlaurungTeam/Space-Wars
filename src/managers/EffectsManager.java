@@ -1,4 +1,4 @@
-package Managers;
+package managers;
 
 public class EffectsManager {
     //Accepts List<Explosion> in constructor

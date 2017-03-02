@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Rectangle2D;

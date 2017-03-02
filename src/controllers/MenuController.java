@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -35,9 +34,7 @@ public class MenuController {
     public Label spaceWars;
 
     public void start(ActionEvent actionEvent) throws Exception {
-        Image space = new Image("Resources/space.png");
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/login.fxml"));
-
+        Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
         loginStage.setTitle("User Login");
@@ -48,14 +45,14 @@ public class MenuController {
     public void openHighScores(ActionEvent actionEvent) throws IOException, InterruptedException {
         Stage primaryStage = (Stage) spaceWars.getScene().getWindow();
 
-        Pane root = FXMLLoader.load(getClass().getResource("../Views/leaderboard.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("../views/leaderboard.fxml"));
         Scene scene = new Scene(root, 1280, 720);
 
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        Path path = Paths.get("src\\Views\\leaderBoard.txt");
+        Path path = Paths.get("src\\views\\leaderboard.txt");
         Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
 
         try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
@@ -96,7 +93,7 @@ public class MenuController {
     }
 
     public void goBack(ActionEvent actionEvent) throws Exception {
-        Pane root = FXMLLoader.load(getClass().getResource("../Views/sample.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("../views/sample.fxml"));
 
         Stage leaderBoardStage = (Stage) spaceWars.getScene().getWindow();
 

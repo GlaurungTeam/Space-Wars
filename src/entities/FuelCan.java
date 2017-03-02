@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -9,12 +9,12 @@ public class FuelCan extends Sprite {
     private boolean isTaken;
 
     public FuelCan(Canvas canvas, double speed) {
-        String path = "Resources/fuelcan/fuelCan.png";
+        String path = "resources/fuelcan/fuelCan.png";
         Image image = new Image(path);
 
-        this.setImage(image);
-        this.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas), this.getSpeed());
-        this.setSpeed(speed);
+        super.setImage(image);
+        super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas), this.getSpeed());
+        super.setSpeed(speed);
     }
 
     public boolean getTakenStatus() {

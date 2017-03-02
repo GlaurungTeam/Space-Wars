@@ -1,8 +1,8 @@
-package Entities;
+package entities;
 
 import javafx.scene.image.Image;
-import Controllers.MenuController;
-import Controllers.GameController;
+import controllers.MenuController;
+import controllers.GameController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,9 +16,9 @@ public class Explosion extends Sprite {
     public Explosion(GameController gameController, Missile m) {
         this.setCurrentFrameIndex(0);
         this.setGameController(gameController);
-        this.setPositionX(m.getPositionX());
-        this.setPositionY(m.getPositionY());
-        this.setSpeed(2);
+        super.setPositionX(m.getPositionX());
+        super.setPositionY(m.getPositionY());
+        super.setSpeed(2);
         this.explode();
     }
 
@@ -43,7 +43,7 @@ public class Explosion extends Sprite {
 
         try {
             explosionSpriteSheet = ImageIO.read(new File(
-                    MenuController.PROJECT_PATH + "/src/Resources/explosions/rsz_explosion-spritesheet.png"));
+                    MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -55,6 +55,6 @@ public class Explosion extends Sprite {
     }
 
     public Image getCurrentExplosionFrame(int index) {
-        return this.getSprites()[index];
+        return super.getSprites()[index];
     }
 }

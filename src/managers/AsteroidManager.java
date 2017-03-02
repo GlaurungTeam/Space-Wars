@@ -1,12 +1,12 @@
-package Managers;
+package managers;
 
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import Entities.Asteroid;
-import Entities.Level;
-import Entities.SpawnCoordinates;
+import entities.Asteroid;
+import entities.Level;
+import entities.SpawnCoordinates;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,6 +17,15 @@ public class AsteroidManager {
     //Initializing Asteroids
     //Checking Asteroid Collisions with player or missile and add explosion to List<Explosion>
     //Must implement all methods from Asteroid class
+    private PlayerManager playerManager;
+
+    public AsteroidManager(PlayerManager playerManager) {
+        this.setPlayerManager(playerManager);
+    }
+
+    public void setPlayerManager(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
 
     public ArrayList<Asteroid> initializeAsteroids(Canvas canvas) {
         ArrayList<Asteroid> asteroids = new ArrayList<>();
@@ -58,7 +67,6 @@ public class AsteroidManager {
 
         //Add explosion to list
         //Iterate through all asteroids
-
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (!asteroidToRenderAndUpdate.getHitStatus()) {
                 asteroidToRenderAndUpdate.render(level.getGc());
@@ -71,11 +79,11 @@ public class AsteroidManager {
     }
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer) {
-        if (level.getPlayer().checkCollision(asteroid.getPositionX(),
+        if (this.playerManager.checkCollision(asteroid.getPositionX(),
                 asteroid.getPositionY(), 32)) {
 
             asteroid.setPositionX(-1300);
-            level.getPlayer().resetPlayerPosition(level.getCanvas());
+            this.playerManager.resetPlayerPosition(level.getCanvas());
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
@@ -84,9 +92,6 @@ public class AsteroidManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //String livesC = String.format("Lives: %d", level.getPlayer().getLives());
-            //lives.setText(livesC);
 
             //TODO create class to work with all text fields in the game scene
             //TODO Change color of ship when hit, or some kind of visual effect

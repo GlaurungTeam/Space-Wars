@@ -1,10 +1,9 @@
-package Managers;
+package managers;
 
-import Entities.Level;
+import entities.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
-import Entities.Player;
-import Entities.Ufo;
+import entities.Ufo;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,6 +13,11 @@ public class EnemyManager {
     //Check UFO Collisions(manageUfos() in Level()) with missile or player and add Explosion to List<Explosion> for the EffectsManager class
     //Renders UFO shots
     //Must implement all methods from UFO class
+    private PlayerManager playerManager;
+
+    public EnemyManager(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
 
     public ArrayList<Ufo> initializeUfos(Canvas canvas) {
         ArrayList<Ufo> ufosToReturn = new ArrayList<>();
@@ -41,22 +45,17 @@ public class EnemyManager {
     }
 
     private void manageUfoCollision(Level level, AnimationTimer timer, Ufo ufo) {
-        if (level.getPlayer().checkCollision(ufo.getPositionX(), ufo.getPositionY(), 32)) {
-            level.getPlayer().resetPlayerPosition(level.getCanvas());
+        if (this.playerManager.checkCollision(ufo.getPositionX(), ufo.getPositionY(), 32)) {
+            this.playerManager.resetPlayerPosition(level.getCanvas());
             ufo.setPositionX(-1300);
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
-            //countDown.playFromStart();
             try {
                 level.checkIfPlayerIsDead(level.getScene(), timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //String livesC = String.format("Lives: %d", this.getPlayer().getLives());
-            //lives.setText(livesC);
-            //TODO create class to work with all text fields in the game scene
         }
     }
 

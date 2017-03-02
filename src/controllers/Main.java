@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +13,10 @@ public class Main extends Application {
     @Override
     public void start(Stage theStage) throws Exception {
         //Soundtrack
-        AudioClip soundtrack = new AudioClip(Paths.get("src/Resources/sound/soundtrack.mp3").toUri().toString());
+        AudioClip soundtrack = new AudioClip(Paths.get("src/resources/sound/soundtrack.mp3").toUri().toString());
         soundtrack.play(0.1);
 
-        Parent root = FXMLLoader.load(getClass().getResource("../Views/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../views/sample.fxml"));
 
         theStage.setTitle("Launcher");
         theStage.setScene(new Scene(root, 1280, 720));
