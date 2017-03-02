@@ -32,15 +32,19 @@ public class MissileManager {
                     if (currentMissile.intersects(asteroidToCheck)) {
                         asteroidToCheck.setHitStatus(true);
 
-                        AudioClip explode = new AudioClip
-                                (Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
-                        explode.play(0.6);
-
-                        //Remove missile from missiles array and explode
-                        Explosion explosion = new Explosion(level.getGameController(), currentMissile);
+//                        AudioClip explode = new AudioClip
+//                                (Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
+//                        explode.play(0.6);
+//
+//                        //Remove missile from missiles array and explode
+//                        Explosion explosion = new Explosion(level.getGameController(), currentMissile);
 
                         level.getMissiles().remove(currentMissile);
-                        level.getExplosions().add(explosion);
+                        //level.getExplosions().add(explosion);
+
+                        EffectsManager explos = new EffectsManager(level.getGameController(), currentMissile, level.getGc());
+                        explos.explode(new Explosion(level.getGameController(), currentMissile));
+                        explos.explosionAsteroid();
 
                         //TODO Move that one to the killing aliens method to display score
 

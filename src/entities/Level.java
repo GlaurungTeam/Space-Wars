@@ -141,24 +141,24 @@ public class Level {
         this.missiles = missiles;
     }
 
-    public void manageExplosions() {
-        //goes in EffectsManager
-        //Iterate through all explosions
-        if (this.getExplosions().size() != 0) {
-            for (int i = 0; i < this.getExplosions().size(); i++) {
-                Explosion explosion = this.getExplosions().get(i);
-                Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
-
-                if (explosion.getCurrentFrameIndex() < explosion.getSprites().length - 1) {
-                    explosion.setImage(currentFrame);
-                    explosion.render(this.gc);
-                    explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
-                } else {
-                    explosions.remove(i);
-                }
-            }
-        }
-    }
+//    public void manageExplosions() {
+//        //goes in EffectsManager
+//        //Iterate through all explosions
+//        if (this.getExplosions().size() != 0) {
+//            for (int i = 0; i < this.getExplosions().size(); i++) {
+//                Explosion explosion = this.getExplosions().get(i);
+//                Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
+//
+//                if (explosion.getCurrentFrameIndex() < explosion.getSprites().length - 1) {
+//                    explosion.setImage(currentFrame);
+//                    explosion.render(this.gc);
+//                    explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
+//                } else {
+//                    explosions.remove(i);
+//                }
+//            }
+//        }
+//    }
 
     public void checkIfPlayerIsDead(Scene theScene, AnimationTimer timer) throws Exception {
         if (this.getPlayer().getLives() <= 0) {

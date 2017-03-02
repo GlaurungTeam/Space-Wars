@@ -181,7 +181,7 @@ public class GameController extends Application {
                 playerManager.updatePlayerLocation(canvas);
                 textManager.updateText(level1.getPlayer());
 
-                level1.manageExplosions();
+                //level1.manageExplosions();
                 player.setImage(player.getFrame(player.getSprites(), t, 0.100));
                 player.render(gc);
 

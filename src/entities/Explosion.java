@@ -13,13 +13,25 @@ public class Explosion extends Sprite {
     private GameController gameController;
     private int currentFrameIndex;
 
-    public Explosion(GameController gameController, Missile m) {
+    public Explosion(GameController gameController, Sprite m) {
         this.setCurrentFrameIndex(0);
         this.setGameController(gameController);
         super.setPositionX(m.getPositionX());
         super.setPositionY(m.getPositionY());
-        super.setSpeed(2);
-        this.explode();
+        super.setSpeed(0.1);
+        //this.explode();
+        BufferedImage explosionSpriteSheet = null;
+
+        try {
+            explosionSpriteSheet = ImageIO.read(new File(
+                    MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        this.setSpriteParameters(48, 49, 1, 25);
+        this.loadSpriteSheet(explosionSpriteSheet);
+        this.splitSprites();
     }
 
     public GameController getGameController() {
@@ -38,21 +50,30 @@ public class Explosion extends Sprite {
         this.currentFrameIndex = currentFrameIndex;
     }
 
-    public void explode() {
-        BufferedImage explosionSpriteSheet = null;
+//    public void explode() {
+//
+//        Image[] sprites = super.getSprites();
+//
+//        for (Image sprite : sprites) {
+//
+//            this.render(sprite);
+//        }
+//        BufferedImage explosionSpriteSheet = null;
+//
+//        try {
+//            explosionSpriteSheet = ImageIO.read(new File(
+//                    MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
+//
+//        this.setSpriteParameters(48, 49, 1, 25);
+//        this.loadSpriteSheet(explosionSpriteSheet);
+//        this.splitSprites();
+//        //this.getGameController().addExplosions(this);
 
-        try {
-            explosionSpriteSheet = ImageIO.read(new File(
-                    MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
 
-        this.setSpriteParameters(48, 49, 1, 25);
-        this.loadSpriteSheet(explosionSpriteSheet);
-        this.splitSprites();
-        this.getGameController().addExplosions(this);
-    }
+ //   }
 
     public Image getCurrentExplosionFrame(int index) {
         return super.getSprites()[index];
