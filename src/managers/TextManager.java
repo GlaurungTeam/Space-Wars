@@ -16,9 +16,7 @@ public class TextManager {
         this.lives = new Text(20, 50, "");
         this.fuelBarText = new Text(20, 80, "Fuel: ");
 
-        root.getChildren().add(scoreLine);
-        root.getChildren().add(lives);
-        root.getChildren().add(fuelBarText);
+        root.getChildren().addAll(scoreLine, lives, fuelBarText);
 
         this.scoreLine.setFont(Font.font("Verdana", 20));
         this.scoreLine.setFill(Color.WHITE);

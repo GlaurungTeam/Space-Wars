@@ -4,6 +4,8 @@ import controllers.MenuController;
 import entities.Level;
 import entities.Missile;
 import entities.Player;
+import javafx.animation.AnimationTimer;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -212,13 +214,27 @@ public class PlayerManager {
         return false;
     }
 
-    public void resetPlayerPosition(Canvas canvas) {
+    public void resetPlayerPosition(Canvas canvas, FuelManager fuelManager) {
         this.player.setPositionX(50);
         this.player.setPositionY(canvas.getHeight() / 2);
+        fuelManager.resetFuel();
     }
 
-    public void refreshPlayerSprite(double time){
+    public void refreshPlayerSprite(double time) {
         this.getPlayer().setImage(player.getFrame(player.getSprites(), time, 0.100));
         this.getPlayer().render(this.getGraphicsContext());
+    }
+
+    public void checkIfPlayerIsDead(Level level, AnimationTimer timer) throws Exception {
+        if (this.getPlayer().getLives() <= 0) {
+            timer.stop();
+            try {
+                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/sample.fxml")));
+                level.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
+            } catch (Exception exc) {
+                exc.printStackTrace();
+                throw new RuntimeException(exc);
+            }
+        }
     }
 }

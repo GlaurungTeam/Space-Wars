@@ -36,11 +36,6 @@ public class MissileManager {
                         //TODO Move that one to the killing aliens method to display score
 
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
-
-                        //String score = String.format("Score: %d", level.getPlayer().getPoints());
-                        //scoreLine.setText(score)
-                        //TODO create class to work with all text fields in the game scene
-                        //TODO Implement score tracker
                     }
                 }
 

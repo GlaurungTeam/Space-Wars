@@ -16,7 +16,9 @@ public class Explosion extends Sprite {
         super.setPositionX(x);
         super.setPositionY(y);
         super.setSpeed(0.1);
+
         BufferedImage explosionSpriteSheet = null;
+
         try {
             explosionSpriteSheet = ImageIO.read(new File(
                     MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));

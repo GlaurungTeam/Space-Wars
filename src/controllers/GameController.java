@@ -43,12 +43,12 @@ public class GameController extends Application {
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);
-        EnemyManager enemyManager = new EnemyManager(playerManager);
-        AsteroidManager asteroidManager = new AsteroidManager(playerManager);
+        FuelManager fuelManager = new FuelManager(root, canvas);
+        EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
+        AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
         MissileManager missileManager = new MissileManager();
         TextManager textManager = new TextManager(root);
         EffectsManager effectsManager = new EffectsManager();
-        FuelManager fuelManager = new FuelManager(root, canvas);
 
         //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
@@ -68,7 +68,7 @@ public class GameController extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-//        //Adjustable speeds
+        //Adjustable speeds
         double backGroundSpeed = 1.5;
 
         //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
@@ -78,7 +78,6 @@ public class GameController extends Application {
                 player.fired = false;
             }
         }, 0, 1000);*/
-
 
         final long startNanoTime = System.nanoTime();
 
@@ -91,12 +90,6 @@ public class GameController extends Application {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 double earthX = planetX + 36 + 128 * Math.cos(t);
                 double earthY = 232 + 128 * Math.sin(t);
-
-                /*if (KeyListener.held) {
-                    countDown.setRate(3);
-                } else {
-                    countDown.setRate(1);
-                }*/
 
                 //Update background, planet and earth location
                 backgroundX -= backGroundSpeed;
@@ -114,7 +107,6 @@ public class GameController extends Application {
                 gc.drawImage(earth, earthX, earthY);
                 gc.drawImage(sun, planetX, planetY);
 
-
                 level1.setCurrentFrame(t);
 
                 //Here we are using our shiny new managers! :)
@@ -125,12 +117,11 @@ public class GameController extends Application {
                 playerManager.refreshPlayerSprite(t);
                 textManager.updateText(level1.getPlayer());
                 effectsManager.manageExplosions(level1.getGc());
-                fuelManager.updateFuel(gc, playerManager, canvas, level1, theScene, this);
+                fuelManager.updateFuel(playerManager, level1, this);
 
             }
         };
         timer.start();
-
         theStage.show();
     }
 }

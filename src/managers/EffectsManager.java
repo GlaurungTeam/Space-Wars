@@ -1,6 +1,5 @@
 package managers;
 
-
 import entities.Explosion;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -19,7 +18,7 @@ public class EffectsManager {
     public EffectsManager() {
     }
 
-    private void addExplosion(Explosion e){
+    private void addExplosion(Explosion e) {
         explosions.add(e);
     }
 
@@ -33,13 +32,13 @@ public class EffectsManager {
         audioClip.play();
     }
 
-    public static void playUfoHit(Explosion e){
+    public static void playUfoHit(Explosion e) {
         EffectsManager.explosions.add(e);
         AudioClip audioClip = new AudioClip(Paths.get("src/Resources/sound/explossion.mp3").toUri().toString());
         audioClip.play();
     }
 
-        public void manageExplosions(GraphicsContext graphicsContext) {
+    public void manageExplosions(GraphicsContext graphicsContext) {
         if (this.getExplosions().size() != 0) {
             for (int i = 0; i < this.getExplosions().size(); i++) {
                 Explosion explosion = this.getExplosions().get(i);

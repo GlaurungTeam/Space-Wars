@@ -130,40 +130,29 @@ public class Level {
         this.missiles = missiles;
     }
 
-    public void checkIfPlayerIsDead(Scene theScene, AnimationTimer timer) throws Exception {
-        if (this.getPlayer().getLives() <= 0) {
-            timer.stop();
-            try {
-                theScene.setRoot(FXMLLoader.load(getClass().getResource("../views/sample.fxml")));
-                this.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
-            } catch (Exception exc) {
-                exc.printStackTrace();
-                throw new RuntimeException(exc);
-            }
-        }
-    }
-
     public void writeInLeaderboard(String name, long score) throws IOException {
         SortedMap<String, Long> scores = new TreeMap<>();
 
-        Path path = Paths.get("src\\views\\leaderboard.txt");
-        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+        try (ObjectInputStream in = new ObjectInputStream
+                (new FileInputStream("src/leaderboard/leaderboard.ser"))) {
+            String[] allScores = (String[]) in.readObject();
 
-        try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
-            String scoreLine = in.readLine();
-            int i = 0;
+            for (int i = 0; i < allScores.length; i++) {
+                if (i >= 10) {
+                    break;
+                }
+                if (allScores[i] == null) {
+                    continue;
+                }
 
-            while (scoreLine != null && i < 10) {
-                String[] scoreLineArr = scoreLine.split(":");
+                String[] scoreLineArr = allScores[i].split(":");
                 String userName = scoreLineArr[0];
                 Long result = Long.parseLong(scoreLineArr[1]);
                 scores.put(userName, result);
-                scoreLine = in.readLine();
-                i++;
             }
 
             scores.put(name, score);
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -171,16 +160,21 @@ public class Level {
                 .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(pair -> pair.getValue()).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        try (PrintWriter out = new PrintWriter(new FileWriter(realPath.toString()))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                (new FileOutputStream("src\\leaderboard\\leaderboard.ser")))) {
             Iterator it = sortedScores.iterator();
 
             int i = 0;
 
+            String[] scoresToWrite = new String[10];
+
             while (it.hasNext() && i < 10) {
                 Map.Entry pair = (Map.Entry) it.next();
-                out.println(pair.getKey() + ":" + pair.getValue());
+                scoresToWrite[i] = pair.getKey() + ":" + pair.getValue();
                 i++;
             }
+
+            out.writeObject(scoresToWrite);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -52,18 +52,20 @@ public class MenuController {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        Path path = Paths.get("src\\views\\leaderboard.txt");
-        Path realPath = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
-
-        try (BufferedReader in = new BufferedReader(new FileReader(realPath.toString()))) {
-            String scoreTokens = in.readLine();
+        try (ObjectInputStream in = new ObjectInputStream
+                (new FileInputStream("src/leaderboard/leaderboard.ser"))) {
+            String[] scores = (String[]) in.readObject();
 
             int i = 1;
             int y = 125;
 
             //Keep it simple stupid :)
-            while (scoreTokens != null) {
-                String[] scoreLineArr = scoreTokens.split(":");
+            for (String score : scores) {
+                if (score == null) {
+                    continue;
+                }
+
+                String[] scoreLineArr = score.split(":");
                 String userName = scoreLineArr[0];
                 Long result = Long.parseLong(scoreLineArr[1]);
 
@@ -71,15 +73,14 @@ public class MenuController {
                 root.getChildren().add(scoreLine);
                 scoreLine.setFont(Font.font("Verdana", 18));
                 scoreLine.setFill(Color.WHITE);
-                String score = toString().format("%d. %s - %d points", i, userName, result);
-                scoreLine.setText(score);
+
+                String scoreToPrint = toString().format("%d. %s - %d points", i, userName, result);
+                scoreLine.setText(scoreToPrint);
 
                 y += 36;
                 i++;
-
-                scoreTokens = in.readLine();
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -87,7 +88,6 @@ public class MenuController {
     public void quit(ActionEvent actionEvent) {
         System.exit(0);
     }
-
 
     public void getUsername(ActionEvent actionEvent) {
     }

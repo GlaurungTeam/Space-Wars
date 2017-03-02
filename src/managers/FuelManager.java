@@ -15,34 +15,36 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-
 public class FuelManager {
     private FuelBar fuelBar;
     private FuelCan fuelCan;
     private Timeline timeline;
+    private final int TOTAL_FUEL = 50;
 
     public FuelManager(Group root, Canvas canvas) {
         this.setFuelBar(root);
         this.setFuelCan(canvas);
     }
 
-
     private FuelBar getFuelBar() {
         return fuelBar;
     }
 
+    public void resetFuel() {
+        this.getTimeline().playFromStart();
+    }
+
     private void setFuelBar(Group root) {
-        int totalFuel = 50;
         String FUEL_BURNED_FORMAT = "%.0f";
         ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
 
         FuelBar bar = new FuelBar(
                 workDone.getReadOnlyProperty(),
-                totalFuel,
+                this.TOTAL_FUEL,
                 FUEL_BURNED_FORMAT
         );
 
-        setCountdown(totalFuel, workDone);
+        this.setCountdown(this.TOTAL_FUEL, workDone);
 
         VBox layout = new VBox(20);
         layout.setLayoutX(80);
@@ -54,34 +56,30 @@ public class FuelManager {
     }
 
     private void setCountdown(int totalFuel, ReadOnlyDoubleWrapper workDone) {
-        Timeline countDown = new Timeline(
+        this.timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
                 new KeyFrame(Duration.seconds(30), new KeyValue(workDone, 0))
         );
 
-        countDown.play();
-
-        this.timeline = countDown;
+        this.timeline.play();
     }
 
     private Timeline getTimeline() {
-        return timeline;
+        return this.timeline;
     }
 
     private FuelCan getFuelCan() {
-        return fuelCan;
+        return this.fuelCan;
     }
 
     private void setFuelCan(Canvas canvas) {
         int fuelSpeed = 1;
-        FuelCan fuelCan = new FuelCan(canvas, fuelSpeed);
-        this.fuelCan = fuelCan;
+        this.fuelCan = new FuelCan(canvas, fuelSpeed);
     }
 
-    public void updateFuel(GraphicsContext gc, PlayerManager playerManager, Canvas canvas, Level level, Scene scene, AnimationTimer animationTimer){
-
+    public void updateFuel(PlayerManager playerManager, Level level, AnimationTimer animationTimer) {
         if (!this.getFuelCan().getTakenStatus()) {
-            this.getFuelCan().render(gc);
+            this.getFuelCan().render(level.getGc());
         }
 
         if (!this.getFuelCan().getTakenStatus() &&
@@ -90,19 +88,26 @@ public class FuelManager {
             this.getTimeline().playFromStart();
             this.getFuelCan().setTakenStatus(true);
         }
-        this.getFuelCan().updateFuelCanLocation(canvas);
 
-        checkFuel(level, playerManager, canvas, scene, animationTimer);
+        if (level.getPlayer().isHeld()) {
+            this.getTimeline().setRate(3);
+        } else {
+            this.getTimeline().setRate(1);
+        }
+
+        this.getFuelCan().updateFuelCanLocation(level.getCanvas());
+        this.checkFuel(level, playerManager, animationTimer);
     }
 
-    public void checkFuel(Level level1, PlayerManager playerManager, Canvas canvas, Scene theScene, AnimationTimer animationTimer){
+    private void checkFuel(Level level1, PlayerManager playerManager, AnimationTimer animationTimer) {
         if (this.getFuelBar().getWorkDone().getValue() == 0.0) {
             level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
-            playerManager.resetPlayerPosition(canvas);
+            playerManager.resetPlayerPosition(level1.getCanvas(), this);
+
             this.getTimeline().playFromStart();
 
             try {
-                level1.checkIfPlayerIsDead(theScene, animationTimer);
+                playerManager.checkIfPlayerIsDead(level1, animationTimer);
             } catch (Exception e) {
                 e.printStackTrace();
             }

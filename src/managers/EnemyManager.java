@@ -14,9 +14,27 @@ public class EnemyManager {
     //Renders UFO shots
     //Must implement all methods from UFO class
     private PlayerManager playerManager;
+    private FuelManager fuelManager;
 
-    public EnemyManager(PlayerManager playerManager) {
+    private PlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+
+    private void setPlayerManager(PlayerManager playerManager) {
         this.playerManager = playerManager;
+    }
+
+    private FuelManager getFuelManager() {
+        return this.fuelManager;
+    }
+
+    private void setFuelManager(FuelManager fuelManager) {
+        this.fuelManager = fuelManager;
+    }
+
+    public EnemyManager(PlayerManager playerManager, FuelManager fuelManager) {
+        this.setPlayerManager(playerManager);
+        this.setFuelManager(fuelManager);
     }
 
     public ArrayList<Ufo> initializeUfos(Canvas canvas) {
@@ -45,14 +63,14 @@ public class EnemyManager {
     }
 
     private void manageUfoCollision(Level level, AnimationTimer timer, Ufo ufo) {
-        if (this.playerManager.checkCollision(ufo.getPositionX(), ufo.getPositionY(), 32)) {
-            this.playerManager.resetPlayerPosition(level.getCanvas());
+        if (this.getPlayerManager().checkCollision(ufo.getPositionX(), ufo.getPositionY(), 32)) {
+            this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
             ufo.setPositionX(-1300);
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
             try {
-                level.checkIfPlayerIsDead(level.getScene(), timer);
+                this.getPlayerManager().checkIfPlayerIsDead(level, timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,5 @@
 package managers;
 
-
 import entities.Explosion;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -19,13 +18,27 @@ public class AsteroidManager {
     //Checking Asteroid Collisions with player or missile and add explosion to List<Explosion>
     //Must implement all methods from Asteroid class
     private PlayerManager playerManager;
+    private FuelManager fuelManager;
 
-    public AsteroidManager(PlayerManager playerManager) {
+    public AsteroidManager(PlayerManager playerManager, FuelManager fuelManager) {
         this.setPlayerManager(playerManager);
+        this.setFuelManager(fuelManager);
     }
 
-    public void setPlayerManager(PlayerManager playerManager) {
+    private PlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+
+    private void setPlayerManager(PlayerManager playerManager) {
         this.playerManager = playerManager;
+    }
+
+    private FuelManager getFuelManager() {
+        return this.fuelManager;
+    }
+
+    private void setFuelManager(FuelManager fuelManager) {
+        this.fuelManager = fuelManager;
     }
 
     public ArrayList<Asteroid> initializeAsteroids(Canvas canvas) {
@@ -71,7 +84,7 @@ public class AsteroidManager {
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (!asteroidToRenderAndUpdate.getHitStatus()) {
                 asteroidToRenderAndUpdate.render(level.getGc());
-                manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer);
+                this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer);
             }
             //Asteroid speed updating every rotation making them faster:
             asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() + 0.00002);
@@ -80,23 +93,22 @@ public class AsteroidManager {
     }
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer) {
-        if (this.playerManager.checkCollision(asteroid.getPositionX(),
+        if (this.getPlayerManager().checkCollision(asteroid.getPositionX(),
                 asteroid.getPositionY(), 32)) {
 
             EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY()));
 
             asteroid.setPositionX(-1300);
-            this.playerManager.resetPlayerPosition(level.getCanvas());
+            this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
             try {
-                level.checkIfPlayerIsDead(level.getScene(), timer);
+                this.playerManager.checkIfPlayerIsDead(level, timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            //TODO create class to work with all text fields in the game scene
             //TODO Change color of ship when hit, or some kind of visual effect
             //TODO Implement ship damage tracker
         }
