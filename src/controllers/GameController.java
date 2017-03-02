@@ -92,6 +92,7 @@ public class GameController extends Application {
         layout.setLayoutX(80);
         layout.setLayoutY(60);
         layout.getChildren().addAll(bar);
+        root.getChildren().add(layout);
 
 //        //Adjustable speeds
         double backGroundSpeed = 1.5;
