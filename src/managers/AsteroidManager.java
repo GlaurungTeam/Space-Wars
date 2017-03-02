@@ -1,6 +1,7 @@
 package managers;
 
 
+import entities.Explosion;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -81,6 +82,8 @@ public class AsteroidManager {
     private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer) {
         if (this.playerManager.checkCollision(asteroid.getPositionX(),
                 asteroid.getPositionY(), 32)) {
+
+            EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY()));
 
             asteroid.setPositionX(-1300);
             this.playerManager.resetPlayerPosition(level.getCanvas());

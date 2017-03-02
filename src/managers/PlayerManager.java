@@ -6,6 +6,7 @@ import entities.Missile;
 import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 
@@ -23,11 +24,21 @@ public class PlayerManager {
     //UpdatePlayerLocation() row 91 in Player class
     //Must implement all methods from Player class
     private Player player;
+    private GraphicsContext graphicsContext;
 
-    public PlayerManager(Player player) {
+    public PlayerManager(Player player, GraphicsContext graphicsContext) {
         this.setPlayer(player);
         this.initializeHitboxes();
         this.getFirePermition();
+        this.setGraphicsContext(graphicsContext);
+    }
+
+    private GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+
+    private void setGraphicsContext(GraphicsContext graphicsContext) {
+        this.graphicsContext = graphicsContext;
     }
 
     public Player getPlayer() {
@@ -205,4 +216,11 @@ public class PlayerManager {
         this.player.setPositionX(50);
         this.player.setPositionY(canvas.getHeight() / 2);
     }
+
+    public void refreshPlayerSprite(double time){
+        this.getPlayer().setImage(player.getFrame(player.getSprites(), time, 0.100));
+        this.getPlayer().render(this.getGraphicsContext());
+    }
+
+
 }

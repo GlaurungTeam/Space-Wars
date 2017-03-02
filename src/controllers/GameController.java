@@ -1,7 +1,6 @@
 package controllers;
 
 import entities.*;
-import managers.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import managers.*;
 
 import java.util.ArrayList;
 
@@ -27,12 +27,6 @@ public class GameController extends Application {
 
     private int planetX = 500;
     private int planetY = 196;
-
-    private ArrayList<Explosion> explosions = new ArrayList<>();
-
-    public void addExplosions(Explosion e) {
-        this.explosions.add(e);
-    }
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -51,11 +45,12 @@ public class GameController extends Application {
         Player player = new Player(3.0, 3, theScene, canvas);
 
         //Initialize managers
-        PlayerManager playerManager = new PlayerManager(player);
+        PlayerManager playerManager = new PlayerManager(player, gc);
         EnemyManager enemyManager = new EnemyManager(playerManager);
         AsteroidManager asteroidManager = new AsteroidManager(playerManager);
         MissileManager missileManager = new MissileManager();
         TextManager textManager = new TextManager(root);
+        EffectsManager effectsManager = new EffectsManager();
 
         //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
@@ -75,7 +70,7 @@ public class GameController extends Application {
         Image sun = new Image("resources/sun.png");
         Image space = new Image("resources/space.png");
 
-        //FuelBar
+//        FuelBar
         int totalFuel = 50;
         String FUEL_BURNED_FORMAT = "%.0f";
         ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
@@ -97,9 +92,8 @@ public class GameController extends Application {
         layout.setLayoutX(80);
         layout.setLayoutY(60);
         layout.getChildren().addAll(bar);
-        root.getChildren().add(layout);
 
-        //Adjustable speeds
+//        //Adjustable speeds
         double backGroundSpeed = 1.5;
         double fuelSpeed = 1;
 
@@ -136,17 +130,17 @@ public class GameController extends Application {
                 planetX -= backGroundSpeed - 0.5;
 
                 //Check fuel
-                if (bar.getWorkDone().getValue() == 0.0) {
-                    level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
-                    playerManager.resetPlayerPosition(canvas);
-                    countDown.playFromStart();
-
-                    try {
-                        level1.checkIfPlayerIsDead(theScene, this);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (bar.getWorkDone().getValue() == 0.0) {
+//                    level1.getPlayer().setLives(level1.getPlayer().getLives() - 1);
+//                    playerManager.resetPlayerPosition(canvas);
+//                    countDown.playFromStart();
+//
+//                    try {
+//                        level1.checkIfPlayerIsDead(theScene, this);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 if (backgroundX < -1280) {
                     backgroundX = 0;
@@ -179,11 +173,9 @@ public class GameController extends Application {
                 asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
                 playerManager.updatePlayerLocation(canvas);
+                playerManager.refreshPlayerSprite(t);
                 textManager.updateText(level1.getPlayer());
-
-                //level1.manageExplosions();
-                player.setImage(player.getFrame(player.getSprites(), t, 0.100));
-                player.render(gc);
+                effectsManager.manageExplosions(level1.getGc());
 
             }
         };

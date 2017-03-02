@@ -8,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 import java.io.*;
 import java.nio.file.LinkOption;
@@ -18,7 +17,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Level {
-    private ArrayList<Explosion> explosions;
     private ArrayList<Missile> missiles;
     private ArrayList<Ufo> ufos;
     private ArrayList<Asteroid> asteroids;
@@ -39,7 +37,6 @@ public class Level {
                  Double currentFrame,
                  ArrayList ufos,
                  ArrayList asteroids) {
-        this.explosions = new ArrayList<>();
         this.missiles = new ArrayList<>();
 
         this.setGroup(group);
@@ -125,14 +122,6 @@ public class Level {
         this.group = group;
     }
 
-    public ArrayList<Explosion> getExplosions() {
-        return explosions;
-    }
-
-    public void setExplosions(ArrayList<Explosion> explosions) {
-        this.explosions = explosions;
-    }
-
     public ArrayList<Missile> getMissiles() {
         return missiles;
     }
@@ -141,29 +130,9 @@ public class Level {
         this.missiles = missiles;
     }
 
-//    public void manageExplosions() {
-//        //goes in EffectsManager
-//        //Iterate through all explosions
-//        if (this.getExplosions().size() != 0) {
-//            for (int i = 0; i < this.getExplosions().size(); i++) {
-//                Explosion explosion = this.getExplosions().get(i);
-//                Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
-//
-//                if (explosion.getCurrentFrameIndex() < explosion.getSprites().length - 1) {
-//                    explosion.setImage(currentFrame);
-//                    explosion.render(this.gc);
-//                    explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
-//                } else {
-//                    explosions.remove(i);
-//                }
-//            }
-//        }
-//    }
-
     public void checkIfPlayerIsDead(Scene theScene, AnimationTimer timer) throws Exception {
         if (this.getPlayer().getLives() <= 0) {
             timer.stop();
-
             try {
                 theScene.setRoot(FXMLLoader.load(getClass().getResource("../views/sample.fxml")));
                 this.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());

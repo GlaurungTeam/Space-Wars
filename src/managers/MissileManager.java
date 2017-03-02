@@ -1,9 +1,6 @@
 package managers;
 
 import entities.*;
-import javafx.scene.media.AudioClip;
-
-import java.nio.file.Paths;
 
 public class MissileManager {
     public void manageMissiles(Level level) {
@@ -32,19 +29,9 @@ public class MissileManager {
                     if (currentMissile.intersects(asteroidToCheck)) {
                         asteroidToCheck.setHitStatus(true);
 
-//                        AudioClip explode = new AudioClip
-//                                (Paths.get("src/resources/sound/explosion2.mp3").toUri().toString());
-//                        explode.play(0.6);
-//
-//                        //Remove missile from missiles array and explode
-//                        Explosion explosion = new Explosion(level.getGameController(), currentMissile);
+                        EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
 
                         level.getMissiles().remove(currentMissile);
-                        //level.getExplosions().add(explosion);
-
-                        EffectsManager explos = new EffectsManager(level.getGameController(), currentMissile, level.getGc());
-                        explos.explode(new Explosion(level.getGameController(), currentMissile));
-                        explos.explosionAsteroid();
 
                         //TODO Move that one to the killing aliens method to display score
 
@@ -65,15 +52,9 @@ public class MissileManager {
                     if (currentMissile.intersects(ufoToCheck)) {
                         ufoToCheck.setHitStatus(true);
 
-                        AudioClip explode = new AudioClip
-                                (Paths.get("src/resources/sound/explossion.mp3").toUri().toString());
-                        explode.play(0.2);
-
-                        Explosion explosion = new Explosion(level.getGameController(), currentMissile);
+                        EffectsManager.playUfoHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
 
                         level.getMissiles().remove(currentMissile);
-                        level.getExplosions().add(explosion);
-
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 3);
                     }
                 }
