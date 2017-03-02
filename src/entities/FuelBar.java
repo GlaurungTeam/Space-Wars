@@ -41,43 +41,43 @@ public class FuelBar extends StackPane {
         return this.workDone;
     }
 
-    public void setWorkDone(ReadOnlyDoubleProperty workDone) {
+    private void setWorkDone(ReadOnlyDoubleProperty workDone) {
         this.workDone = workDone;
     }
 
-    public double getTotalWork() {
+    private double getTotalWork() {
         return this.totalWork;
     }
 
-    public void setTotalWork(double totalWork) {
+    private void setTotalWork(double totalWork) {
         this.totalWork = totalWork;
     }
 
-    public Text getText() {
+    private Text getText() {
         return this.text;
     }
 
-    public void setText(Text text) {
+    private void setText(Text text) {
         this.text = text;
     }
 
-    public ProgressBar getBar() {
+    private ProgressBar getBar() {
         return this.bar;
     }
 
-    public void setBar(ProgressBar bar) {
+    private void setBar(ProgressBar bar) {
         this.bar = bar;
     }
 
-    public String getLabelFormatSpecifier() {
+    private String getLabelFormatSpecifier() {
         return this.labelFormatSpecifier;
     }
 
-    public void setLabelFormatSpecifier(String labelFormatSpecifier) {
+    private void setLabelFormatSpecifier(String labelFormatSpecifier) {
         this.labelFormatSpecifier = labelFormatSpecifier;
     }
 
-    public void setProgress(double progress) {
+    private void setProgress(double progress) {
         this.bar.setProgress(progress);
     }
 

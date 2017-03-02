@@ -221,6 +221,4 @@ public class PlayerManager {
         this.getPlayer().setImage(player.getFrame(player.getSprites(), time, 0.100));
         this.getPlayer().render(this.getGraphicsContext());
     }
-
-
 }
