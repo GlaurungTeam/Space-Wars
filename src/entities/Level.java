@@ -1,6 +1,6 @@
 package entities;
 
-import controllers.GameController;
+import managers.GameManager;
 import controllers.MenuController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import managers.GameManager;
 
 import java.io.*;
 import java.nio.file.LinkOption;
@@ -24,7 +25,7 @@ public class Level {
     private Player player;
     private GraphicsContext gc;
     private Canvas canvas;
-    private GameController gameController;
+    private GameManager gameManager;
     private Scene scene;
     private Double currentFrame;
 
@@ -32,7 +33,7 @@ public class Level {
                  Player player,
                  GraphicsContext gc,
                  Canvas canvas,
-                 GameController gameController,
+                 GameManager gameManager,
                  Scene scene,
                  Double currentFrame,
                  ArrayList ufos,
@@ -43,7 +44,7 @@ public class Level {
         this.setPlayer(player);
         this.setGc(gc);
         this.setCanvas(canvas);
-        this.setGameController(gameController);
+        this.setGameController(gameManager);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
         this.setUfos(ufos);
@@ -58,12 +59,12 @@ public class Level {
         this.canvas = canvas;
     }
 
-    public GameController getGameController() {
-        return this.gameController;
+    public GameManager getGameController() {
+        return this.gameManager;
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(GameManager gameController) {
+        this.gameManager = gameController;
     }
 
     public Scene getScene() {
@@ -144,13 +145,11 @@ public class Level {
                 if (allScores[i] == null) {
                     continue;
                 }
-
                 String[] scoreLineArr = allScores[i].split(":");
                 String userName = scoreLineArr[0];
                 Long result = Long.parseLong(scoreLineArr[1]);
                 scores.put(userName, result);
             }
-
             scores.put(name, score);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

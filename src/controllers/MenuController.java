@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import managers.GameManager;
 
 import java.io.*;
 import java.nio.file.LinkOption;
@@ -108,8 +109,8 @@ public class MenuController {
         if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
             Stage stage = new Stage();
             ((Stage) this.startGameButton.getScene().getWindow()).close();
-            GameController gameController = new GameController();
-            gameController.start(stage);
+            GameManager gameManager = new GameManager();
+            gameManager.start(stage);
         }
     }
 }
