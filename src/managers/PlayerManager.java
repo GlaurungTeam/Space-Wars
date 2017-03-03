@@ -31,7 +31,7 @@ public class PlayerManager {
     public PlayerManager(Player player, GraphicsContext graphicsContext) {
         this.setPlayer(player);
         this.initializeHitboxes();
-        this.getFirePermition();
+        this.getFirePermission();
         this.setGraphicsContext(graphicsContext);
     }
 
@@ -59,37 +59,37 @@ public class PlayerManager {
         double speedMultiplier = 1;
 
         //Speed up if held var is true(see GameController key events)
-        if (this.player.isHeld()) {
+        if (this.getPlayer().isHeld()) {
             speedMultiplier = 1.5;
         }
 
-        if (this.player.isGoUp()) {
-            this.player.setPositionY(Math.max(0, this.player.getPositionY() - this.player.getSpeed() * speedMultiplier));
+        if (this.getPlayer().isGoUp()) {
+            this.getPlayer().setPositionY(Math.max(0, this.getPlayer().getPositionY() - this.getPlayer().getSpeed() * speedMultiplier));
         }
-        if (this.player.isGoDown()) {
-            this.player.setPositionY(Math.min(heightOffset, this.player.getPositionY() + this.player.getSpeed() * speedMultiplier));
+        if (this.getPlayer().isGoDown()) {
+            this.getPlayer().setPositionY(Math.min(heightOffset, this.getPlayer().getPositionY() + this.getPlayer().getSpeed() * speedMultiplier));
         }
-        if (this.player.isGoLeft()) {
-            this.player.setPositionX(Math.max(0, this.player.getPositionX() - this.player.getSpeed() * speedMultiplier));
+        if (this.getPlayer().isGoLeft()) {
+            this.getPlayer().setPositionX(Math.max(0, this.getPlayer().getPositionX() - this.getPlayer().getSpeed() * speedMultiplier));
         }
-        if (this.player.isGoRight()) {
-            this.player.setPositionX(Math.min(widthOffset, this.player.getPositionX() + this.player.getSpeed() * speedMultiplier));
+        if (this.getPlayer().isGoRight()) {
+            this.getPlayer().setPositionX(Math.min(widthOffset, this.getPlayer().getPositionX() + this.getPlayer().getSpeed() * speedMultiplier));
         }
 
         //Updates the hitbox with every player update
-        this.player.getR().setY(this.player.getPositionY() + 38);
-        this.player.getR().setX(this.player.getPositionX() + 13);
+        this.getPlayer().getR().setY(this.getPlayer().getPositionY() + 38);
+        this.getPlayer().getR().setX(this.getPlayer().getPositionX() + 13);
 
-        this.player.getRv().setY(this.player.getPositionY() + 11);
-        this.player.getRv().setX(this.player.getPositionX() + 20);
+        this.getPlayer().getRv().setY(this.getPlayer().getPositionY() + 11);
+        this.getPlayer().getRv().setX(this.getPlayer().getPositionX() + 20);
 
-        this.player.getRv2().setY(this.player.getPositionY() + 27);
-        this.player.getRv2().setX(this.player.getPositionX() + 38);
+        this.getPlayer().getRv2().setY(this.getPlayer().getPositionY() + 27);
+        this.getPlayer().getRv2().setX(this.getPlayer().getPositionX() + 38);
     }
 
-    public void getFirePermition() {
-        Player that = this.player;
-        this.player.getTimer().scheduleAtFixedRate(new TimerTask() {
+    private void getFirePermission() {
+        Player that = this.getPlayer();
+        this.getPlayer().getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 that.setFired(false);
@@ -98,9 +98,10 @@ public class PlayerManager {
     }
 
     private Missile fire() {
-        if (this.player.isFired()) {
+        if (this.getPlayer().isFired()) {
             return null;
         }
+
         AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
         shoot.play(0.7);
 
@@ -125,7 +126,7 @@ public class PlayerManager {
         //gameController.setMissiles(missile);
         //TODO update current level missiles
 
-        this.player.setFired(true);
+        this.getPlayer().setFired(true);
         return missile;
     }
 
@@ -134,26 +135,26 @@ public class PlayerManager {
         theScene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    this.player.setGoUp(true);
+                    this.getPlayer().setGoUp(true);
                     break;
                 case DOWN:
-                    this.player.setGoDown(true);
+                    this.getPlayer().setGoDown(true);
                     break;
                 case LEFT:
-                    this.player.setGoLeft(true);
+                    this.getPlayer().setGoLeft(true);
                     break;
                 case RIGHT:
-                    this.player.setGoRight(true);
+                    this.getPlayer().setGoRight(true);
                     break;
                 case SPACE:
                     //System.out.println(player.isFired());
-                    if (!this.player.isFired()) {
+                    if (!this.getPlayer().isFired()) {
                         level.getMissiles().add(this.fire());
-                        this.player.setFired(true);
+                        this.getPlayer().setFired(true);
                     }
                     break;
                 case SHIFT:
-                    this.player.setHeld(true);
+                    this.getPlayer().setHeld(true);
             }
         });
 
@@ -198,16 +199,16 @@ public class PlayerManager {
     public boolean checkCollision(double x, double y, int offset) {
         int hitX = (int) x;
         int hitY = (int) y;
-        int mainX = (int) this.player.getR().getX();
-        int mainY = (int) this.player.getR().getY();
-        int mainX1 = (int) this.player.getRv().getX();
-        int mainY1 = (int) this.player.getRv().getY();
-        int mainX2 = (int) this.player.getRv2().getX();
-        int mainY2 = (int) this.player.getRv2().getY();
+        int mainX = (int) this.getPlayer().getR().getX();
+        int mainY = (int) this.getPlayer().getR().getY();
+        int mainX1 = (int) this.getPlayer().getRv().getX();
+        int mainY1 = (int) this.getPlayer().getRv().getY();
+        int mainX2 = (int) this.getPlayer().getRv2().getX();
+        int mainY2 = (int) this.getPlayer().getRv2().getY();
 
-        if ((hitX <= mainX + (int) this.player.getR().getWidth() && hitX + offset >= mainX && hitY <= mainY + (int) this.player.getR().getHeight() && hitY + offset >= mainY) ||
-                (hitX <= mainX1 + (int) this.player.getRv().getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int) this.player.getRv().getHeight() && hitY + offset >= mainY1) ||
-                (hitX <= mainX2 + (int) this.player.getRv2().getWidth() && hitX + offset >= mainX2 && hitY <= mainY2 + (int) this.player.getRv2().getHeight() && hitY + offset >= mainY2)
+        if ((hitX <= mainX + (int) this.getPlayer().getR().getWidth() && hitX + offset >= mainX && hitY <= mainY + (int) this.getPlayer().getR().getHeight() && hitY + offset >= mainY) ||
+                (hitX <= mainX1 + (int) this.getPlayer().getRv().getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int) this.getPlayer().getRv().getHeight() && hitY + offset >= mainY1) ||
+                (hitX <= mainX2 + (int) this.getPlayer().getRv2().getWidth() && hitX + offset >= mainX2 && hitY <= mainY2 + (int) this.getPlayer().getRv2().getHeight() && hitY + offset >= mainY2)
                 ) {
             return true;
         }
@@ -215,13 +216,13 @@ public class PlayerManager {
     }
 
     public void resetPlayerPosition(Canvas canvas, FuelManager fuelManager) {
-        this.player.setPositionX(50);
-        this.player.setPositionY(canvas.getHeight() / 2);
+        this.getPlayer().setPositionX(50);
+        this.getPlayer().setPositionY(canvas.getHeight() / 2);
         fuelManager.resetFuel();
     }
 
     public void refreshPlayerSprite(double time) {
-        this.getPlayer().setImage(player.getFrame(player.getSprites(), time, 0.100));
+        this.getPlayer().setImage(this.getPlayer().getFrame(this.getPlayer().getSprites(), time, 0.100));
         this.getPlayer().render(this.getGraphicsContext());
     }
 

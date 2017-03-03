@@ -63,7 +63,7 @@ public class Level {
         return this.gameManager;
     }
 
-    public void setGameController(GameManager gameController) {
+    private void setGameController(GameManager gameController) {
         this.gameManager = gameController;
     }
 
@@ -79,7 +79,7 @@ public class Level {
         return this.gc;
     }
 
-    public void setGc(GraphicsContext gc) {
+    private void setGc(GraphicsContext gc) {
         this.gc = gc;
     }
 
@@ -95,7 +95,7 @@ public class Level {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    private void setPlayer(Player player) {
         this.player = player;
     }
 
@@ -103,7 +103,7 @@ public class Level {
         return asteroids;
     }
 
-    public void setAsteroids(ArrayList<Asteroid> asteroids) {
+    private void setAsteroids(ArrayList<Asteroid> asteroids) {
         this.asteroids = asteroids;
     }
 
@@ -111,7 +111,7 @@ public class Level {
         return ufos;
     }
 
-    public void setUfos(ArrayList<Ufo> ufos) {
+    private void setUfos(ArrayList<Ufo> ufos) {
         this.ufos = ufos;
     }
 
@@ -119,7 +119,7 @@ public class Level {
         return group;
     }
 
-    public void setGroup(Group group) {
+    private void setGroup(Group group) {
         this.group = group;
     }
 

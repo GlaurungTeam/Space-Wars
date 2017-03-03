@@ -30,6 +30,27 @@ public class FuelManager {
         return fuelBar;
     }
 
+    private void setFuelBar(FuelBar fuelBar) {
+        this.fuelBar = fuelBar;
+    }
+
+    private Timeline getTimeline() {
+        return this.timeline;
+    }
+
+    private void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    private FuelCan getFuelCan() {
+        return this.fuelCan;
+    }
+
+    private void setFuelCan(Canvas canvas) {
+        int fuelSpeed = 1;
+        this.fuelCan = new FuelCan(canvas, fuelSpeed);
+    }
+
     public void resetFuel() {
         this.getTimeline().playFromStart();
     }
@@ -56,25 +77,12 @@ public class FuelManager {
     }
 
     private void setCountdown(int totalFuel, ReadOnlyDoubleWrapper workDone) {
-        this.timeline = new Timeline(
+        this.setTimeline(new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
                 new KeyFrame(Duration.seconds(30), new KeyValue(workDone, 0))
-        );
+        ));
 
-        this.timeline.play();
-    }
-
-    private Timeline getTimeline() {
-        return this.timeline;
-    }
-
-    private FuelCan getFuelCan() {
-        return this.fuelCan;
-    }
-
-    private void setFuelCan(Canvas canvas) {
-        int fuelSpeed = 1;
-        this.fuelCan = new FuelCan(canvas, fuelSpeed);
+        this.getTimeline().play();
     }
 
     public void updateFuel(PlayerManager playerManager, Level level, AnimationTimer animationTimer) {

@@ -43,6 +43,7 @@ public class AsteroidManager {
 
     public ArrayList<Asteroid> initializeAsteroids(Canvas canvas) {
         ArrayList<Asteroid> asteroids = new ArrayList<>();
+
         for (int i = 0; i < 20; i++) {
             Asteroid currentAsteroid = new Asteroid(2.5);
             String path = "resources/asteroid/asteroid" +
@@ -104,7 +105,7 @@ public class AsteroidManager {
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 
             try {
-                this.playerManager.checkIfPlayerIsDead(level, timer);
+                this.getPlayerManager().checkIfPlayerIsDead(level, timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }

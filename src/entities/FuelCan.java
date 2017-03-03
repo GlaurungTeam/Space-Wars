@@ -39,7 +39,8 @@ public class FuelCan extends Sprite {
         if (this.getPositionX() < -200) {
             this.setPositionX(rnd.nextInt((int) canvas.getWidth()));
             this.setPositionY(rnd.nextInt((int) offset));
-            this.isTaken = false;
+
+            this.setTakenStatus(false);
         }
     }
 }

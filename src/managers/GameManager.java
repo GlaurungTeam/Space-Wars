@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class GameManager extends Application{
+public class GameManager extends Application {
     //TODO Logic from GameController is moved here(initializes Canvas, adds hitboxes, initializes fuelbar, etc...)
 
     //Implements start() method which initializes all other managers
@@ -26,13 +26,6 @@ public class GameManager extends Application{
     //Implements updateLevel() method which updates background, planet and earth location
     //Implements checkIfPlayerIsDead()
     //Implements writeInLeaderboard()
-
-    @FXML
-    private int backgroundX = 0;
-    private int backgroundY = 0;
-
-    private int planetX = 500;
-    private int planetY = 196;
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -58,6 +51,7 @@ public class GameManager extends Application{
         MissileManager missileManager = new MissileManager();
         TextManager textManager = new TextManager(root);
         EffectsManager effectsManager = new EffectsManager();
+        BackgroundManager backgroundManager = new BackgroundManager();
 
         //Initialize objects
         ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
@@ -73,52 +67,18 @@ public class GameManager extends Application{
         //Add hitboxes to canvas
         root.getChildren().addAll(player.getR(), player.getRv(), player.getRv2());
 
-        Image earth = new Image("resources/earth.png");
-        Image sun = new Image("resources/sun.png");
-        Image space = new Image("resources/space.png");
-
-        //Adjustable speeds
-        double backGroundSpeed = 1.5;
-
-        //Disable and enable shooting if space key is pressed(ship can shoot in 1sec delay)
-        /*timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                player.fired = false;
-            }
-        }, 0, 1000);*/
-
         final long startNanoTime = System.nanoTime();
 
         //The main game loop begins below
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-                //The 4 rows below are used to help make the earth move around the sun
-                //No need to understand it
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                double earthX = planetX + 36 + 128 * Math.cos(t);
-                double earthY = 232 + 128 * Math.sin(t);
-
-                //Update background, planet and earth location
-                backgroundX -= backGroundSpeed;
-                planetX -= backGroundSpeed - 0.5;
-
-                if (backgroundX < -1280) {
-                    backgroundX = 0;
-                }
-                if (planetX < -1280) {
-                    planetX = (int) canvas.getWidth() + 50;
-                }
-
-                //Background image clears canvas
-                gc.drawImage(space, backgroundX, backgroundY);
-                gc.drawImage(earth, earthX, earthY);
-                gc.drawImage(sun, planetX, planetY);
-
                 level1.setCurrentFrame(t);
 
                 //Here we are using our shiny new managers! :)
+                backgroundManager.renderBackground(gc);
+                backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageUfos(level1, this);
                 asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
@@ -127,7 +87,6 @@ public class GameManager extends Application{
                 textManager.updateText(level1.getPlayer());
                 effectsManager.manageExplosions(level1.getGc());
                 fuelManager.updateFuel(playerManager, level1, this);
-
             }
         };
         timer.start();
