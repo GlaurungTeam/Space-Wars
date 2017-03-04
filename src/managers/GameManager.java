@@ -1,9 +1,6 @@
 package managers;
 
-import entities.Asteroid;
-import entities.Level;
-import entities.Player;
-import entities.Ufo;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -54,7 +51,7 @@ public class GameManager extends Application {
         BackgroundManager backgroundManager = new BackgroundManager();
 
         //Initialize objects
-        ArrayList<Ufo> ufos = enemyManager.initializeUfos(canvas);
+        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(canvas,2,2, "ufo");
         ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas);
 
         //Make Level object

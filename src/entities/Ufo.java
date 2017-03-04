@@ -3,8 +3,7 @@ package entities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
-public class Ufo extends Sprite {
-    private boolean isHit = false;
+public class Ufo extends GameObject {
 
     public Ufo(Canvas canvas, double speed) {
         String path = "resources/UFO/ufo_" + String.valueOf(SpawnCoordinates.getRandom(6)) + ".png";
@@ -16,11 +15,4 @@ public class Ufo extends Sprite {
                 SpawnCoordinates.getSpawnY(canvas), this.getSpeed());
     }
 
-    public boolean getHitStatus() {
-        return this.isHit;
-    }
-
-    public void setHitStatus(boolean isHit) {
-        this.isHit = isHit;
-    }
 }

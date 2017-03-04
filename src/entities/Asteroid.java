@@ -1,7 +1,7 @@
 package entities;
 
 public class Asteroid extends Sprite {
-    private boolean isHit;
+    private boolean isHit = false;
 
     public Asteroid(double speed) {
         super.setSpeed(speed);
@@ -12,7 +12,8 @@ public class Asteroid extends Sprite {
         return this.isHit;
     }
 
-    public boolean setHitStatus(boolean isHit) {
-        return this.isHit = isHit;
+    public void setHitStatus(boolean isHit) {
+        this.isHit = isHit;
     }
+
 }
