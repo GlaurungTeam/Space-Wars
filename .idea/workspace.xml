@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5d5ca50-8ff9-4d1f-8d09-c246c0d3d522" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/entities/GameObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/leaderboard/leaderboard.ser" afterPath="$PROJECT_DIR$/src/leaderboard/leaderboard.ser" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -36,8 +35,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+            <state relative-caret-position="119">
+              <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -65,11 +64,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Sprite.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="11" column="15" lean-forward="false" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="EnemyManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/managers/EnemyManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+            <state relative-caret-position="95">
+              <caret line="44" column="70" lean-forward="true" selection-start-line="44" selection-start-column="70" selection-end-line="44" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -80,9 +89,12 @@
       <file leaf-file-name="Ufo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Ufo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-              <folding />
+            <state relative-caret-position="153">
+              <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+              <folding>
+                <element signature="e#317#318#0" expanded="true" />
+                <element signature="e#373#374#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,13 +102,14 @@
       <file leaf-file-name="GameObject.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/entities/GameObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+            <state relative-caret-position="61">
+              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
               <folding>
-                <element signature="e#129#130#0" expanded="true" />
-                <element signature="e#162#163#0" expanded="true" />
-                <element signature="e#209#210#0" expanded="true" />
-                <element signature="e#243#244#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#511#512#0" expanded="true" />
+                <element signature="e#544#545#0" expanded="true" />
+                <element signature="e#591#592#0" expanded="true" />
+                <element signature="e#625#626#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -142,11 +155,11 @@
         <option value="$PROJECT_DIR$/src/managers/AsteroidManager.java" />
         <option value="$PROJECT_DIR$/src/controllers/GameController.java" />
         <option value="$PROJECT_DIR$/src/managers/PlayerManager.java" />
-        <option value="$PROJECT_DIR$/src/entities/GameObject.java" />
-        <option value="$PROJECT_DIR$/src/entities/Ufo.java" />
         <option value="$PROJECT_DIR$/src/entities/Asteroid.java" />
         <option value="$PROJECT_DIR$/src/managers/GameManager.java" />
         <option value="$PROJECT_DIR$/src/managers/EnemyManager.java" />
+        <option value="$PROJECT_DIR$/src/entities/Ufo.java" />
+        <option value="$PROJECT_DIR$/src/entities/GameObject.java" />
       </list>
     </option>
   </component>
@@ -956,7 +969,7 @@
       <workItem from="1488311133807" duration="5678000" />
       <workItem from="1488455981483" duration="325000" />
       <workItem from="1488460872814" duration="1707000" />
-      <workItem from="1488655667338" duration="3593000" />
+      <workItem from="1488655667338" duration="5822000" />
     </task>
     <task id="LOCAL-00001" summary="Move explosions and missile arrays to the GameController  class (get rid of the static variables).">
       <created>1486922825925</created>
@@ -986,11 +999,18 @@
       <option name="project" value="LOCAL" />
       <updated>1488658853702</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Slight changes to GameObject and Ufo classes (better reuse of the &quot;father's&quot; code)">
+      <created>1488661506260</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1488661506261</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69892000" />
+    <option name="totallyTimeSpent" value="72121000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1003,7 +1023,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1020,7 +1040,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1055,7 +1075,8 @@
     <MESSAGE value="Move big part of the logic from the game loop to Level class." />
     <MESSAGE value="Move Player class methods to PlayerManager - EnemyManager and AsteroidManager take in their constructor PlayerManager  object to work  properly, so I make little changes to them." />
     <MESSAGE value="Try to use plymorphism in EnemyManager  class, by adding new Class GameObject wich will be inherited by all enemy objects in the game and in EnemyManager class the lists with enemies will be of type List&lt;GameObject&gt; ufos = new ArrayList&lt;&gt;(); - for example" />
-    <option name="LAST_COMMIT_MESSAGE" value="Try to use plymorphism in EnemyManager  class, by adding new Class GameObject wich will be inherited by all enemy objects in the game and in EnemyManager class the lists with enemies will be of type List&lt;GameObject&gt; ufos = new ArrayList&lt;&gt;(); - for example" />
+    <MESSAGE value="Slight changes to GameObject and Ufo classes (better reuse of the &quot;father's&quot; code)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slight changes to GameObject and Ufo classes (better reuse of the &quot;father's&quot; code)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1082,7 +1103,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/objectClasses/Player.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_111/javafx-src.zip!/javafx/animation/AnimationTimer.java">
@@ -1153,14 +1173,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-901">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -1273,18 +1285,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/entities/SpawnCoordinates.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="68">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/Ufo.java">
+    <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+        <state relative-caret-position="102">
+          <caret line="11" column="15" lean-forward="false" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -1301,23 +1313,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/managers/EnemyManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state relative-caret-position="95">
+          <caret line="44" column="70" lean-forward="true" selection-start-line="44" selection-start-column="70" selection-end-line="44" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/GameObject.java">
+    <entry file="file://$PROJECT_DIR$/src/controllers/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Ufo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
           <folding>
-            <element signature="e#129#130#0" expanded="true" />
-            <element signature="e#162#163#0" expanded="true" />
-            <element signature="e#209#210#0" expanded="true" />
-            <element signature="e#243#244#0" expanded="true" />
+            <element signature="e#317#318#0" expanded="true" />
+            <element signature="e#373#374#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/GameObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#511#512#0" expanded="true" />
+            <element signature="e#544#545#0" expanded="true" />
+            <element signature="e#591#592#0" expanded="true" />
+            <element signature="e#625#626#0" expanded="true" />
           </folding>
         </state>
       </provider>
