@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 //The whole point of this class is so that we can use hit detection easily
 //Thanks to it every object on the field has width, height, image and coordinates which we can use for the aforementioned reason
-public class Sprite {
+public abstract class Sprite {
     private Image image;
     private double positionX;
     private double positionY;
@@ -53,7 +53,7 @@ public class Sprite {
         return this.width;
     }
 
-    public void setWidth(int width) {
+    private void setWidth(int width) {
         this.width = width;
     }
 
@@ -61,7 +61,7 @@ public class Sprite {
         return this.height;
     }
 
-    public void setHeight(int height) {
+    private void setHeight(int height) {
         this.height = height;
     }
 
@@ -69,7 +69,7 @@ public class Sprite {
         return this.rows;
     }
 
-    public void setRows(int rows) {
+    private void setRows(int rows) {
         this.rows = rows;
     }
 
@@ -77,7 +77,7 @@ public class Sprite {
         return this.cols;
     }
 
-    public void setCols(int cols) {
+    private void setCols(int cols) {
         this.cols = cols;
     }
 
@@ -85,7 +85,7 @@ public class Sprite {
         return this.sprites;
     }
 
-    public void setSprites(Image[] sprites) {
+    private void setSprites(Image[] sprites) {
         this.sprites = sprites;
     }
 
@@ -112,33 +112,26 @@ public class Sprite {
     }
 
     public void setSpriteParameters(int width, int height, int rows, int cols) {
-        this.width = width;
-        this.height = height;
-        this.rows = rows;
-        this.cols = cols;
-        this.sprites = new Image[rows * cols];
+        this.setWidth(width);
+        this.setHeight(height);
+        this.setRows(rows);
+        this.setCols(cols);
+        this.setSprites(new Image[rows * cols]);
     }
 
     public Sprite() {
     }
 
-    public Sprite(Image image, double x, double y, double speed) {
-        this.setImage(image);
-        this.positionX = x;
-        this.positionY = y;
-        this.speed = speed;
-    }
-
-    public void setImage(Image i) {
-        this.image = i;
-        this.width = (int) i.getWidth();
-        this.height = (int) i.getHeight();
+    public void setImage(Image image) {
+        this.image = image;
+        this.setWidth((int) image.getWidth());
+        this.setHeight((int) image.getHeight());
     }
 
     public void setPosition(double x, double y, double speed) {
-        this.positionX = x;
-        this.positionY = y;
-        this.speed = speed;
+        this.setPositionX(x);
+        this.setPositionY(y);
+        this.setSpeed(speed);
     }
 
     public Image getFrame(Image[] sprites, double time, double duration) {
@@ -150,7 +143,7 @@ public class Sprite {
         gc.drawImage(this.image, this.positionX, this.positionY);
     }
 
-    public Rectangle2D getBoundary() {
+    private Rectangle2D getBoundary() {
         return new Rectangle2D(this.positionX, this.positionY, this.width, this.height);
     }
 
@@ -161,10 +154,5 @@ public class Sprite {
     public String toString() {
         return "Position: [" + this.positionX + "," + this.positionY + "]" +
                 "Velocity: [" + this.speed + "]";
-    }
-
-    //Load spritesheet
-    public void loadSpriteSheet(BufferedImage spriteSheet) {
-        this.spriteSheet = spriteSheet;
     }
 }

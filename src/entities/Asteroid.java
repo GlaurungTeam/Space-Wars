@@ -1,19 +1,18 @@
 package entities;
 
 public class Asteroid extends Sprite {
-    private boolean isHit = false;
+    private int health;
 
-    public Asteroid(double speed) {
+    public Asteroid(double speed, int health) {
         super.setSpeed(speed);
-        this.setHitStatus(false);
+        this.setHealth(health);
     }
 
-    public boolean getHitStatus() {
-        return this.isHit;
+    public int getHealth() {
+        return this.health;
     }
 
-    public void setHitStatus(boolean isHit) {
-        this.isHit = isHit;
+    public void setHealth(int health) {
+        this.health = health;
     }
-
 }

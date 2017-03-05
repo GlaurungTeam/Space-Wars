@@ -18,23 +18,32 @@ public class MissileManager {
 
                 //Collision detection missile hits asteroid and removes it from canvas
                 for (Asteroid asteroidToCheck : level.getAsteroids()) {
-                    if (asteroidToCheck.getHitStatus()) {
+                    if (asteroidToCheck.getHealth() == 0) {
                         continue;
                     }
                     if (currentMissile.intersects(asteroidToCheck)) {
-                        asteroidToCheck.setHitStatus(true);
-                        EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
-                        level.getMissiles().remove(currentMissile);
-                        level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
+                        asteroidToCheck.setHealth(asteroidToCheck.getHealth() - 1);
+
+                        if (asteroidToCheck.getHealth() > 0) {
+                            level.getMissiles().remove(currentMissile);
+                            EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                        } else if (asteroidToCheck.getHealth() == 0) {
+                            EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            level.getMissiles().remove(currentMissile);
+                            level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
+                        }
                     }
                 }
+
                 for (Ufo ufoToCheck : level.getUfos()) {
                     if (ufoToCheck.getHitStatus()) {
                         continue;
                     }
                     if (currentMissile.intersects(ufoToCheck)) {
                         ufoToCheck.setHitStatus(true);
+
                         EffectsManager.playUfoHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+
                         level.getMissiles().remove(currentMissile);
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 3);
                     }

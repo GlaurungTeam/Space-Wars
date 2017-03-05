@@ -8,6 +8,6 @@ public class Ufo extends GameObject {
             "resources/UFO/ufo_" + String.valueOf(SpawnCoordinates.getRandom(6)) + ".png";
 
     public Ufo(Canvas canvas, double speed) {
-        super(canvas,speed,UFO_SPRITESHEET_PATH);
+        super(canvas, speed, UFO_SPRITESHEET_PATH);
     }
 }

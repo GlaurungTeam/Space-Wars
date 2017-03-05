@@ -43,7 +43,7 @@ public class PlayerManager {
         this.graphicsContext = graphicsContext;
     }
 
-    public Player getPlayer() {
+    private Player getPlayer() {
         return this.player;
     }
 
@@ -120,7 +120,7 @@ public class PlayerManager {
         }
 
         missile.setSpriteParameters(31, 7, 1, 23);
-        missile.loadSpriteSheet(missileSpriteSheet);
+        missile.setSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
 
         //gameController.setMissiles(missile);

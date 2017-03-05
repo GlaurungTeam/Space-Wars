@@ -51,8 +51,8 @@ public class GameManager extends Application {
         BackgroundManager backgroundManager = new BackgroundManager();
 
         //Initialize objects
-        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(canvas,2,2, "ufo");
-        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas);
+        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(canvas, 2, 2, "ufo");
+        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, 1);
 
         //Make Level object
         Level level1 = new Level
@@ -77,8 +77,8 @@ public class GameManager extends Application {
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageUfos(level1, this);
-                asteroidManager.manageAsteroids(level1, this);
                 missileManager.manageMissiles(level1);
+                asteroidManager.manageAsteroids(level1, this, 1);
                 playerManager.updatePlayerLocation(canvas);
                 playerManager.refreshPlayerSprite(t);
                 textManager.updateText(level1.getPlayer());

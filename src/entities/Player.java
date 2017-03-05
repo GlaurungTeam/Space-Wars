@@ -48,7 +48,7 @@ public class Player extends Sprite {
                 ImageIO.read(new File(MenuController.PROJECT_PATH +
                         "/src/resources/spaceship/spaceshipSprites4.png"));
         super.setSpriteParameters(82, 82, 2, 3);
-        super.loadSpriteSheet(playerSpriteSheet);
+        super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
         super.setPosition(100, canvas.getHeight() / 2, super.getSpeed());
 

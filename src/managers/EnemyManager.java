@@ -39,16 +39,14 @@ public class EnemyManager {
         this.setFuelManager(fuelManager);
     }
 
-    public ArrayList<GameObject> initializeEnemies(Canvas canvas,
-                                                   int enemyCount,
-                                                   int enemySpeed,
-                                                   String enemyType) {
+    public ArrayList<GameObject> initializeEnemies(
+            Canvas canvas, int enemyCount, int enemySpeed, String enemyType) {
 
         ArrayList<GameObject> enemiesToReturn = new ArrayList<>();
 
         for (int i = 0; i < enemyCount; i++) {
             GameObject enemy = null;
-            switch (enemyType){
+            switch (enemyType) {
                 case "ufo":
                     enemy = new Ufo(canvas, enemySpeed);
                     break;

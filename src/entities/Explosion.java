@@ -27,7 +27,7 @@ public class Explosion extends Sprite {
         }
 
         this.setSpriteParameters(48, 49, 1, 25);
-        this.loadSpriteSheet(explosionSpriteSheet);
+        this.setSpriteSheet(explosionSpriteSheet);
         this.splitSprites();
     }
 
