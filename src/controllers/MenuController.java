@@ -29,6 +29,9 @@ public class MenuController {
     public AnchorPane loginPane;
     public static String userName;
     public Label spaceWars;
+    public AnchorPane difficultyPane;
+    public Button easyLevelButton;
+    public Button hardLevelButton;
 
     public void start(ActionEvent actionEvent) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
@@ -40,7 +43,7 @@ public class MenuController {
     }
 
     public void openHighScores(ActionEvent actionEvent) throws IOException, InterruptedException {
-        Stage primaryStage = (Stage) spaceWars.getScene().getWindow();
+        Stage primaryStage = (Stage) this.spaceWars.getScene().getWindow();
 
         Pane root = FXMLLoader.load(getClass().getResource("../views/leaderboard.fxml"));
         Scene scene = new Scene(root, 1280, 720);
@@ -86,13 +89,11 @@ public class MenuController {
         System.exit(0);
     }
 
-    public void getUsername(ActionEvent actionEvent) {
-    }
 
     public void goBack(ActionEvent actionEvent) throws Exception {
         Pane root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
 
-        Stage leaderBoardStage = (Stage) spaceWars.getScene().getWindow();
+        Stage leaderBoardStage = (Stage) this.spaceWars.getScene().getWindow();
 
         leaderBoardStage.setTitle("Launcher");
         leaderBoardStage.setScene(new Scene(root, 1280, 720));
@@ -103,10 +104,23 @@ public class MenuController {
         userName = usernameField.getText();
 
         if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
-            Stage stage = new Stage();
-            ((Stage) this.startGameButton.getScene().getWindow()).close();
-            GameManager gameManager = new GameManager();
-            gameManager.start(stage);
+            Parent root = FXMLLoader.load(getClass().getResource("../views/difficulty.fxml"));
+            Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
+
+            difficultyStage.setTitle("Difficulty selector");
+            difficultyStage.setScene(new Scene(root, 1280, 720));
+            difficultyStage.show();
+
         }
+    }
+
+    public void startEasyLevel(ActionEvent actionEvent) throws Exception {
+        Stage stage = new Stage();
+        ((Stage) easyLevelButton.getScene().getWindow()).close();
+        GameManager gameManager = new GameManager();
+        gameManager.start(stage);
+    }
+
+    public void startHardLevel(ActionEvent actionEvent) {
     }
 }
