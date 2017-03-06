@@ -2,7 +2,7 @@ package entities;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,16 +16,13 @@ public class Player extends Sprite {
     private Scene scene;
     private boolean fired;
     private Timer timer;
+    public SVGPath svgPath;
 
     private boolean goLeft;
     private boolean goRight;
     private boolean goUp;
     private boolean goDown;
     private boolean held;
-
-    private Rectangle r;
-    private Rectangle rv;
-    private Rectangle rv2;
 
     public Player(Double speed, Integer lives, Scene scene, Canvas canvas) throws IOException {
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
@@ -36,38 +33,25 @@ public class Player extends Sprite {
         this.setLives(lives);
         this.setScene(scene);
 
-        this.timer = new Timer();
+        //We are using SVG Path to make up for the complex form of the spaceship
+        svgPath = new SVGPath();
+        svgPath.setContent("M23,9 L23,9 23,70 29,70 61,45 72,45 78,41 72,35 59,33 28,8 Z");
 
-        this.r = new Rectangle();
-        this.rv = new Rectangle();
-        this.rv2 = new Rectangle();
+        this.timer = new Timer();
 
         //Load sprites from file
         BufferedImage playerSpriteSheet =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE));
+
         super.setSpriteParameters(82, 82, 2, 3);
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
         super.setPosition(100, canvas.getHeight() / 2, super.getSpeed());
-
     }
 
     public Timer getTimer() {
         return timer;
-    }
-
-    //Collision rectangles getters
-    public Rectangle getR() {
-        return this.r;
-    }
-
-    public Rectangle getRv() {
-        return this.rv;
-    }
-
-    public Rectangle getRv2() {
-        return this.rv2;
     }
 
     //Movement getters and setters

@@ -60,9 +60,6 @@ public class GameManager extends Application {
         //The shiny PlayerManager class :D
         playerManager.initializePlayerControls(theScene, level1);
 
-        //Add hitboxes to canvas
-        root.getChildren().addAll(player.getR(), player.getRv(), player.getRv2());
-
         final long startNanoTime = System.nanoTime();
 
         //The main game loop begins below

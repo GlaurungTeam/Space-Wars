@@ -93,8 +93,7 @@ public class AsteroidManager {
     }
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer, int health) {
-        if (this.getPlayerManager().checkCollision(asteroid.getPositionX(),
-                asteroid.getPositionY(), 32)) {
+        if (this.getPlayerManager().checkCollision(asteroid)) {
 
             EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY()));
 

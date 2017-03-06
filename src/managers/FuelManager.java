@@ -90,7 +90,7 @@ public class FuelManager {
         }
 
         if (!this.getFuelCan().getTakenStatus() &&
-                playerManager.checkCollision(this.getFuelCan().getPositionX(), this.getFuelCan().getPositionY(), 45)) {
+                playerManager.checkCollision(fuelCan)) {
 
             this.getTimeline().playFromStart();
             this.getFuelCan().setTakenStatus(true);

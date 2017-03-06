@@ -4,6 +4,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.image.BufferedImage;
 
@@ -141,6 +142,10 @@ public abstract class Sprite {
 
     public void render(GraphicsContext gc) {
         gc.drawImage(this.image, this.positionX, this.positionY);
+    }
+
+    public Rectangle getBoundsAsShape() {
+        return new Rectangle(this.positionX, this.positionY, this.width, this.height);
     }
 
     private Rectangle2D getBoundary() {

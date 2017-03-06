@@ -1,17 +1,14 @@
 package managers;
 
 import controllers.MenuController;
-import entities.Constants;
-import entities.Level;
-import entities.Missile;
-import entities.Player;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,7 +28,6 @@ public class PlayerManager {
 
     public PlayerManager(Player player, GraphicsContext graphicsContext) {
         this.setPlayer(player);
-        this.initializeHitboxes();
         this.getFirePermission();
         this.setGraphicsContext(graphicsContext);
     }
@@ -65,27 +61,26 @@ public class PlayerManager {
         }
 
         if (this.getPlayer().isGoUp()) {
-            this.getPlayer().setPositionY(Math.max(0, this.getPlayer().getPositionY() - this.getPlayer().getSpeed() * speedMultiplier));
+            this.getPlayer().setPositionY(
+                    Math.max(0, this.getPlayer().getPositionY() - this.getPlayer().getSpeed() * speedMultiplier));
         }
         if (this.getPlayer().isGoDown()) {
-            this.getPlayer().setPositionY(Math.min(heightOffset, this.getPlayer().getPositionY() + this.getPlayer().getSpeed() * speedMultiplier));
+            this.getPlayer().setPositionY(
+                    Math.min(heightOffset, this.getPlayer().getPositionY() + this.getPlayer().getSpeed() * speedMultiplier));
         }
         if (this.getPlayer().isGoLeft()) {
-            this.getPlayer().setPositionX(Math.max(0, this.getPlayer().getPositionX() - this.getPlayer().getSpeed() * speedMultiplier));
+            this.getPlayer().setPositionX(
+                    Math.max(0, this.getPlayer().getPositionX() - this.getPlayer().getSpeed() * speedMultiplier));
         }
         if (this.getPlayer().isGoRight()) {
-            this.getPlayer().setPositionX(Math.min(widthOffset, this.getPlayer().getPositionX() + this.getPlayer().getSpeed() * speedMultiplier));
+            this.getPlayer().setPositionX(
+                    Math.min(widthOffset, this.getPlayer().getPositionX() + this.getPlayer().getSpeed() * speedMultiplier));
         }
 
-        //Updates the hitbox with every player update
-        this.getPlayer().getR().setY(this.getPlayer().getPositionY() + 38);
-        this.getPlayer().getR().setX(this.getPlayer().getPositionX() + 13);
+        //Update the SVG Path location
+        this.getPlayer().svgPath.setLayoutX(this.getPlayer().getPositionX());
+        this.getPlayer().svgPath.setLayoutY(this.getPlayer().getPositionY());
 
-        this.getPlayer().getRv().setY(this.getPlayer().getPositionY() + 11);
-        this.getPlayer().getRv().setX(this.getPlayer().getPositionX() + 20);
-
-        this.getPlayer().getRv2().setY(this.getPlayer().getPositionY() + 27);
-        this.getPlayer().getRv2().setX(this.getPlayer().getPositionX() + 38);
     }
 
     private void getFirePermission() {
@@ -178,38 +173,11 @@ public class PlayerManager {
         });
     }
 
-    private void initializeHitboxes() {
-        this.player.getR().setWidth(57);
-        this.player.getR().setHeight(7);
-        this.player.getR().setStroke(Color.TRANSPARENT);
-        this.player.getR().setFill(Color.TRANSPARENT);
-
-        this.player.getRv().setWidth(4);
-        this.player.getRv().setHeight(58);
-        this.player.getRv().setStroke(Color.TRANSPARENT);
-        this.player.getRv().setFill(Color.TRANSPARENT);
-
-        this.player.getRv2().setWidth(3);
-        this.player.getRv2().setHeight(28);
-        this.player.getRv2().setStroke(Color.TRANSPARENT);
-        this.player.getRv2().setFill(Color.TRANSPARENT);
-    }
-
     //Method that checks if the player collides with a given object
-    public boolean checkCollision(double x, double y, int offset) {
-        int hitX = (int) x;
-        int hitY = (int) y;
-        int mainX = (int) this.getPlayer().getR().getX();
-        int mainY = (int) this.getPlayer().getR().getY();
-        int mainX1 = (int) this.getPlayer().getRv().getX();
-        int mainY1 = (int) this.getPlayer().getRv().getY();
-        int mainX2 = (int) this.getPlayer().getRv2().getX();
-        int mainY2 = (int) this.getPlayer().getRv2().getY();
+    public boolean checkCollision(Sprite sprite) {
+        Shape intersect = Shape.intersect(this.getPlayer().svgPath, sprite.getBoundsAsShape());
 
-        if ((hitX <= mainX + (int) this.getPlayer().getR().getWidth() && hitX + offset >= mainX && hitY <= mainY + (int) this.getPlayer().getR().getHeight() && hitY + offset >= mainY) ||
-                (hitX <= mainX1 + (int) this.getPlayer().getRv().getWidth() && hitX + offset >= mainX1 && hitY <= mainY1 + (int) this.getPlayer().getRv().getHeight() && hitY + offset >= mainY1) ||
-                (hitX <= mainX2 + (int) this.getPlayer().getRv2().getWidth() && hitX + offset >= mainX2 && hitY <= mainY2 + (int) this.getPlayer().getRv2().getHeight() && hitY + offset >= mainY2)
-                ) {
+        if (intersect.getBoundsInLocal().getWidth() != -1) {
             return true;
         }
         return false;

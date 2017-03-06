@@ -20,8 +20,7 @@ public class SpawnCoordinates {
     }
 
     public static double getSpawnY(Canvas canvas) {
-        //Offset so that objects don't spawn out of boundaries
-        //Offset Formula
+        //Offset formula so that objects don't spawn out of boundaries
         double offset = canvas.getHeight() - heightOffset;
         return rndY.nextInt((int) offset);
     }

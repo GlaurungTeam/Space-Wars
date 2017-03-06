@@ -55,7 +55,7 @@ public class EnemyManager {
     }
 
     private void manageEnemyCollision(Level level, AnimationTimer timer, GameObject enemy) {
-        if (this.getPlayerManager().checkCollision(enemy.getPositionX(), enemy.getPositionY(), 32)) {
+        if (this.getPlayerManager().checkCollision(enemy)) {
             this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
             enemy.setPositionX(-1300);
 
