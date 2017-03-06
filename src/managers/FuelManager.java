@@ -1,5 +1,6 @@
 package managers;
 
+import entities.Constants;
 import entities.FuelBar;
 import entities.FuelCan;
 import entities.Level;
@@ -19,7 +20,6 @@ public class FuelManager {
     private FuelBar fuelBar;
     private FuelCan fuelCan;
     private Timeline timeline;
-    private final int TOTAL_FUEL = 50;
 
     public FuelManager(Group root, Canvas canvas) {
         this.setFuelBar(root);
@@ -47,8 +47,7 @@ public class FuelManager {
     }
 
     private void setFuelCan(Canvas canvas) {
-        int fuelSpeed = 1;
-        this.fuelCan = new FuelCan(canvas, fuelSpeed);
+        this.fuelCan = new FuelCan(canvas, Constants.FUELCAN_SPEED);
     }
 
     public void resetFuel() {
@@ -61,11 +60,11 @@ public class FuelManager {
 
         FuelBar bar = new FuelBar(
                 workDone.getReadOnlyProperty(),
-                this.TOTAL_FUEL,
+                Constants.TOTAL_FUEL,
                 FUEL_BURNED_FORMAT
         );
 
-        this.setCountdown(this.TOTAL_FUEL, workDone);
+        this.setCountdown(Constants.TOTAL_FUEL, workDone);
 
         VBox layout = new VBox(20);
         layout.setLayoutX(80);
@@ -98,9 +97,9 @@ public class FuelManager {
         }
 
         if (level.getPlayer().isHeld()) {
-            this.getTimeline().setRate(3);
+            this.getTimeline().setRate(Constants.FUEL_RATE_FAST);
         } else {
-            this.getTimeline().setRate(1);
+            this.getTimeline().setRate(Constants.FUEL_RATE_SLOW);
         }
 
         this.getFuelCan().updateFuelCanLocation(level.getCanvas());

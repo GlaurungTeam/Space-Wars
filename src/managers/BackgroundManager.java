@@ -1,5 +1,6 @@
 package managers;
 
+import entities.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,8 +20,6 @@ public class BackgroundManager {
     private Image earth;
     private Image sun;
     private Image space;
-
-    private static final double BACKGROUND_SPEED = 1;
 
     private double getBackgroundX() {
         return this.backgroundX;
@@ -94,9 +93,9 @@ public class BackgroundManager {
         this.setPlanetX(500);
         this.setPlanetY(196);
 
-        this.setEarth(new Image("resources/earth.png"));
-        this.setSun(new Image("resources/sun.png"));
-        this.setSpace(new Image("resources/space.png"));
+        this.setEarth(new Image(Constants.EARTH_IMAGE));
+        this.setSun(new Image(Constants.SUN_IMAGE));
+        this.setSpace(new Image(Constants.SPACE_IMAGE));
     }
 
     public void updateBackground(double t, Canvas canvas) {
@@ -106,8 +105,8 @@ public class BackgroundManager {
         this.setEarthY(232 + 128 * Math.sin(t));
 
         //Update background, planet and earth location
-        this.setBackgroundX(this.getBackgroundX() - BACKGROUND_SPEED);
-        this.setPlanetX(this.getPlanetX() - BACKGROUND_SPEED);
+        this.setBackgroundX(this.getBackgroundX() - Constants.BACKGROUND_SPEED);
+        this.setPlanetX(this.getPlanetX() - Constants.BACKGROUND_SPEED);
 
         if (this.getBackgroundX() < -1280) {
             this.setBackgroundX(0);

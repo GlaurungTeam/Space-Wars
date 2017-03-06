@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,13 +16,8 @@ import javafx.stage.Stage;
 import managers.GameManager;
 
 import java.io.*;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MenuController {
-    //Project Path
-    public static String PROJECT_PATH = System.getProperty("user.dir");
     public Button startButton;
     public Button scoreButton;
     public Button quitButton;
@@ -54,7 +50,7 @@ public class MenuController {
         primaryStage.show();
 
         try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream("src/leaderboard/leaderboard.ser"))) {
+                (new FileInputStream(Constants.LEADERBOARD_FILE_LOCATION))) {
             String[] scores = (String[]) in.readObject();
 
             int i = 1;
@@ -75,7 +71,7 @@ public class MenuController {
                 scoreLine.setFont(Font.font("Verdana", 18));
                 scoreLine.setFill(Color.WHITE);
 
-                String scoreToPrint = toString().format("%d. %s - %d points", i, userName, result);
+                String scoreToPrint = String.format("%d. %s - %d points", i, userName, result);
                 scoreLine.setText(scoreToPrint);
 
                 y += 36;
@@ -94,7 +90,7 @@ public class MenuController {
     }
 
     public void goBack(ActionEvent actionEvent) throws Exception {
-        Pane root = FXMLLoader.load(getClass().getResource("../views/sample.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
 
         Stage leaderBoardStage = (Stage) spaceWars.getScene().getWindow();
 

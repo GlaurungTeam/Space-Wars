@@ -1,6 +1,5 @@
 package entities;
 
-import controllers.MenuController;
 import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
@@ -15,13 +14,13 @@ public class Explosion extends Sprite {
         this.setCurrentFrameIndex(0);
         super.setPositionX(x);
         super.setPositionY(y);
-        super.setSpeed(0.1);
+        super.setSpeed(Constants.EXPLOSION_SPEED);
 
         BufferedImage explosionSpriteSheet = null;
 
         try {
             explosionSpriteSheet = ImageIO.read(new File(
-                    MenuController.PROJECT_PATH + "/src/resources/explosions/rsz_explosion-spritesheet.png"));
+                    Constants.PROJECT_PATH + Constants.EXPLOSION_SPRITESHEET_IMAGE));
         } catch (IOException exception) {
             exception.printStackTrace();
         }

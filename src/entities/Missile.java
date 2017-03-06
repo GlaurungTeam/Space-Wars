@@ -6,7 +6,6 @@ public class Missile extends Sprite {
     }
 
     public void updateMissileLocation() {
-        int speedMultiplier = 2;
-        super.setPositionX(Math.max(0, super.getPositionX() + super.getSpeed() * speedMultiplier));
+        super.setPositionX(Math.max(0, super.getPositionX() + super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER));
     }
 }

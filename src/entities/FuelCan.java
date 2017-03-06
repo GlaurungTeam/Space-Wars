@@ -9,8 +9,7 @@ public class FuelCan extends Sprite {
     private boolean isTaken;
 
     public FuelCan(Canvas canvas, double speed) {
-        String path = "resources/fuelcan/fuelCan.png";
-        Image image = new Image(path);
+        Image image = new Image(Constants.FUELCAN_IMAGE);
 
         super.setImage(image);
         super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas), this.getSpeed());

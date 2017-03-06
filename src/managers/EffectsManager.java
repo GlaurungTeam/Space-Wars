@@ -1,5 +1,6 @@
 package managers;
 
+import entities.Constants;
 import entities.Explosion;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -28,13 +29,13 @@ public class EffectsManager {
 
     public static void playAsteroidHit(Explosion e) {
         EffectsManager.explosions.add(e);
-        AudioClip audioClip = new AudioClip(Paths.get("src/Resources/sound/explosion2.mp3").toUri().toString());
+        AudioClip audioClip = new AudioClip(Paths.get(Constants.ASTEROID_HIT_SOUND).toUri().toString());
         audioClip.play();
     }
 
     public static void playUfoHit(Explosion e) {
         EffectsManager.explosions.add(e);
-        AudioClip audioClip = new AudioClip(Paths.get("src/Resources/sound/explossion.mp3").toUri().toString());
+        AudioClip audioClip = new AudioClip(Paths.get(Constants.UFO_HIT_SOUND).toUri().toString());
         audioClip.play();
     }
 

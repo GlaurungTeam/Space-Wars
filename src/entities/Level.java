@@ -1,19 +1,12 @@
 package entities;
 
 import managers.GameManager;
-import controllers.MenuController;
-import javafx.animation.AnimationTimer;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import managers.GameManager;
 
 import java.io.*;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -135,7 +128,7 @@ public class Level {
         SortedMap<String, Long> scores = new TreeMap<>();
 
         try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream("src/leaderboard/leaderboard.ser"))) {
+                (new FileInputStream(Constants.LEADERBOARD_FILE_LOCATION))) {
             String[] allScores = (String[]) in.readObject();
 
             for (int i = 0; i < allScores.length; i++) {
@@ -145,6 +138,7 @@ public class Level {
                 if (allScores[i] == null) {
                     continue;
                 }
+
                 String[] scoreLineArr = allScores[i].split(":");
                 String userName = scoreLineArr[0];
                 Long result = Long.parseLong(scoreLineArr[1]);
@@ -156,11 +150,11 @@ public class Level {
         }
 
         ArrayList<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
-                .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(pair -> pair.getValue()).reversed())
+                .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(Map.Entry::getValue).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 
         try (ObjectOutputStream out = new ObjectOutputStream(
-                (new FileOutputStream("src\\leaderboard\\leaderboard.ser")))) {
+                (new FileOutputStream(Constants.LEADERBOARD_FILE_LOCATION)))) {
             Iterator it = sortedScores.iterator();
 
             int i = 0;

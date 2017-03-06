@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class GameManager extends Application {
-    //TODO Logic from GameController is moved here(initializes Canvas, adds hitboxes, initializes fuelbar, etc...)
-
     //Implements start() method which initializes all other managers
     //Implements run() method where the game loop will be
     //Implements stop() method
@@ -38,7 +36,7 @@ public class GameManager extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Make new player object
-        Player player = new Player(3.0, 3, theScene, canvas);
+        Player player = new Player(Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene, canvas);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);
@@ -51,8 +49,9 @@ public class GameManager extends Application {
         BackgroundManager backgroundManager = new BackgroundManager();
 
         //Initialize objects
-        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(canvas, 2, 2, "ufo");
-        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, 1);
+        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(
+                canvas, Constants.UFO_COUNT, Constants.UFO_SPEED, "ufo");
+        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, Constants.ASTEROID_HEALTH);
 
         //Make Level object
         Level level1 = new Level
@@ -78,7 +77,7 @@ public class GameManager extends Application {
                 backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageUfos(level1, this);
                 missileManager.manageMissiles(level1);
-                asteroidManager.manageAsteroids(level1, this, 1);
+                asteroidManager.manageAsteroids(level1, this, Constants.ASTEROID_HEALTH);
                 playerManager.updatePlayerLocation(canvas);
                 playerManager.refreshPlayerSprite(t);
                 textManager.updateText(level1.getPlayer());

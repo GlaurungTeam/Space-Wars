@@ -1,12 +1,9 @@
 package managers;
 
-import entities.Explosion;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
-import entities.Asteroid;
-import entities.Level;
-import entities.SpawnCoordinates;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -46,15 +43,15 @@ public class AsteroidManager {
     public ArrayList<Asteroid> initializeAsteroids(Canvas canvas, int health) {
         ArrayList<Asteroid> asteroids = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
-            Asteroid currentAsteroid = new Asteroid(2.5, health);
-            String path = "resources/asteroid/asteroid" +
-                    String.valueOf(SpawnCoordinates.getRandom(4)) + ".png";
-            Image image = new Image(path);
+        for (int i = 0; i < Constants.ASTEROIDS_COUNT; i++) {
+            Asteroid currentAsteroid = new Asteroid(Constants.ASTEROID_SPEED, health);
+
+            Image image = new Image(Constants.ASTEROID_IMAGE +
+                    String.valueOf(SpawnCoordinates.getRandom(4)) + ".png");
 
             currentAsteroid.setImage(image);
             currentAsteroid.setPosition(SpawnCoordinates.getSpawnX(canvas),
-                    SpawnCoordinates.getSpawnY(canvas), 2.5);
+                    SpawnCoordinates.getSpawnY(canvas), Constants.ASTEROID_SPEED);
 
             asteroids.add(currentAsteroid);
         }
@@ -78,7 +75,8 @@ public class AsteroidManager {
     }
 
     public void manageAsteroids(Level level, AnimationTimer timer, int health) {
-        //TODO Iterate through all asteroids and remove the asteroid that was hit and/or remove the missile that was hit
+        //TODO Iterate through all asteroids and remove the asteroid that was
+        // hit and/or remove the missile that was hit
 
         //Add explosion to list
         //Iterate through all asteroids
@@ -88,7 +86,8 @@ public class AsteroidManager {
                 this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer, health);
             }
             //Asteroid speed updating every rotation making them faster:
-            asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() + 0.00002);
+            asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() +
+                    Constants.OBJECT_SPEED_UP_VALUE);
             this.updateAsteroidLocation(level.getCanvas(), asteroidToRenderAndUpdate, health);
         }
     }

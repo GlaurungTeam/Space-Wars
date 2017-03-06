@@ -1,6 +1,5 @@
 package entities;
 
-import controllers.MenuController;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.Rectangle;
@@ -12,9 +11,6 @@ import java.io.IOException;
 import java.util.Timer;
 
 public class Player extends Sprite {
-    private static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
-    private static final long START_POINTS = 0;
-
     private Integer lives;
     private long points;
     private Scene scene;
@@ -32,21 +28,24 @@ public class Player extends Sprite {
     private Rectangle rv2;
 
     public Player(Double speed, Integer lives, Scene scene, Canvas canvas) throws IOException {
-        this.setFired(DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
-        this.setHeld(DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
-        this.setPoints(START_POINTS);
+        this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.setPoints(Constants.START_POINTS);
+
         super.setSpeed(speed);
         this.setLives(lives);
         this.setScene(scene);
+
         this.timer = new Timer();
+
         this.r = new Rectangle();
         this.rv = new Rectangle();
         this.rv2 = new Rectangle();
 
         //Load sprites from file
         BufferedImage playerSpriteSheet =
-                ImageIO.read(new File(MenuController.PROJECT_PATH +
-                        "/src/resources/spaceship/spaceshipSprites4.png"));
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE));
         super.setSpriteParameters(82, 82, 2, 3);
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();

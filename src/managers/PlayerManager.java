@@ -1,6 +1,7 @@
 package managers;
 
 import controllers.MenuController;
+import entities.Constants;
 import entities.Level;
 import entities.Missile;
 import entities.Player;
@@ -102,19 +103,18 @@ public class PlayerManager {
             return null;
         }
 
-        AudioClip shoot = new AudioClip(Paths.get("src/resources/sound/lasergun.mp3").toUri().toString());
+        AudioClip shoot = new AudioClip(Paths.get(Constants.PLAYER_SHOOT_SOUND).toUri().toString());
         shoot.play(0.7);
 
         //Make missile
         Missile missile = new Missile(this.player.getPositionX() + this.player.getWidth() / 1.2,
-                this.player.getPositionY() + this.player.getHeight() / 2,
-                2);
+                this.player.getPositionY() + this.player.getHeight() / 2, 2);
 
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;
 
         try {
-            missileSpriteSheet = ImageIO.read(new File(MenuController.PROJECT_PATH + "/src/resources/missiles/largeMissiles.png"));
+            missileSpriteSheet = ImageIO.read(new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -230,7 +230,7 @@ public class PlayerManager {
         if (this.getPlayer().getLives() <= 0) {
             timer.stop();
             try {
-                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/sample.fxml")));
+                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml")));
                 level.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();

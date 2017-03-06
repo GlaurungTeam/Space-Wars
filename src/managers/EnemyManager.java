@@ -1,11 +1,8 @@
 package managers;
 
-import entities.GameObject;
-import entities.Level;
-import entities.Sprite;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
-import entities.Ufo;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,6 +12,7 @@ public class EnemyManager {
     //Check UFO Collisions(manageUfos() in Level()) with missile or player and add Explosion to List<Explosion> for the EffectsManager class
     //Renders UFO shots
     //Must implement all methods from UFO class
+
     private PlayerManager playerManager;
     private FuelManager fuelManager;
 
@@ -96,7 +94,7 @@ public class EnemyManager {
 
                 this.manageEnemyCollision(level, timer, enemy);
             }
-            enemy.setSpeed(enemy.getSpeed() + 0.00002);
+            enemy.setSpeed(enemy.getSpeed() + Constants.OBJECT_SPEED_UP_VALUE);
             this.updateEnemyLocation(enemy, level.getCanvas());
         }
     }

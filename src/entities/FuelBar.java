@@ -15,8 +15,6 @@ public class FuelBar extends StackPane {
     private Text text;
     private String labelFormatSpecifier;
 
-    private static final int DEFAULT_LABEL_PADDING = 5;
-
     public FuelBar(ReadOnlyDoubleProperty workDone, final double totalWork, final String labelFormatSpecifier) {
         this.setWorkDone(workDone);
         this.setTotalWork(totalWork);
@@ -25,12 +23,7 @@ public class FuelBar extends StackPane {
         this.setBar(new ProgressBar());
 
         syncProgress();
-        workDone.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                syncProgress();
-            }
-        });
+        workDone.addListener((observableValue, number, number2) -> syncProgress());
 
         //Allows the progress bar to expand to fill available horizontal space
         this.getBar().setMaxWidth(Double.MAX_VALUE);
@@ -91,7 +84,7 @@ public class FuelBar extends StackPane {
             this.setProgress(this.getWorkDone().get() / this.getTotalWork());
         }
 
-        this.getBar().setMinHeight(this.getText().getBoundsInLocal().getHeight() + DEFAULT_LABEL_PADDING * 2);
-        this.getBar().setMinWidth(this.getText().getBoundsInLocal().getWidth() + DEFAULT_LABEL_PADDING * 2);
+        this.getBar().setMinHeight(this.getText().getBoundsInLocal().getHeight() + Constants.DEFAULT_LABEL_PADDING * 2);
+        this.getBar().setMinWidth(this.getText().getBoundsInLocal().getWidth() + Constants.DEFAULT_LABEL_PADDING * 2);
     }
 }
