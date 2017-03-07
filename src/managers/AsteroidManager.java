@@ -70,7 +70,7 @@ public class AsteroidManager {
 
         if (asteroid.getPositionX() < -20) {
             asteroid.setPositionX(canvas.getWidth());
-            asteroid.setPositionY(rnd.nextInt((int) offset));
+            asteroid.setPositionY(this.rnd.nextInt((int) offset));
             asteroid.setHealth(health);
         }
     }

@@ -16,6 +16,7 @@ public class EnemyManager {
 
     private PlayerManager playerManager;
     private FuelManager fuelManager;
+    private Random rnd;
 
     private PlayerManager getPlayerManager() {
         return this.playerManager;
@@ -36,6 +37,7 @@ public class EnemyManager {
     public EnemyManager(PlayerManager playerManager, FuelManager fuelManager) {
         this.setPlayerManager(playerManager);
         this.setFuelManager(fuelManager);
+        this.rnd = new Random();
     }
 
     public ArrayList<GameObject> initializeEnemies(
@@ -75,13 +77,11 @@ public class EnemyManager {
         double heightOffset = 37;
         double offset = canvas.getHeight() - heightOffset;
 
-        Random rnd = new Random();
-
         enemy.setPositionX(enemy.getPositionX() - enemy.getSpeed());
 
         if (enemy.getPositionX() < -20) {
             enemy.setPositionX(canvas.getWidth());
-            enemy.setPositionY(rnd.nextInt((int) offset));
+            enemy.setPositionY(this.rnd.nextInt((int) offset));
             enemy.setHitStatus(false);
         }
     }
