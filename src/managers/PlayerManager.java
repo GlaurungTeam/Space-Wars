@@ -198,7 +198,7 @@ public class PlayerManager {
         if (this.getPlayer().getLives() <= 0) {
             timer.stop();
             try {
-                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml")));
+                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
                 level.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();

@@ -15,7 +15,7 @@
                 <Font size="24.0" />
             </font>
         </TextField>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="500.0" layoutY="187.0" prefHeight="50.0" prefWidth="280.0" stylesheets="@../resources/styles.css" text="ENTER YOUR NAME" textAlignment="JUSTIFY" textFill="#b9a3a3">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="500.0" layoutY="143.0" prefHeight="50.0" prefWidth="280.0" stylesheets="@../resources/styles.css" text="ENTER YOUR NAME" textAlignment="JUSTIFY" textFill="#b9a3a3">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
@@ -34,5 +34,10 @@
         </Button>
         <Label fx:id="loginLabel" layoutX="14.0" layoutY="14.0" />
         <Label fx:id="spaceWars" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="0.0" />
+      <Label alignment="CENTER" layoutX="500.0" layoutY="193.0" prefHeight="50.0" prefWidth="280.0" text="BETWEEN 1 AND 10 SYMBOLS" textAlignment="CENTER" textFill="#b9a3a3">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
