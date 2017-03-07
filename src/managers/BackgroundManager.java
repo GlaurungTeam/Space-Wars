@@ -85,7 +85,7 @@ public class BackgroundManager {
         return this.space;
     }
 
-    private void setSpace(Image space) {
+    public void setBackgroundImage(Image space) {
         this.space = space;
     }
 
@@ -95,7 +95,6 @@ public class BackgroundManager {
 
         this.setEarth(new Image(Constants.EARTH_IMAGE));
         this.setSun(new Image(Constants.SUN_IMAGE));
-        this.setSpace(new Image(Constants.SPACE_IMAGE));
     }
 
     public void updateBackground(double t, Canvas canvas) {

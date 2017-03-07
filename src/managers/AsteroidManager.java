@@ -110,9 +110,6 @@ public class AsteroidManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            //TODO Change color of ship when hit, or some kind of visual effect
-            //TODO Implement ship damage tracker
         }
     }
 }

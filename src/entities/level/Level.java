@@ -4,6 +4,7 @@ import entities.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import managers.AsteroidManager;
 import managers.EnemyManager;
 
@@ -19,6 +20,7 @@ public abstract class Level {
     private Double currentFrame;
     private EnemyManager enemyManager;
     private AsteroidManager asteroidManager;
+    private Image backgroundImage;
 
     private ArrayList<Missile> missiles;
     private ArrayList<Asteroid> asteroids;
@@ -105,6 +107,14 @@ public abstract class Level {
 
     private void setAsteroids(ArrayList<Asteroid> asteroids) {
         this.asteroids = asteroids;
+    }
+
+    public Image getBackgroundImage() {
+        return this.backgroundImage;
+    }
+
+    public void setBackgroundImage(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     public void writeInLeaderboard(String name, long score) throws IOException {

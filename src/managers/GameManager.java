@@ -47,6 +47,8 @@ public class GameManager {
         level.initializeLevel(player, gc, canvas, theScene, 0.0, enemyManager, asteroidManager);
         level.setDifficultyParameters();
 
+        backgroundManager.setBackgroundImage(level.getBackgroundImage());
+
         //The shiny PlayerManager class :D
         playerManager.initializePlayerControls(theScene, level);
 

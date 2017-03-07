@@ -19,11 +19,10 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
-    //TODO Player class must only have fields, getters and setters. All other methods must be managed by the PlayerManager class!
-
     //Initialize Player entity with spawn coordinates(row 129-134 in GameController)
     //UpdatePlayerLocation() row 91 in Player class
     //Must implement all methods from Player class
+
     private Player player;
     private GraphicsContext graphicsContext;
 
@@ -56,7 +55,7 @@ public class PlayerManager {
 
         double speedMultiplier = 1;
 
-        //Speed up if held var is true(see GameController key events)
+        //Speed up if held var is true
         if (this.getPlayer().isHeld()) {
             speedMultiplier = 1.5;
         }
@@ -208,7 +207,7 @@ public class PlayerManager {
         }
     }
 
-    private void refreshSprites(){
+    private void refreshSprites() {
         Player that = this.getPlayer();
         this.getPlayer().getTimer().schedule(new TimerTask() {
             @Override
@@ -218,7 +217,7 @@ public class PlayerManager {
         }, 1000);
     }
 
-    public void playerHit(){
+    public void playerHit() {
         this.getPlayer().playerHit();
         this.refreshSprites();
     }

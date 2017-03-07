@@ -23,11 +23,12 @@ public class Constants {
     public static final String SPACESHIP_SPRITESHEET_IMAGE = "/src/resources/spaceship/spaceshipSprites4.png";
     public static final String SPACESHIP_SPRITESHEET_IMAGE_HIT = "/src/resources/spaceship/spaceshipHit.png";
     public static final String FUELCAN_IMAGE = "resources/fuelcan/fuelCan.png";
-    public static final String UFO_IMAGE = "resources/UFO/ufo_";
+    public static final String UFO_IMAGE = "resources/ufo/ufo_";
     public static final String ASTEROID_IMAGE = "resources/asteroid/asteroid";
-    public static final String EARTH_IMAGE = "resources/earth.png";
-    public static final String SUN_IMAGE = "resources/sun.png";
-    public static final String SPACE_IMAGE = "resources/space.png";
+    public static final String EARTH_IMAGE = "resources/planets/earth.png";
+    public static final String SUN_IMAGE = "resources/planets/sun.png";
+    public static final String EASY_LEVEL_BACKGROUND = "resources/backgrounds/easyBackground.png";
+    public static final String HARD_LEVEL_BACKGROUND = "resources/backgrounds/hardBackground.png";
 
     //Misc
     public static final double SOUND_VOLUME = 0.1;
