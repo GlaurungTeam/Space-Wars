@@ -100,6 +100,7 @@ public class AsteroidManager {
             asteroid.setPositionX(-1300);
             asteroid.setHealth(health);
             this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
+            this.getPlayerManager().playerHit();
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
 

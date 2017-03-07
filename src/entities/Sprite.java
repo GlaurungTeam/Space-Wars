@@ -86,7 +86,7 @@ public abstract class Sprite {
         return this.sprites;
     }
 
-    private void setSprites(Image[] sprites) {
+    protected void setSprites(Image[] sprites) {
         this.sprites = sprites;
     }
 

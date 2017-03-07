@@ -1,7 +1,9 @@
 package entities;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.shape.SVGPath;
 
 import javax.imageio.ImageIO;
@@ -17,6 +19,9 @@ public class Player extends Sprite {
     private boolean fired;
     private Timer timer;
     public SVGPath svgPath;
+    private Image[] originalSprites;
+    private Image[] playerHitSprites;
+    private BufferedImage playerHitSpriteSheet;
 
     private boolean goLeft;
     private boolean goRight;
@@ -44,10 +49,61 @@ public class Player extends Sprite {
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE));
 
+        BufferedImage playerHitSpriteSheet =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_HIT));
+
+
         super.setSpriteParameters(82, 82, 2, 3);
+
+        this.setPlayerHitSpriteSheet(playerHitSpriteSheet);
+        this.splitHitSprites();
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
+        this.setOriginalSprites(super.getSprites());
         super.setPosition(100, canvas.getHeight() / 2, super.getSpeed());
+    }
+
+    private void splitHitSprites() {
+        this.setPlayerHitSprites(new Image[super.getRows()*super.getCols()]);
+        for (int i = 0; i < super.getRows(); i++) {
+            for (int j = 0; j < super.getCols(); j++) {
+                this.playerHitSprites[(i * super.getCols()) + j] = SwingFXUtils.toFXImage(this.playerHitSpriteSheet.getSubimage(
+                        j * super.getWidth(),
+                        i * super.getHeight(),
+                        super.getWidth(),
+                        super.getHeight()
+                ), null);
+            }
+        }
+    }
+
+    public void refreshSprites() {
+        super.setSprites(this.getOriginalSprites());
+    }
+
+    private Image[] getOriginalSprites() {
+        return originalSprites;
+    }
+
+    private void setOriginalSprites(Image[] originalSprites) {
+        this.originalSprites = originalSprites;
+    }
+
+    private void setPlayerHitSprites(Image[] playerHitSprites) {
+        this.playerHitSprites = playerHitSprites;
+    }
+
+    private void setPlayerHitSpriteSheet(BufferedImage playerHitSpriteSheet) {
+        this.playerHitSpriteSheet = playerHitSpriteSheet;
+    }
+
+    public Image[] getPlayerHitSprites() {
+        return playerHitSprites;
+    }
+
+    public void playerHit(){
+        this.setSprites(this.getPlayerHitSprites());
     }
 
     public Timer getTimer() {

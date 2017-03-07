@@ -189,7 +189,7 @@ public class PlayerManager {
         fuelManager.resetFuel();
     }
 
-    public void refreshPlayerSprite(double time) {
+    public void animateSprites(double time) {
         this.getPlayer().setImage(this.getPlayer().getFrame(this.getPlayer().getSprites(), time, 0.100));
         this.getPlayer().render(this.getGraphicsContext());
     }
@@ -205,5 +205,20 @@ public class PlayerManager {
                 throw new RuntimeException(exc);
             }
         }
+    }
+
+    private void refreshSprites(){
+        Player that = this.getPlayer();
+        this.getPlayer().getTimer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                that.refreshSprites();
+            }
+        }, 1000);
+    }
+
+    public void playerHit(){
+        this.getPlayer().playerHit();
+        this.refreshSprites();
     }
 }

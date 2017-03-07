@@ -60,6 +60,7 @@ public class EnemyManager {
             enemy.setPositionX(-1300);
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
+            this.getPlayerManager().playerHit();
 
             try {
                 this.getPlayerManager().checkIfPlayerIsDead(level, timer);

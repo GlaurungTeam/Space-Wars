@@ -3,12 +3,10 @@ package managers;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -76,7 +74,7 @@ public class GameManager extends Application {
                 missileManager.manageMissiles(level1);
                 asteroidManager.manageAsteroids(level1, this, Constants.ASTEROID_HEALTH);
                 playerManager.updatePlayerLocation(canvas);
-                playerManager.refreshPlayerSprite(t);
+                playerManager.animateSprites(t);
                 textManager.updateText(level1.getPlayer());
                 effectsManager.manageExplosions(level1.getGc());
                 fuelManager.updateFuel(playerManager, level1, this);
