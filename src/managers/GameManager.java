@@ -3,10 +3,12 @@ package managers;
 import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -50,13 +52,14 @@ public class GameManager extends Application {
         ArrayList<GameObject> ufos = enemyManager.initializeEnemies(
                 canvas, Constants.UFO_COUNT, Constants.UFO_SPEED, "ufo");
         ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, Constants.ASTEROID_HEALTH);
-
-        //Make Level object
-        Level level1 = new Level
-                (root, player, gc, canvas, this, theScene, 0.0, ufos, asteroids);
+        Level level;
+        //Make Level object - level object takes currentLevel fiel from the player
+        //and create level obj from current level ... level1,level2...
+        level = new Level1
+                (root, player, gc, canvas, this, theScene, 0.0, asteroids, ufos);
 
         //The shiny PlayerManager class :D
-        playerManager.initializePlayerControls(theScene, level1);
+        playerManager.initializePlayerControls(theScene, level);
 
         final long startNanoTime = System.nanoTime();
 
@@ -65,19 +68,18 @@ public class GameManager extends Application {
             @Override
             public void handle(long currentNanoTime) {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-                level1.setCurrentFrame(t);
-
+                level.setCurrentFrame(t);
                 //Here we are using our shiny new managers! :)
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
-                enemyManager.manageUfos(level1, this);
-                missileManager.manageMissiles(level1);
-                asteroidManager.manageAsteroids(level1, this, Constants.ASTEROID_HEALTH);
+                enemyManager.manageUfos(level, this);
+                missileManager.manageMissiles(level);
+                asteroidManager.manageAsteroids(level, this, Constants.ASTEROID_HEALTH);
                 playerManager.updatePlayerLocation(canvas);
                 playerManager.animateSprites(t);
-                textManager.updateText(level1.getPlayer());
-                effectsManager.manageExplosions(level1.getGc());
-                fuelManager.updateFuel(playerManager, level1, this);
+                textManager.updateText(level.getPlayer());
+                effectsManager.manageExplosions(level.getGc());
+                fuelManager.updateFuel(playerManager, level, this);
             }
         };
         timer.start();

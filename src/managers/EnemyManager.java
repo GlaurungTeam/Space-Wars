@@ -89,7 +89,7 @@ public class EnemyManager {
         //TODO Iterate through all UFOs and remove the UFO that was hit and/or remove the missile that was hit
         //Add explosion to list
 
-        for (GameObject enemy : level.getUfos()) {
+        for (GameObject enemy : level.getEnemies()) {
             if (!enemy.getHitStatus()) {
                 enemy.render(level.getGc());
 

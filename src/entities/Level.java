@@ -1,19 +1,16 @@
 package entities;
 
-import managers.GameManager;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import managers.GameManager;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Level {
-    private ArrayList<Missile> missiles;
-    private ArrayList<Ufo> ufos;
-    private ArrayList<Asteroid> asteroids;
+public abstract class Level {
     private Group group;
     private Player player;
     private GraphicsContext gc;
@@ -21,6 +18,11 @@ public class Level {
     private GameManager gameManager;
     private Scene scene;
     private Double currentFrame;
+    private GameManager gameController;
+
+    private ArrayList<Missile> missiles;
+    private ArrayList<Asteroid> asteroids;
+    private ArrayList<GameObject> enemies;
 
     public Level(Group group,
                  Player player,
@@ -29,10 +31,8 @@ public class Level {
                  GameManager gameManager,
                  Scene scene,
                  Double currentFrame,
-                 ArrayList ufos,
-                 ArrayList asteroids) {
-        this.missiles = new ArrayList<>();
-
+                 ArrayList<Asteroid> asteroids,
+                 ArrayList<GameObject> enemies) {
         this.setGroup(group);
         this.setPlayer(player);
         this.setGc(gc);
@@ -40,88 +40,78 @@ public class Level {
         this.setGameController(gameManager);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
-        this.setUfos(ufos);
+        this.missiles = new ArrayList<>();
         this.setAsteroids(asteroids);
+        this.setEnemies(enemies);
     }
 
-    public Canvas getCanvas() {
-        return this.canvas;
+
+    public ArrayList<GameObject> getEnemies() {
+        return this.enemies;
     }
 
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public GameManager getGameController() {
-        return this.gameManager;
-    }
-
-    private void setGameController(GameManager gameController) {
-        this.gameManager = gameController;
-    }
-
-    public Scene getScene() {
-        return this.scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public GraphicsContext getGc() {
-        return this.gc;
-    }
-
-    private void setGc(GraphicsContext gc) {
-        this.gc = gc;
-    }
-
-    public Double getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public void setCurrentFrame(Double currentFrame) {
-        this.currentFrame = currentFrame;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    private void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public ArrayList<Asteroid> getAsteroids() {
-        return asteroids;
-    }
-
-    private void setAsteroids(ArrayList<Asteroid> asteroids) {
-        this.asteroids = asteroids;
-    }
-
-    public ArrayList<Ufo> getUfos() {
-        return ufos;
-    }
-
-    private void setUfos(ArrayList<Ufo> ufos) {
-        this.ufos = ufos;
-    }
-
-    public Group getGroup() {
-        return group;
+    private void setEnemies(ArrayList<GameObject> ufos) {
+        this.enemies = ufos;
     }
 
     private void setGroup(Group group) {
         this.group = group;
     }
 
-    public ArrayList<Missile> getMissiles() {
-        return missiles;
+    private void setPlayer(Player player) {
+        this.player = player;
     }
 
-    public void setMissiles(ArrayList<Missile> missiles) {
-        this.missiles = missiles;
+    private void setGc(GraphicsContext gc) {
+        this.gc = gc;
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    private void setGameController(GameManager gameController) {
+        this.gameController = gameController;
+    }
+
+    private void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    public void setCurrentFrame(Double currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+
+    public ArrayList<Missile> getMissiles() {
+        return this.missiles;
+    }
+
+    public ArrayList<Asteroid> getAsteroids() {
+        return this.asteroids;
+    }
+
+    private void setAsteroids(ArrayList<Asteroid> asteroids) {
+        this.asteroids = asteroids;
+    }
+
+    public Canvas getCanvas() {
+        return this.canvas;
+    }
+
+    public Scene getScene() {
+        return this.scene;
+    }
+
+    public GraphicsContext getGc() {
+        return this.gc;
+    }
+
+    public Double getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void writeInLeaderboard(String name, long score) throws IOException {

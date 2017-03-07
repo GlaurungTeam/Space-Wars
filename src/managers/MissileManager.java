@@ -35,7 +35,7 @@ public class MissileManager {
                     }
                 }
 
-                for (Ufo ufoToCheck : level.getUfos()) {
+                for (GameObject ufoToCheck : level.getEnemies()) {
                     if (ufoToCheck.getHitStatus()) {
                         continue;
                     }
