@@ -1,6 +1,9 @@
 package controllers;
 
 import entities.Constants;
+import entities.level.Level;
+import entities.level.LevelEasy;
+import entities.level.LevelHard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,14 +11,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import managers.GameManager;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class MenuController {
     public Button startButton;
@@ -118,9 +124,20 @@ public class MenuController {
         Stage stage = new Stage();
         ((Stage) easyLevelButton.getScene().getWindow()).close();
         GameManager gameManager = new GameManager();
-        gameManager.start(stage);
+
+        Level level = new LevelEasy();
+
+        gameManager.start(stage, level);
     }
 
-    public void startHardLevel(ActionEvent actionEvent) {
+
+    public void startHardLevel(ActionEvent actionEvent) throws Exception {
+        Stage stage = new Stage();
+        ((Stage) easyLevelButton.getScene().getWindow()).close();
+        GameManager gameManager = new GameManager();
+
+        Level level = new LevelHard();
+
+        gameManager.start(stage, level);
     }
 }

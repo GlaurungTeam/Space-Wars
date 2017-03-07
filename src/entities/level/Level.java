@@ -1,50 +1,50 @@
 package entities;
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import managers.GameManager;
+import managers.AsteroidManager;
+import managers.EnemyManager;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Level {
-    private Group group;
     private Player player;
     private GraphicsContext gc;
     private Canvas canvas;
-    private GameManager gameManager;
     private Scene scene;
     private Double currentFrame;
-    private GameManager gameController;
+    private EnemyManager enemyManager;
+    private AsteroidManager asteroidManager;
 
     private ArrayList<Missile> missiles;
     private ArrayList<Asteroid> asteroids;
     private ArrayList<GameObject> enemies;
 
-    public Level(Group group,
-                 Player player,
-                 GraphicsContext gc,
-                 Canvas canvas,
-                 GameManager gameManager,
-                 Scene scene,
-                 Double currentFrame,
-                 ArrayList<Asteroid> asteroids,
-                 ArrayList<GameObject> enemies) {
-        this.setGroup(group);
+    public Level() {
+    }
+
+    public void initializeLevel(
+            Player player,
+            GraphicsContext gc,
+            Canvas canvas,
+            Scene scene,
+            Double currentFrame,
+            EnemyManager enemyManager,
+            AsteroidManager asteroidManager) {
         this.setPlayer(player);
         this.setGc(gc);
         this.setCanvas(canvas);
-        this.setGameController(gameManager);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
         this.missiles = new ArrayList<>();
-        this.setAsteroids(asteroids);
-        this.setEnemies(enemies);
+        this.enemyManager = enemyManager;
+        this.asteroidManager = asteroidManager;
     }
 
+    public abstract void setDifficultyParameters();
 
     public ArrayList<GameObject> getEnemies() {
         return this.enemies;
@@ -54,28 +54,40 @@ public abstract class Level {
         this.enemies = ufos;
     }
 
-    private void setGroup(Group group) {
-        this.group = group;
+    public Player getPlayer() {
+        return player;
     }
 
     private void setPlayer(Player player) {
         this.player = player;
     }
 
+    public GraphicsContext getGc() {
+        return this.gc;
+    }
+
     private void setGc(GraphicsContext gc) {
         this.gc = gc;
+    }
+
+    public Canvas getCanvas() {
+        return this.canvas;
     }
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
 
-    private void setGameController(GameManager gameController) {
-        this.gameController = gameController;
+    public Scene getScene() {
+        return this.scene;
     }
 
     private void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public Double getCurrentFrame() {
+        return currentFrame;
     }
 
     public void setCurrentFrame(Double currentFrame) {
@@ -92,26 +104,6 @@ public abstract class Level {
 
     private void setAsteroids(ArrayList<Asteroid> asteroids) {
         this.asteroids = asteroids;
-    }
-
-    public Canvas getCanvas() {
-        return this.canvas;
-    }
-
-    public Scene getScene() {
-        return this.scene;
-    }
-
-    public GraphicsContext getGc() {
-        return this.gc;
-    }
-
-    public Double getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public void writeInLeaderboard(String name, long score) throws IOException {
@@ -161,5 +153,18 @@ public abstract class Level {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initializeUfos(int ufoCount, int ufoSpeed) {
+        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(
+                canvas, ufoCount, ufoSpeed, "ufo");
+
+        this.setEnemies(ufos);
+    }
+
+    public void initializeAsteroids(int health, int asteroidCount) {
+        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, health, asteroidCount);
+
+        this.setAsteroids(asteroids);
     }
 }

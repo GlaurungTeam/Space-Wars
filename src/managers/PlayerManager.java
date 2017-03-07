@@ -2,6 +2,7 @@ package managers;
 
 import controllers.MenuController;
 import entities.*;
+import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

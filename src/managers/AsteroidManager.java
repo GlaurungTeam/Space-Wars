@@ -1,6 +1,7 @@
 package managers;
 
 import entities.*;
+import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -40,11 +41,11 @@ public class AsteroidManager {
         this.fuelManager = fuelManager;
     }
 
-    public ArrayList<Asteroid> initializeAsteroids(Canvas canvas, int health) {
+    public ArrayList<Asteroid> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
         ArrayList<Asteroid> asteroids = new ArrayList<>();
 
-        for (int i = 0; i < Constants.ASTEROIDS_COUNT; i++) {
-            Asteroid currentAsteroid = new Asteroid(Constants.ASTEROID_SPEED, health);
+        for (int i = 0; i < asteroidCount; i++) {
+            Asteroid currentAsteroid = new Asteroid(Constants.ASTEROID_SPEED, health, health);
 
             Image image = new Image(Constants.ASTEROID_IMAGE +
                     String.valueOf(SpawnCoordinates.getRandom(4)) + ".png");
@@ -74,7 +75,7 @@ public class AsteroidManager {
         }
     }
 
-    public void manageAsteroids(Level level, AnimationTimer timer, int health) {
+    public void manageAsteroids(Level level, AnimationTimer timer) {
         //TODO Iterate through all asteroids and remove the asteroid that was
         // hit and/or remove the missile that was hit
 
@@ -83,12 +84,12 @@ public class AsteroidManager {
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (asteroidToRenderAndUpdate.getHealth() > 0) {
                 asteroidToRenderAndUpdate.render(level.getGc());
-                this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer, health);
+                this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer, asteroidToRenderAndUpdate.getDefaultHealth());
             }
             //Asteroid speed updating every rotation making them faster:
             asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() +
                     Constants.OBJECT_SPEED_UP_VALUE);
-            this.updateAsteroidLocation(level.getCanvas(), asteroidToRenderAndUpdate, health);
+            this.updateAsteroidLocation(level.getCanvas(), asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
         }
     }
 

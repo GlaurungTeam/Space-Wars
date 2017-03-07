@@ -1,6 +1,7 @@
 package managers;
 
 import entities.*;
+import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 

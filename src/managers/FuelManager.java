@@ -3,16 +3,14 @@ package managers;
 import entities.Constants;
 import entities.FuelBar;
 import entities.FuelCan;
-import entities.Level;
+import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 

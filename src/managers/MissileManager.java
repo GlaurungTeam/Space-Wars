@@ -1,6 +1,7 @@
 package managers;
 
 import entities.*;
+import entities.level.Level;
 
 public class MissileManager {
     public void manageMissiles(Level level) {
