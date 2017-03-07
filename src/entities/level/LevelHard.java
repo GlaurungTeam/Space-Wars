@@ -1,4 +1,6 @@
-package entities;
+package entities.level;
+
+import entities.Constants;
 
 public class LevelHard extends Level {
     @Override

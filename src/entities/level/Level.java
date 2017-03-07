@@ -1,5 +1,6 @@
-package entities;
+package entities.level;
 
+import entities.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
