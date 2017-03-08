@@ -11,6 +11,7 @@ public class Constants {
     public static final double PLAYER_SPEED = 3;
     public static final double BACKGROUND_SPEED = 1;
     public static final double OBJECT_SPEED_UP_VALUE = 0.00002;
+    public static final double PEDOBEAR_SPEED = 3;
 
     //Sound effects
     public static final String PLAYER_SHOOT_SOUND = "src/resources/sound/lasergun.mp3";
@@ -30,7 +31,7 @@ public class Constants {
     public static final String SUN_IMAGE = "resources/planets/sun.png";
     public static final String EASY_LEVEL_BACKGROUND = "resources/backgrounds/easyBackground.png";
     public static final String HARD_LEVEL_BACKGROUND = "resources/backgrounds/hardBackground.png";
-    public static final String BOSS_PEDOBEAR = "/resources/bosses/pedobear.png";
+    public static final String BOSS_PEDOBEAR_IMAGE = "/resources/bosses/pedobear.png";
 
     //Misc
     public static final double SOUND_VOLUME = 0.1;
@@ -50,6 +51,7 @@ public class Constants {
     public static final String PROJECT_PATH = System.getProperty("user.dir");
     public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
     public static final long START_POINTS = 0;
+    public static final int BOSS_PEDOBEAR_HEALTH = 1;
 
     //Hitboxes
     public static final String BOSS_PEDOBEAR_HITBOX = "/src/resources/bosses/pedobear_hitbox.txt";

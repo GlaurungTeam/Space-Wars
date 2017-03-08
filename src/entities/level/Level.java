@@ -197,7 +197,7 @@ public abstract class Level {
         this.setAsteroids(asteroids);
     }
 
-    public void initializeBosses(){
+    public void initializeBosses() {
         ArrayList<Boss> bosses = new ArrayList<>();
         bosses.add(bossManager.initializeBoss(canvas));
 

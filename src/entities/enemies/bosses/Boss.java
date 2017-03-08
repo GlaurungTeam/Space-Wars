@@ -5,21 +5,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 
 public abstract class Boss extends GameObject {
     private int health;
-    private static HashMap<String, Integer> bosses;
     private SVGPath svgPath;
 
-    static {
-        bosses = new HashMap<>();
-        bosses.put("Pedobear", 3);
-    }
-
-    public Boss(Canvas canvas, double speed, String imagePath) {
+    public Boss(Canvas canvas, double speed, String imagePath, int health) {
         super(canvas, speed, imagePath);
-        this.setHealth(bosses.get(this.getClass().getSimpleName()));
+        this.setHealth(health);
     }
 
     protected abstract void initializeHitbox() throws FileNotFoundException;
