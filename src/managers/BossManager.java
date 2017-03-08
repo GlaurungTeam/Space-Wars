@@ -6,11 +6,17 @@ import entities.enemies.bosses.Pedobear;
 import entities.level.Level;
 import javafx.scene.canvas.Canvas;
 
-import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BossManager extends EnemyManager {
+    private Timer timer;
+    private boolean hasJustShowed;
+
     public BossManager(PlayerManager playerManager, FuelManager fuelManager) {
         super(playerManager, fuelManager);
+        this.timer = new Timer();
+        this.hasJustShowed = true;
     }
 
     public Boss initializeBoss(Canvas canvas) {
@@ -29,14 +35,27 @@ public class BossManager extends EnemyManager {
         if (level.isActiveBoss()) {
             for (Boss boss : level.getBosses()) {
                 if (boss.getHealth() > 0) {
-                    boss.render(level.getGc());
+                    if (hasJustShowed) {
+                        BossManager bossManager = this;
+
+                        this.timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                boss.render(level.getGc());
+                                bossManager.hasJustShowed = false;
+                            }
+                        }, 5000);
+                    } else {
+                        boss.render(level.getGc());
+                    }
+
                     boss.move();
                     this.updateBossLocation(boss);
                 } else {
                     level.setIsActiveBoss(false);
                     asteroidManager.resetAsteroidPosition(level.getAsteroids(), level.getCanvas());
                     boss.resetHealth();
-
+                    this.hasJustShowed = true;
                     level.getPlayer().setPoints(level.getPlayer().getPoints() + 5);
                 }
             }
