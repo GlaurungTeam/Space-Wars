@@ -29,9 +29,11 @@ public abstract class Boss extends GameObject {
         return health;
     }
 
-    protected void setHealth(int health) {
+    public void setHealth(int health) {
         this.health = health;
     }
 
     public abstract void move();
+
+    public abstract void resetHealth();
 }

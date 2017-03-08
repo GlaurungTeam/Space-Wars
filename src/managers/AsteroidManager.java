@@ -60,17 +60,17 @@ public class AsteroidManager {
         return asteroids;
     }
 
-    private void updateAsteroidLocation(Canvas canvas, Asteroid asteroid, int health) {
+    private void updateAsteroidLocation(Level level, Asteroid asteroid, int health) {
         //Offset so that asteroids don't spawn outside of boundaries
         double heightOffset = 37;
 
         //Offset Formula
-        double offset = canvas.getHeight() - heightOffset;
+        double offset = level.getCanvas().getHeight() - heightOffset;
 
         asteroid.setPositionX(asteroid.getPositionX() - asteroid.getSpeed());
 
-        if (asteroid.getPositionX() < -20) {
-            asteroid.setPositionX(canvas.getWidth());
+        if (asteroid.getPositionX() < -20 && !level.isActiveBoss()) {
+            asteroid.setPositionX(level.getCanvas().getWidth());
             asteroid.setPositionY(this.rnd.nextInt((int) offset));
             asteroid.setHealth(health);
         }
@@ -90,7 +90,7 @@ public class AsteroidManager {
             //Asteroid speed updating every rotation making them faster:
             asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() +
                     Constants.OBJECT_SPEED_UP_VALUE);
-            this.updateAsteroidLocation(level.getCanvas(), asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
+            this.updateAsteroidLocation(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
         }
     }
 
@@ -112,5 +112,15 @@ public class AsteroidManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<Asteroid> resetAsteroidPosition(ArrayList<Asteroid> asteroids, Canvas canvas) {
+        ArrayList<Asteroid> asteroidsToReturn = asteroids;
+
+        for (Asteroid asteroidToUpdate : asteroidsToReturn) {
+            asteroidToUpdate.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas));
+        }
+
+        return asteroidsToReturn;
     }
 }

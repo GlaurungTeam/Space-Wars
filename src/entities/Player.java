@@ -65,7 +65,7 @@ public class Player extends Sprite {
     }
 
     private void splitHitSprites() {
-        this.setPlayerHitSprites(new Image[super.getRows()*super.getCols()]);
+        this.setPlayerHitSprites(new Image[super.getRows() * super.getCols()]);
         for (int i = 0; i < super.getRows(); i++) {
             for (int j = 0; j < super.getCols(); j++) {
                 this.playerHitSprites[(i * super.getCols()) + j] = SwingFXUtils.toFXImage(this.playerHitSpriteSheet.getSubimage(
@@ -102,7 +102,7 @@ public class Player extends Sprite {
         return playerHitSprites;
     }
 
-    public void playerHit(){
+    public void playerHit() {
         this.setSprites(this.getPlayerHitSprites());
     }
 
@@ -175,11 +175,11 @@ public class Player extends Sprite {
         this.scene = scene;
     }
 
-    public void setHeld(boolean value) {
-        this.held = value;
-    }
-
     public boolean isHeld() {
         return this.held;
+    }
+
+    public void setHeld(boolean value) {
+        this.held = value;
     }
 }

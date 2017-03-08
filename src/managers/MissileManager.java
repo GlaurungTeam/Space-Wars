@@ -4,6 +4,7 @@ import entities.Explosion;
 import entities.GameObject;
 import entities.Missile;
 import entities.enemies.Asteroid;
+import entities.enemies.bosses.Boss;
 import entities.level.Level;
 
 public class MissileManager {
@@ -53,11 +54,15 @@ public class MissileManager {
                     }
                 }
 
-//                for (Boss boss: level.getBosses()){
-//                    if(currentMissile.intersects(boss)){
-//                        boss.setHp
-//                    }
-//                }
+                if (level.isActiveBoss()) {
+                    for (Boss boss : level.getBosses()) {
+                        if (currentMissile.intersects(boss)) {
+                            boss.setHealth(boss.getHealth() - 1);
+                            level.getMissiles().remove(currentMissile);
+                            EffectsManager.playUfoHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                        }
+                    }
+                }
             }
         }
     }

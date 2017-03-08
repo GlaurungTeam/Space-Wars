@@ -66,4 +66,9 @@ public class Pedobear extends Boss {
             return;
         }
     }
+
+    @Override
+    public void resetHealth() {
+        this.setHealth(Constants.BOSS_PEDOBEAR_HEALTH);
+    }
 }

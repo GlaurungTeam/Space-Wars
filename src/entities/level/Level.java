@@ -28,6 +28,7 @@ public abstract class Level {
     private AsteroidManager asteroidManager;
     private BossManager bossManager;
     private Image backgroundImage;
+    private boolean isActiveBoss;
 
     private ArrayList<Missile> missiles;
     private ArrayList<Asteroid> asteroids;
@@ -123,7 +124,7 @@ public abstract class Level {
         return this.asteroids;
     }
 
-    private void setAsteroids(ArrayList<Asteroid> asteroids) {
+    public void setAsteroids(ArrayList<Asteroid> asteroids) {
         this.asteroids = asteroids;
     }
 
@@ -133,6 +134,14 @@ public abstract class Level {
 
     public void setBackgroundImage(Image backgroundImage) {
         this.backgroundImage = backgroundImage;
+    }
+
+    public boolean isActiveBoss() {
+        return this.isActiveBoss;
+    }
+
+    public void setIsActiveBoss(boolean hasActiveBoss) {
+        this.isActiveBoss = hasActiveBoss;
     }
 
     public void writeInLeaderboard(String name, long score) throws IOException {

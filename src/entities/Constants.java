@@ -51,7 +51,8 @@ public class Constants {
     public static final String PROJECT_PATH = System.getProperty("user.dir");
     public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
     public static final long START_POINTS = 0;
-    public static final int BOSS_PEDOBEAR_HEALTH = 1;
+    public static final int BOSS_PEDOBEAR_HEALTH = 2;
+    public static final int POINTS_TILL_BOSS = 10;
 
     //Hitboxes
     public static final String BOSS_PEDOBEAR_HITBOX = "/src/resources/bosses/pedobear_hitbox.txt";

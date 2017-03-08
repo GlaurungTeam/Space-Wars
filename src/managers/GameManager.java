@@ -73,7 +73,7 @@ public class GameManager {
                 textManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(playerManager, level, this);
-                bossManager.manageBoss(level);
+                bossManager.manageBoss(level, asteroidManager);
             }
         };
         timer.start();
