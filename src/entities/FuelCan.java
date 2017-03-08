@@ -12,7 +12,7 @@ public class FuelCan extends Sprite {
         Image image = new Image(Constants.FUELCAN_IMAGE);
 
         super.setImage(image);
-        super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas), this.getSpeed());
+        super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas));
         super.setSpeed(speed);
     }
 

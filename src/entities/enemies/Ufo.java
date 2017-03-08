@@ -1,5 +1,8 @@
-package entities;
+package entities.enemies;
 
+import entities.Constants;
+import entities.GameObject;
+import entities.SpawnCoordinates;
 import javafx.scene.canvas.Canvas;
 
 public class Ufo extends GameObject {

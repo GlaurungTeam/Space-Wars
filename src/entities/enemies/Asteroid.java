@@ -1,4 +1,6 @@
-package entities;
+package entities.enemies;
+
+import entities.Sprite;
 
 public class Asteroid extends Sprite {
     private int health;

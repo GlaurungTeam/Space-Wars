@@ -1,6 +1,9 @@
 package managers;
 
-import entities.*;
+import entities.Explosion;
+import entities.GameObject;
+import entities.Missile;
+import entities.enemies.Asteroid;
 import entities.level.Level;
 
 public class MissileManager {
@@ -49,6 +52,12 @@ public class MissileManager {
                         level.getPlayer().setPoints(level.getPlayer().getPoints() + 3);
                     }
                 }
+
+//                for (Boss boss: level.getBosses()){
+//                    if(currentMissile.intersects(boss)){
+//                        boss.setHp
+//                    }
+//                }
             }
         }
     }

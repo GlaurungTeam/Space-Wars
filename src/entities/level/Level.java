@@ -1,11 +1,17 @@
 package entities.level;
 
-import entities.*;
+import entities.Constants;
+import entities.GameObject;
+import entities.Missile;
+import entities.Player;
+import entities.enemies.Asteroid;
+import entities.enemies.bosses.Boss;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import managers.AsteroidManager;
+import managers.BossManager;
 import managers.EnemyManager;
 
 import java.io.*;
@@ -20,11 +26,13 @@ public abstract class Level {
     private Double currentFrame;
     private EnemyManager enemyManager;
     private AsteroidManager asteroidManager;
+    private BossManager bossManager;
     private Image backgroundImage;
 
     private ArrayList<Missile> missiles;
     private ArrayList<Asteroid> asteroids;
     private ArrayList<GameObject> enemies;
+    private ArrayList<Boss> bosses;
 
     public Level() {
     }
@@ -36,7 +44,8 @@ public abstract class Level {
             Scene scene,
             Double currentFrame,
             EnemyManager enemyManager,
-            AsteroidManager asteroidManager) {
+            AsteroidManager asteroidManager,
+            BossManager bossManager) {
         this.setPlayer(player);
         this.setGc(gc);
         this.setCanvas(canvas);
@@ -45,6 +54,15 @@ public abstract class Level {
         this.missiles = new ArrayList<>();
         this.enemyManager = enemyManager;
         this.asteroidManager = asteroidManager;
+        this.bossManager = bossManager;
+    }
+
+    public List<Boss> getBosses() {
+        return Collections.unmodifiableList(this.bosses);
+    }
+
+    private void setBosses(ArrayList<Boss> bosses) {
+        this.bosses = bosses;
     }
 
     public abstract void setDifficultyParameters();
@@ -177,5 +195,12 @@ public abstract class Level {
         ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, health, asteroidCount);
 
         this.setAsteroids(asteroids);
+    }
+
+    public void initializeBosses(){
+        ArrayList<Boss> bosses = new ArrayList<>();
+        bosses.add(bossManager.initializeBoss(canvas));
+
+        this.setBosses(bosses);
     }
 }

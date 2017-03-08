@@ -10,7 +10,7 @@ public class GameObject extends Sprite {
     public GameObject(Canvas canvas, double speed, String imagePath) {
         super.setSpeed(speed);
         super.setPosition(SpawnCoordinates.getSpawnX(canvas),
-                SpawnCoordinates.getSpawnY(canvas), this.getSpeed());
+                SpawnCoordinates.getSpawnY(canvas));
         super.setImage(new Image(imagePath));
         this.setHitStatus(false);
     }

@@ -129,10 +129,9 @@ public abstract class Sprite {
         this.setHeight((int) image.getHeight());
     }
 
-    public void setPosition(double x, double y, double speed) {
+    public void setPosition(double x, double y) {
         this.setPositionX(x);
         this.setPositionY(y);
-        this.setSpeed(speed);
     }
 
     public Image getFrame(Image[] sprites, double time, double duration) {

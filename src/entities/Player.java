@@ -61,7 +61,7 @@ public class Player extends Sprite {
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
         this.setOriginalSprites(super.getSprites());
-        super.setPosition(100, canvas.getHeight() / 2, super.getSpeed());
+        super.setPosition(100, canvas.getHeight() / 2);
     }
 
     private void splitHitSprites() {

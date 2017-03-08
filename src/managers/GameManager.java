@@ -1,8 +1,9 @@
 package managers;
 
 import entities.Constants;
-import entities.level.Level;
 import entities.Player;
+import entities.enemies.bosses.Boss;
+import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -43,8 +44,9 @@ public class GameManager {
         TextManager textManager = new TextManager(root);
         EffectsManager effectsManager = new EffectsManager();
         BackgroundManager backgroundManager = new BackgroundManager();
+        BossManager bossManager = new BossManager(playerManager, fuelManager, canvas);
 
-        level.initializeLevel(player, gc, canvas, theScene, 0.0, enemyManager, asteroidManager);
+        level.initializeLevel(player, gc, canvas, theScene, 0.0, enemyManager, asteroidManager, bossManager);
         level.setDifficultyParameters();
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
@@ -53,6 +55,8 @@ public class GameManager {
         playerManager.initializePlayerControls(theScene, level);
 
         final long startNanoTime = System.nanoTime();
+
+        Boss boss = bossManager.getBoss();
 
         //The main game loop begins below
         AnimationTimer timer = new AnimationTimer() {
@@ -72,6 +76,7 @@ public class GameManager {
                 textManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(playerManager, level, this);
+                bossManager.manageBoss(level, this);
             }
         };
         timer.start();

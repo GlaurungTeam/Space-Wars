@@ -1,6 +1,7 @@
 package managers;
 
 import entities.*;
+import entities.enemies.Asteroid;
 import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -52,7 +53,7 @@ public class AsteroidManager {
 
             currentAsteroid.setImage(image);
             currentAsteroid.setPosition(SpawnCoordinates.getSpawnX(canvas),
-                    SpawnCoordinates.getSpawnY(canvas), Constants.ASTEROID_SPEED);
+                    SpawnCoordinates.getSpawnY(canvas));
 
             asteroids.add(currentAsteroid);
         }
