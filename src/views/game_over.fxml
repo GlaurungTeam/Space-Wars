@@ -8,12 +8,12 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
-   <Label alignment="CENTER" layoutX="530.0" layoutY="338.0" prefHeight="94.0" prefWidth="280.0" text="GAME OVER!" textAlignment="CENTER" textFill="#b9a3a3">
+   <Label alignment="CENTER" layoutX="503.0" layoutY="185.0" prefHeight="94.0" prefWidth="280.0" text="GAME OVER!" textAlignment="CENTER" textFill="#b9a3a3">
       <font>
          <Font name="System Bold" size="36.0" />
       </font>
    </Label>
-   <Button layoutX="530.0" layoutY="432.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="280.0" text="MAIN MENU">
+   <Button layoutX="503.0" layoutY="279.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="280.0" text="MAIN MENU">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
@@ -25,7 +25,7 @@
          </InnerShadow>
       </effect>
    </Button>
-   <Button layoutX="530.0" layoutY="504.0" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="280.0" text="QUIT">
+   <Button layoutX="503.0" layoutY="351.0" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="280.0" text="QUIT">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>

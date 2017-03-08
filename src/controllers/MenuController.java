@@ -127,7 +127,6 @@ public class MenuController {
         gameManager.start(stage, level);
     }
 
-
     public void startHardLevel(ActionEvent actionEvent) throws Exception {
         Stage stage = new Stage();
         ((Stage) easyLevelButton.getScene().getWindow()).close();

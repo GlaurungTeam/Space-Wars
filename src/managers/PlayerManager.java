@@ -19,10 +19,6 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
-    //Initialize Player entity with spawn coordinates(row 129-134 in GameController)
-    //UpdatePlayerLocation() row 91 in Player class
-    //Must implement all methods from Player class
-
     private Player player;
     private GraphicsContext graphicsContext;
 
@@ -109,7 +105,8 @@ public class PlayerManager {
         BufferedImage missileSpriteSheet = null;
 
         try {
-            missileSpriteSheet = ImageIO.read(new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
+            missileSpriteSheet = ImageIO.read(
+                    new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,9 +114,6 @@ public class PlayerManager {
         missile.setSpriteParameters(31, 7, 1, 23);
         missile.setSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
-
-        //gameController.setMissiles(missile);
-        //TODO update current level missiles
 
         this.getPlayer().setFired(true);
         return missile;
@@ -142,7 +136,6 @@ public class PlayerManager {
                     this.getPlayer().setGoRight(true);
                     break;
                 case CONTROL:
-//                    System.out.println(player.isFired());
                     if (!this.getPlayer().isFired()) {
                         level.getMissiles().add(this.fire());
                         this.getPlayer().setFired(true);
