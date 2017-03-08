@@ -52,6 +52,10 @@ public class FuelManager {
         this.getTimeline().playFromStart();
     }
 
+    public void pauseFuel() { this.getTimeline().pause();}
+
+    public void resumeFuel() {this.getTimeline().play();}
+
     private void setFuelBar(Group root) {
         String FUEL_BURNED_FORMAT = "%.0f";
         ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();

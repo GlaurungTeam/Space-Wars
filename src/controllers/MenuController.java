@@ -24,9 +24,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class MenuController {
-    public Button startButton;
-    public Button scoreButton;
-    public Button quitButton;
     public TextField usernameField;
     public Button startGameButton;
     public AnchorPane finalScorePane;

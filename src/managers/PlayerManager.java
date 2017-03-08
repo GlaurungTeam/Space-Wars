@@ -109,8 +109,7 @@ public class PlayerManager {
         BufferedImage missileSpriteSheet = null;
 
         try {
-            missileSpriteSheet = ImageIO.read(
-                    new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
+            missileSpriteSheet = ImageIO.read(new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,6 +117,9 @@ public class PlayerManager {
         missile.setSpriteParameters(31, 7, 1, 23);
         missile.setSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
+
+        //gameController.setMissiles(missile);
+        //TODO update current level missiles
 
         this.getPlayer().setFired(true);
         return missile;
@@ -139,7 +141,8 @@ public class PlayerManager {
                 case RIGHT:
                     this.getPlayer().setGoRight(true);
                     break;
-                case SPACE:
+                case CONTROL:
+//                    System.out.println(player.isFired());
                     if (!this.getPlayer().isFired()) {
                         level.getMissiles().add(this.fire());
                         this.getPlayer().setFired(true);
