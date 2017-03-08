@@ -3,6 +3,7 @@ package managers;
 import entities.Explosion;
 import entities.GameObject;
 import entities.Missile;
+import entities.Player;
 import entities.enemies.Asteroid;
 import entities.enemies.bosses.Boss;
 import entities.level.Level;
@@ -21,6 +22,16 @@ public class MissileManager {
                 currentMissile.render(level.getGc());
                 currentMissile.updateMissileLocation();
 
+                //Here we check if the player collides with a missile
+                if (currentMissile.intersects(level.getPlayer())) {
+                    level.getPlayerManager().resetPlayerPosition(level.getCanvas(), level.getFuelManager());
+                    level.getPlayer().setLives(level.getPlayer().getLives() - 1);
+                    level.getPlayerManager().playerHit();
+
+                    EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                    level.getMissiles().remove(currentMissile);
+                }
+
                 //Collision detection missile hits asteroid and removes it from canvas
                 for (Asteroid asteroidToCheck : level.getAsteroids()) {
                     if (asteroidToCheck.getHealth() == 0) {
@@ -35,7 +46,10 @@ public class MissileManager {
                         } else if (asteroidToCheck.getHealth() == 0) {
                             EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                             level.getMissiles().remove(currentMissile);
-                            level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
+
+                            if (!level.isActiveBoss()) {
+                                level.getPlayer().setPoints(level.getPlayer().getPoints() + 1);
+                            }
                         }
                     }
                 }

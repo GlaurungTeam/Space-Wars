@@ -63,7 +63,6 @@ public class Pedobear extends Boss {
 
         if (this.getPositionY() < this.getRandomY()) {
             pedobear.moveDown();
-            return;
         }
     }
 

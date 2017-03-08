@@ -10,9 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import managers.AsteroidManager;
-import managers.BossManager;
-import managers.EnemyManager;
+import managers.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,6 +25,8 @@ public abstract class Level {
     private EnemyManager enemyManager;
     private AsteroidManager asteroidManager;
     private BossManager bossManager;
+    private PlayerManager playerManager;
+    private FuelManager fuelManager;
     private Image backgroundImage;
     private boolean isActiveBoss;
 
@@ -46,16 +46,20 @@ public abstract class Level {
             Double currentFrame,
             EnemyManager enemyManager,
             AsteroidManager asteroidManager,
-            BossManager bossManager) {
+            BossManager bossManager,
+            PlayerManager playerManager,
+            FuelManager fuelManager) {
         this.setPlayer(player);
         this.setGc(gc);
         this.setCanvas(canvas);
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
-        this.missiles = new ArrayList<>();
-        this.enemyManager = enemyManager;
-        this.asteroidManager = asteroidManager;
-        this.bossManager = bossManager;
+        this.setMissiles(new ArrayList<>());
+        this.setEnemyManager(enemyManager);
+        this.setAsteroidManager(asteroidManager);
+        this.setBossManager(bossManager);
+        this.setPlayerManager(playerManager);
+        this.setFuelManager(fuelManager);
     }
 
     public List<Boss> getBosses() {
@@ -120,11 +124,15 @@ public abstract class Level {
         return this.missiles;
     }
 
+    private void setMissiles(ArrayList<Missile> missiles) {
+        this.missiles = missiles;
+    }
+
     public ArrayList<Asteroid> getAsteroids() {
         return this.asteroids;
     }
 
-    public void setAsteroids(ArrayList<Asteroid> asteroids) {
+    private void setAsteroids(ArrayList<Asteroid> asteroids) {
         this.asteroids = asteroids;
     }
 
@@ -142,6 +150,67 @@ public abstract class Level {
 
     public void setIsActiveBoss(boolean hasActiveBoss) {
         this.isActiveBoss = hasActiveBoss;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
+
+    private void setPlayerManager(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
+
+    public FuelManager getFuelManager() {
+        return this.fuelManager;
+    }
+
+    private void setFuelManager(FuelManager fuelManager) {
+        this.fuelManager = fuelManager;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return this.enemyManager;
+    }
+
+    private void setEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
+    }
+
+    public AsteroidManager getAsteroidManager() {
+        return this.asteroidManager;
+    }
+
+    private void setAsteroidManager(AsteroidManager asteroidManager) {
+        this.asteroidManager = asteroidManager;
+    }
+
+    public BossManager getBossManager() {
+        return this.bossManager;
+    }
+
+    private void setBossManager(BossManager bossManager) {
+        this.bossManager = bossManager;
+    }
+
+    public void initializeUfos(int ufoCount, int ufoSpeed) {
+        ArrayList<GameObject> ufos = this.getEnemyManager().initializeEnemies(
+                canvas, ufoCount, ufoSpeed, "ufo");
+
+        this.setEnemies(ufos);
+    }
+
+    public void initializeAsteroids(int health, int asteroidCount) {
+        ArrayList<Asteroid> asteroids = this.getAsteroidManager().initializeAsteroids(
+                canvas, health, asteroidCount);
+
+        this.setAsteroids(asteroids);
+    }
+
+    public void initializeBosses() {
+        ArrayList<Boss> bosses = new ArrayList<>();
+        bosses.add(this.getBossManager().initializeBoss(canvas));
+
+        this.setBosses(bosses);
     }
 
     public void writeInLeaderboard(String name, long score) throws IOException {
@@ -191,25 +260,5 @@ public abstract class Level {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void initializeUfos(int ufoCount, int ufoSpeed) {
-        ArrayList<GameObject> ufos = enemyManager.initializeEnemies(
-                canvas, ufoCount, ufoSpeed, "ufo");
-
-        this.setEnemies(ufos);
-    }
-
-    public void initializeAsteroids(int health, int asteroidCount) {
-        ArrayList<Asteroid> asteroids = asteroidManager.initializeAsteroids(canvas, health, asteroidCount);
-
-        this.setAsteroids(asteroids);
-    }
-
-    public void initializeBosses() {
-        ArrayList<Boss> bosses = new ArrayList<>();
-        bosses.add(bossManager.initializeBoss(canvas));
-
-        this.setBosses(bosses);
     }
 }

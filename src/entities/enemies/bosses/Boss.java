@@ -15,8 +15,6 @@ public abstract class Boss extends GameObject {
         this.setHealth(health);
     }
 
-    protected abstract void initializeHitbox() throws FileNotFoundException;
-
     public SVGPath getSvgPath() {
         return svgPath;
     }
@@ -36,4 +34,6 @@ public abstract class Boss extends GameObject {
     public abstract void move();
 
     public abstract void resetHealth();
+
+    protected abstract void initializeHitbox() throws FileNotFoundException;
 }

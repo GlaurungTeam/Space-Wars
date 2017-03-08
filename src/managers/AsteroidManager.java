@@ -77,9 +77,6 @@ public class AsteroidManager {
     }
 
     public void manageAsteroids(Level level, AnimationTimer timer) {
-        //TODO Iterate through all asteroids and remove the asteroid that was
-        // hit and/or remove the missile that was hit
-
         //Add explosion to list
         //Iterate through all asteroids
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {

@@ -1,7 +1,6 @@
 package entities;
 
 public class Constants {
-
     //Object speed value
     public static final double EXPLOSION_SPEED = 0.1;
     public static final double ASTEROID_SPEED = 2.5;

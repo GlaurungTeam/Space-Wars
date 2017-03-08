@@ -11,14 +11,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 public class GameManager {
-    //Implements start() method which initializes all other managers
-    //Implements run() method where the game loop will be
-    //Implements stop() method
-    //Implements updateScore() method
-    //Implements updateLevel() method which updates background, planet and earth location
-    //Implements checkIfPlayerIsDead()
-    //Implements writeInLeaderboard()
-
     public void start(Stage theStage, Level level) throws Exception {
         theStage.setTitle("Space Wars");
 
@@ -45,7 +37,8 @@ public class GameManager {
         BackgroundManager backgroundManager = new BackgroundManager();
         BossManager bossManager = new BossManager(playerManager, fuelManager);
 
-        level.initializeLevel(player, gc, canvas, theScene, 0.0, enemyManager, asteroidManager, bossManager);
+        level.initializeLevel(player, gc, canvas, theScene, 0.0,
+                enemyManager, asteroidManager, bossManager, playerManager, fuelManager);
         level.setDifficultyParameters();
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
@@ -73,7 +66,7 @@ public class GameManager {
                 textManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(playerManager, level, this);
-                bossManager.manageBoss(level, asteroidManager);
+                bossManager.manageBoss(level, asteroidManager, this);
             }
         };
         timer.start();
