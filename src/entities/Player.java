@@ -21,7 +21,11 @@ public class Player extends Sprite {
     public SVGPath svgPath;
     private Image[] originalSprites;
     private Image[] playerHitSprites;
-    private BufferedImage playerHitSpriteSheet;
+    private Image[] playerUpSprites;
+    private Image[] playerDownSprites;
+    private Image[] playerDownHit;
+    private Image[] playerUpHit;
+    private boolean isHit;
 
     private boolean goLeft;
     private boolean goRight;
@@ -43,7 +47,32 @@ public class Player extends Sprite {
         svgPath.setContent("M23,9 L23,9 23,70 29,70 61,45 72,45 78,41 72,35 59,33 28,8 Z");
 
         this.timer = new Timer();
+        super.setSpriteParameters(43, 39, 1, 2);
 
+        this.loadPlayerSprites();
+
+        this.setHit(false);
+        super.setPosition(100, canvas.getHeight() / 2);
+    }
+
+
+    private Image[] splitSprites(BufferedImage bufferedImage) {
+        Image[] sprites = new Image[super.getRows() * super.getCols()];
+        for (int i = 0; i < super.getRows(); i++) {
+            for (int j = 0; j < super.getCols(); j++) {
+                sprites[(i * super.getCols()) + j] = SwingFXUtils.toFXImage(bufferedImage.getSubimage(
+                        j * super.getWidth(),
+                        i * super.getHeight(),
+                        super.getWidth(),
+                        super.getHeight()
+                ), null);
+            }
+        }
+
+        return sprites;
+    }
+
+    private void loadPlayerSprites() throws IOException {
         //Load sprites from file
         BufferedImage playerSpriteSheet =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
@@ -53,32 +82,75 @@ public class Player extends Sprite {
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_HIT));
 
+        BufferedImage playerUpSrites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP));
 
-        super.setSpriteParameters(82, 82, 2, 3);
+        BufferedImage playerDownSrites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN));
 
-        this.setPlayerHitSpriteSheet(playerHitSpriteSheet);
-        this.splitHitSprites();
+        BufferedImage playerDownHitSrites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT));
+
+        BufferedImage playerUpHitSprites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP_HIT));
+
+        this.setPlayerHitSprites(this.splitSprites(playerHitSpriteSheet));
+        this.setPlayerUpSprites(this.splitSprites(playerUpSrites));
+        this.setPlayerDownSprites(this.splitSprites(playerDownSrites));
+        this.setPlayerDownHit(this.splitSprites(playerDownHitSrites));
+        this.setPlayerUpHit(this.splitSprites(playerUpHitSprites));
+
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
         this.setOriginalSprites(super.getSprites());
-        super.setPosition(100, canvas.getHeight() / 2);
     }
 
-    private void splitHitSprites() {
-        this.setPlayerHitSprites(new Image[super.getRows() * super.getCols()]);
-        for (int i = 0; i < super.getRows(); i++) {
-            for (int j = 0; j < super.getCols(); j++) {
-                this.playerHitSprites[(i * super.getCols()) + j] = SwingFXUtils.toFXImage(this.playerHitSpriteSheet.getSubimage(
-                        j * super.getWidth(),
-                        i * super.getHeight(),
-                        super.getWidth(),
-                        super.getHeight()
-                ), null);
-            }
-        }
+    private Image[] getPlayerUpSprites() {
+        return playerUpSprites;
+    }
+
+    private Image[] getPlayerDownSprites() {
+        return playerDownSprites;
+    }
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        isHit = hit;
+    }
+
+    private void setPlayerUpSprites(Image[] playerUpSprites) {
+        this.playerUpSprites = playerUpSprites;
+    }
+
+    private void setPlayerDownSprites(Image[] playerDownSprites) {
+        this.playerDownSprites = playerDownSprites;
+    }
+
+    private Image[] getPlayerDownHit() {
+        return playerDownHit;
+    }
+
+    private void setPlayerDownHit(Image[] playerDownHit) {
+        this.playerDownHit = playerDownHit;
+    }
+
+    private Image[] getPlayerUpHit() {
+        return playerUpHit;
+    }
+
+    private void setPlayerUpHit(Image[] playerUpHit) {
+        this.playerUpHit = playerUpHit;
     }
 
     public void refreshSprites() {
+        this.setHit(false);
         super.setSprites(this.getOriginalSprites());
     }
 
@@ -94,16 +166,29 @@ public class Player extends Sprite {
         this.playerHitSprites = playerHitSprites;
     }
 
-    private void setPlayerHitSpriteSheet(BufferedImage playerHitSpriteSheet) {
-        this.playerHitSpriteSheet = playerHitSpriteSheet;
-    }
-
     public Image[] getPlayerHitSprites() {
         return playerHitSprites;
     }
 
-    public void playerHit() {
+    private void playerHit(){
         this.setSprites(this.getPlayerHitSprites());
+        if(!this.isHit()){
+            if(this.isGoUp()){
+                this.setSprites(this.getPlayerUpSprites());
+            }else if(this.isGoDown()){
+                this.setSprites(this.getPlayerDownSprites());
+            }
+        }else {
+            if (this.isGoUp()) {
+                this.setSprites(this.getPlayerUpHit());
+            } else if (this.isGoDown()) {
+                this.setSprites(this.getPlayerDownHit());
+            }
+        }
+    }
+
+    public void playerMove() {
+        this.playerHit();
     }
 
     public Timer getTimer() {

@@ -125,9 +125,11 @@ public class PlayerManager {
             switch (event.getCode()) {
                 case UP:
                     this.getPlayer().setGoUp(true);
+                    this.getPlayer().playerMove();
                     break;
                 case DOWN:
                     this.getPlayer().setGoDown(true);
+                    this.getPlayer().playerMove();
                     break;
                 case LEFT:
                     this.getPlayer().setGoLeft(true);
@@ -150,9 +152,11 @@ public class PlayerManager {
             switch (event.getCode()) {
                 case UP:
                     this.player.setGoUp(false);
+                    this.getPlayer().refreshSprites();
                     break;
                 case DOWN:
                     this.player.setGoDown(false);
+                    this.getPlayer().refreshSprites();
                     break;
                 case LEFT:
                     this.player.setGoLeft(false);
@@ -207,11 +211,12 @@ public class PlayerManager {
             public void run() {
                 that.refreshSprites();
             }
-        }, 1000);
+        }, 5000);
     }
 
     public void playerHit() {
-        this.getPlayer().playerHit();
+        this.getPlayer().setHit(true);
+        this.getPlayer().playerMove();
         this.refreshSprites();
     }
 }

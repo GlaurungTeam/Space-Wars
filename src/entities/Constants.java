@@ -23,6 +23,10 @@ public class Constants {
     public static final String EXPLOSION_SPRITESHEET_IMAGE = "/src/resources/explosions/rsz_explosion-spritesheet.png";
     public static final String SPACESHIP_SPRITESHEET_IMAGE = "/src/resources/spaceship/spaceshipSprites4.png";
     public static final String SPACESHIP_SPRITESHEET_IMAGE_HIT = "/src/resources/spaceship/spaceshipHit.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP_HIT = "/src/resources/spaceship/spaceshipUpHit.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP = "/src/resources/spaceship/spaceshipUp.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN = "/src/resources/spaceship/spaceshipDown.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT = "/src/resources/spaceship/spaceshipDownHit.png";
     public static final String FUELCAN_IMAGE = "resources/fuelcan/fuelCan.png";
     public static final String UFO_IMAGE = "resources/ufo/ufo_";
     public static final String ASTEROID_IMAGE = "resources/asteroid/asteroid";
