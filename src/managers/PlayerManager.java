@@ -99,7 +99,7 @@ public class PlayerManager {
 
         //Make missile
         Missile missile = new Missile(this.player.getPositionX() + this.player.getWidth() / 1.2,
-                this.player.getPositionY() + this.player.getHeight() / 2, 2);
+                this.player.getPositionY() + this.player.getHeight() / 2, Constants.MISSILE_SPEED);
 
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;

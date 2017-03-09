@@ -2,7 +2,7 @@ package entities.enemies.bosses;
 
 import entities.Constants;
 import entities.SpawnCoordinates;
-import helpers.Reader;
+import helpers.SVGPathReader;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
 
@@ -26,10 +26,10 @@ public class Pedobear extends Boss {
 
     @Override
     protected void initializeHitbox() throws FileNotFoundException {
-        Reader reader = new Reader();
+        SVGPathReader SVGPathReader = new SVGPathReader();
         SVGPath svgPath = new SVGPath();
 
-        svgPath.setContent(reader.readString(Constants.BOSS_PEDOBEAR_HITBOX));
+        svgPath.setContent(SVGPathReader.readString(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION));
         super.setSvgPath(svgPath);
     }
 

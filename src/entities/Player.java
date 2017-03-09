@@ -1,5 +1,6 @@
 package entities;
 
+import helpers.SVGPathReader;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -44,17 +45,17 @@ public class Player extends Sprite {
 
         //We are using SVG Path to make up for the complex form of the spaceship
         svgPath = new SVGPath();
-        svgPath.setContent("M23,9 L23,9 23,70 29,70 61,45 72,45 78,41 72,35 59,33 28,8 Z");
+
+        SVGPathReader SVGPathReader = new SVGPathReader();
+        svgPath.setContent(SVGPathReader.readString(Constants.PLAYER_SVGPATH_LOCATION));
 
         this.timer = new Timer();
         super.setSpriteParameters(43, 39, 1, 2);
-
         this.loadPlayerSprites();
 
         this.setHit(false);
         super.setPosition(100, canvas.getHeight() / 2);
     }
-
 
     private Image[] splitSprites(BufferedImage bufferedImage) {
         Image[] sprites = new Image[super.getRows() * super.getCols()];
@@ -68,7 +69,6 @@ public class Player extends Sprite {
                 ), null);
             }
         }
-
         return sprites;
     }
 
@@ -113,8 +113,16 @@ public class Player extends Sprite {
         return playerUpSprites;
     }
 
+    private void setPlayerUpSprites(Image[] playerUpSprites) {
+        this.playerUpSprites = playerUpSprites;
+    }
+
     private Image[] getPlayerDownSprites() {
         return playerDownSprites;
+    }
+
+    private void setPlayerDownSprites(Image[] playerDownSprites) {
+        this.playerDownSprites = playerDownSprites;
     }
 
     public boolean isHit() {
@@ -123,14 +131,6 @@ public class Player extends Sprite {
 
     public void setHit(boolean hit) {
         isHit = hit;
-    }
-
-    private void setPlayerUpSprites(Image[] playerUpSprites) {
-        this.playerUpSprites = playerUpSprites;
-    }
-
-    private void setPlayerDownSprites(Image[] playerDownSprites) {
-        this.playerDownSprites = playerDownSprites;
     }
 
     private Image[] getPlayerDownHit() {
@@ -162,23 +162,23 @@ public class Player extends Sprite {
         this.originalSprites = originalSprites;
     }
 
-    private void setPlayerHitSprites(Image[] playerHitSprites) {
-        this.playerHitSprites = playerHitSprites;
-    }
-
     public Image[] getPlayerHitSprites() {
         return playerHitSprites;
     }
 
-    private void playerHit(){
+    private void setPlayerHitSprites(Image[] playerHitSprites) {
+        this.playerHitSprites = playerHitSprites;
+    }
+
+    private void playerHit() {
         this.setSprites(this.getPlayerHitSprites());
-        if(!this.isHit()){
-            if(this.isGoUp()){
+        if (!this.isHit()) {
+            if (this.isGoUp()) {
                 this.setSprites(this.getPlayerUpSprites());
-            }else if(this.isGoDown()){
+            } else if (this.isGoDown()) {
                 this.setSprites(this.getPlayerDownSprites());
             }
-        }else {
+        } else {
             if (this.isGoUp()) {
                 this.setSprites(this.getPlayerUpHit());
             } else if (this.isGoDown()) {

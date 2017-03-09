@@ -3,7 +3,6 @@ package managers;
 import entities.Explosion;
 import entities.GameObject;
 import entities.Missile;
-import entities.Player;
 import entities.enemies.Asteroid;
 import entities.enemies.bosses.Boss;
 import entities.level.Level;

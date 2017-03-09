@@ -36,7 +36,7 @@ public class BossManager extends EnemyManager {
 
     public Boss initializeBoss(Canvas canvas) {
         Boss pedobear = new Pedobear(canvas, Constants.PEDOBEAR_SPEED);
-        pedobear.setPosition(1095, 360.0);
+        pedobear.setPosition(canvas.getWidth() - 200, canvas.getHeight() / 2);
 
         return pedobear;
     }

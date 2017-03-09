@@ -11,6 +11,7 @@ public class Constants {
     public static final double BACKGROUND_SPEED = 1;
     public static final double OBJECT_SPEED_UP_VALUE = 0.00002;
     public static final double PEDOBEAR_SPEED = 3;
+    public static final double MISSILE_SPEED = 5;
 
     //Sound effects
     public static final String PLAYER_SHOOT_SOUND = "src/resources/sound/lasergun.mp3";
@@ -39,7 +40,6 @@ public class Constants {
     //Misc
     public static final double SOUND_VOLUME = 0.1;
     public static final int DEFAULT_LABEL_PADDING = 5;
-    public static final String LEADERBOARD_FILE_LOCATION = "src/leaderboard/leaderboard.ser";
     public static final int MISSILE_SPEED_MULTIPLIER = 2;
     public static final int ASTEROIDS_COUNT_EASY = 20;
     public static final int ASTEROIDS_COUNT_HARD = 30;
@@ -51,12 +51,14 @@ public class Constants {
     public static final int ASTEROID_HEALTH_EASY = 1;
     public static final int UFO_COUNT_HARD = 4;
     public static final int ASTEROID_HEALTH_HARD = 2;
-    public static final String PROJECT_PATH = System.getProperty("user.dir");
-    public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
     public static final long START_POINTS = 0;
-    public static final int BOSS_PEDOBEAR_HEALTH = 2;
+    public static final int BOSS_PEDOBEAR_HEALTH = 5;
     public static final int POINTS_TILL_BOSS = 10;
+    public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
 
-    //Hitboxes
-    public static final String BOSS_PEDOBEAR_HITBOX = "/src/resources/bosses/pedobear_hitbox.txt";
+    //Misc file paths
+    public static final String BOSS_PEDOBEAR_SVGPATH_LOCATION = "/src/resources/bosses/pedobear_hitbox.txt";
+    public static final String PLAYER_SVGPATH_LOCATION = "/src/resources/spaceship/spaceship_hitbox.txt";
+    public static final String PROJECT_PATH = System.getProperty("user.dir");
+    public static final String LEADERBOARD_FILE_LOCATION = "src/leaderboard/leaderboard.ser";
 }
