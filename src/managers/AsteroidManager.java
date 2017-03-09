@@ -76,13 +76,13 @@ public class AsteroidManager {
         }
     }
 
-    public void manageAsteroids(Level level, AnimationTimer timer) {
+    public void manageAsteroids(Level level) {
         //Add explosion to list
         //Iterate through all asteroids
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (asteroidToRenderAndUpdate.getHealth() > 0) {
                 asteroidToRenderAndUpdate.render(level.getGc());
-                this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, timer, asteroidToRenderAndUpdate.getDefaultHealth());
+                this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
             }
             //Asteroid speed updating every rotation making them faster:
             asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() +
@@ -91,7 +91,7 @@ public class AsteroidManager {
         }
     }
 
-    private void manageAsteroidCollision(Level level, Asteroid asteroid, AnimationTimer timer, int health) {
+    private void manageAsteroidCollision(Level level, Asteroid asteroid, int health) {
         if (this.getPlayerManager().checkCollision(asteroid)) {
 
             EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY()));
@@ -102,12 +102,6 @@ public class AsteroidManager {
             this.getPlayerManager().playerHit();
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
-
-            try {
-                this.getPlayerManager().checkIfPlayerIsDead(level, timer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 

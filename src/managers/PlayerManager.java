@@ -44,7 +44,7 @@ public class PlayerManager {
         this.player = player;
     }
 
-    public void updatePlayerLocation(Canvas canvas) {
+    private void updatePlayerLocation(Canvas canvas) {
         //Offset Formula
         double heightOffset = canvas.getHeight() - 72;
         double widthOffset = canvas.getWidth() - 82;
@@ -186,14 +186,15 @@ public class PlayerManager {
         fuelManager.resetFuel();
     }
 
-    public void animateSprites(double time) {
+    private void animateSprites(double time) {
         this.getPlayer().setImage(this.getPlayer().getFrame(this.getPlayer().getSprites(), time, 0.100));
         this.getPlayer().render(this.getGraphicsContext());
     }
 
-    public void checkIfPlayerIsDead(Level level, AnimationTimer timer) throws Exception {
+    private void checkIfPlayerIsDead(Level level, AnimationTimer timer) throws Exception {
         if (this.getPlayer().getLives() <= 0) {
             timer.stop();
+
             try {
                 level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
                 level.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
@@ -218,5 +219,16 @@ public class PlayerManager {
         this.getPlayer().setHit(true);
         this.getPlayer().playerMove();
         this.refreshSprites();
+    }
+
+    public void managePlayer(Level level, double t, AnimationTimer animationTimer) {
+        this.updatePlayerLocation(level.getCanvas());
+        this.animateSprites(t);
+
+        try {
+            this.checkIfPlayerIsDead(level, animationTimer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

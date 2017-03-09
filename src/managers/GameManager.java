@@ -62,15 +62,15 @@ public class GameManager {
                 //Here we are using our shiny new managers! :)
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
-                enemyManager.manageUfos(level, this);
+                enemyManager.manageUfos(level);
                 missileManager.manageMissiles(level);
-                asteroidManager.manageAsteroids(level, this);
-                playerManager.updatePlayerLocation(canvas);
-                playerManager.animateSprites(t);
+                missileManager.manageEnemyMissiles(level);
+                asteroidManager.manageAsteroids(level);
+                playerManager.managePlayer(level, t, this);
                 userInterfaceManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
-                fuelManager.updateFuel(playerManager, level, this);
-                bossManager.manageBoss(level, asteroidManager, this);
+                fuelManager.updateFuel(playerManager, level);
+                bossManager.manageBoss(level, asteroidManager);
             }
         };
         timer.start();

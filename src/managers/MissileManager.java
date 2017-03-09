@@ -79,4 +79,30 @@ public class MissileManager {
             }
         }
     }
+
+    public void manageEnemyMissiles(Level level) {
+        if (level.getEnemyMissiles().size() != 0) {
+            for (int i = 0; i < level.getEnemyMissiles().size(); i++) {
+                Missile currentMissile = level.getEnemyMissiles().get(i);
+                if (currentMissile.getPositionX() < 50) {
+                    level.getEnemyMissiles().remove(currentMissile);
+                    return;
+                }
+                currentMissile.setImage(currentMissile.getFrame(currentMissile.getSprites(),
+                        level.getCurrentFrame(), 0.100));
+                currentMissile.render(level.getGc());
+                currentMissile.updateEnemyMissileLocation();
+
+                //Here we check if the player collides with a missile
+                if (currentMissile.intersects(level.getPlayer())) {
+                    level.getPlayerManager().resetPlayerPosition(level.getCanvas(), level.getFuelManager());
+                    level.getPlayer().setLives(level.getPlayer().getLives() - 1);
+                    level.getPlayerManager().playerHit();
+
+                    EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                    level.getEnemyMissiles().remove(currentMissile);
+                }
+            }
+        }
+    }
 }

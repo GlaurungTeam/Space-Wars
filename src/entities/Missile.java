@@ -9,4 +9,8 @@ public class Missile extends Sprite {
     public void updateMissileLocation() {
         super.setPositionX(Math.max(0, super.getPositionX() + super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER));
     }
+
+    public void updateEnemyMissileLocation() {
+        super.setPositionX(Math.max(0, super.getPositionX() - super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER));
+    }
 }

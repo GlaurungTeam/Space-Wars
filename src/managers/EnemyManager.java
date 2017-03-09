@@ -58,19 +58,13 @@ public class EnemyManager {
         return enemiesToReturn;
     }
 
-    private void manageEnemyCollision(Level level, AnimationTimer timer, GameObject enemy) {
+    private void manageEnemyCollision(Level level, GameObject enemy) {
         if (this.getPlayerManager().checkCollision(enemy)) {
             this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
             enemy.setPositionX(-1300);
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
             this.getPlayerManager().playerHit();
-
-            try {
-                this.getPlayerManager().checkIfPlayerIsDead(level, timer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -87,12 +81,12 @@ public class EnemyManager {
         }
     }
 
-    public void manageUfos(Level level, AnimationTimer timer) {
+    public void manageUfos(Level level) {
         for (GameObject enemy : level.getEnemies()) {
             if (!enemy.getHitStatus()) {
                 enemy.render(level.getGc());
 
-                this.manageEnemyCollision(level, timer, enemy);
+                this.manageEnemyCollision(level, enemy);
             }
             enemy.setSpeed(enemy.getSpeed() + Constants.OBJECT_SPEED_UP_VALUE);
             this.updateEnemyLocation(enemy, level.getCanvas());

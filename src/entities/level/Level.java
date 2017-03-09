@@ -31,6 +31,7 @@ public abstract class Level {
     private boolean isActiveBoss;
 
     private ArrayList<Missile> missiles;
+    private ArrayList<Missile> enemyMissiles;
     private ArrayList<Asteroid> asteroids;
     private ArrayList<GameObject> enemies;
     private ArrayList<Boss> bosses;
@@ -55,6 +56,7 @@ public abstract class Level {
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
         this.setMissiles(new ArrayList<>());
+        this.setEnemyMissiles(new ArrayList<>());
         this.setEnemyManager(enemyManager);
         this.setAsteroidManager(asteroidManager);
         this.setBossManager(bossManager);
@@ -126,6 +128,14 @@ public abstract class Level {
 
     private void setMissiles(ArrayList<Missile> missiles) {
         this.missiles = missiles;
+    }
+
+    public ArrayList<Missile> getEnemyMissiles() {
+        return this.enemyMissiles;
+    }
+
+    private void setEnemyMissiles(ArrayList<Missile> enemyMissiles) {
+        this.enemyMissiles = enemyMissiles;
     }
 
     public ArrayList<Asteroid> getAsteroids() {

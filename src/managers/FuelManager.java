@@ -86,7 +86,7 @@ public class FuelManager {
         this.getTimeline().play();
     }
 
-    public void updateFuel(PlayerManager playerManager, Level level, AnimationTimer animationTimer) {
+    public void updateFuel(PlayerManager playerManager, Level level) {
         if (!this.getFuelCan().getTakenStatus()) {
             this.getFuelCan().render(level.getGc());
         }
@@ -105,21 +105,15 @@ public class FuelManager {
         }
 
         this.getFuelCan().updateFuelCanLocation(level.getCanvas());
-        this.checkFuel(level, playerManager, animationTimer);
+        this.checkFuel(level, playerManager);
     }
 
-    private void checkFuel(Level level, PlayerManager playerManager, AnimationTimer animationTimer) {
+    private void checkFuel(Level level, PlayerManager playerManager) {
         if (this.getFuelBar().getWorkDone().getValue() == 0.0) {
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
             playerManager.resetPlayerPosition(level.getCanvas(), this);
 
             this.getTimeline().playFromStart();
-
-            try {
-                playerManager.checkIfPlayerIsDead(level, animationTimer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }
