@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 import java.nio.file.Paths;
 
+import managers.*;
+
 public class Main extends Application {
     @Override
     public void start(Stage theStage) throws Exception {
@@ -18,9 +20,14 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
 
+        DimensionsManager dimensions = new DimensionsManager();
+        dimensions.calculateScreenDimensions();
+
         theStage.setTitle("Launcher");
-        theStage.setScene(new Scene(root, 1280, 720));
+        theStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
         theStage.show();
+        theStage.setFullScreen(true);
+        theStage.setFullScreenExitHint("");
     }
 
     public static void main(String[] args) {

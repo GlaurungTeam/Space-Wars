@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import managers.DimensionsManager;
 import managers.GameManager;
 
 import java.io.FileInputStream;
@@ -36,20 +37,27 @@ public class MenuController {
     public Button easyLevelButton;
     public Button hardLevelButton;
 
+    private DimensionsManager dimensions = new DimensionsManager();
+
     public void start(ActionEvent actionEvent) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
+        dimensions.calculateScreenDimensions();
+
         loginStage.setTitle("User Login");
-        loginStage.setScene(new Scene(root, 1280, 720));
+        loginStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
         loginStage.show();
+        loginStage.setFullScreen(true);
     }
 
     public void openHighScores(ActionEvent actionEvent) throws IOException, InterruptedException {
         Stage primaryStage = (Stage) this.spaceWars.getScene().getWindow();
 
+        dimensions.calculateScreenDimensions();
+
         Pane root = FXMLLoader.load(getClass().getResource("../views/leaderboard.fxml"));
-        Scene scene = new Scene(root, 1280, 720);
+        Scene scene = new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight());
 
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(scene);
@@ -98,8 +106,10 @@ public class MenuController {
 
         Stage leaderBoardStage = (Stage) this.spaceWars.getScene().getWindow();
 
+        dimensions.calculateScreenDimensions();
+
         leaderBoardStage.setTitle("Launcher");
-        leaderBoardStage.setScene(new Scene(root, 1280, 720));
+        leaderBoardStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
         leaderBoardStage.show();
     }
 
@@ -110,9 +120,12 @@ public class MenuController {
             Parent root = FXMLLoader.load(getClass().getResource("../views/difficulty.fxml"));
             Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
 
+            dimensions.calculateScreenDimensions();
+
             difficultyStage.setTitle("Difficulty selector");
-            difficultyStage.setScene(new Scene(root, 1280, 720));
+            difficultyStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
             difficultyStage.show();
+            difficultyStage.setFullScreen(true);
 
         }
     }
@@ -123,8 +136,10 @@ public class MenuController {
         GameManager gameManager = new GameManager();
 
         Level level = new LevelEasy();
-
+        stage.setFullScreen(true);
         gameManager.start(stage, level);
+
+
     }
 
     public void startHardLevel(ActionEvent actionEvent) throws Exception {

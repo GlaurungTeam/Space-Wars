@@ -10,7 +10,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
-
 public class GameManager {
     public void start(Stage theStage, Level level) throws Exception {
         theStage.setTitle("Space Wars");
@@ -18,8 +17,12 @@ public class GameManager {
         Group root = new Group();
         Scene theScene = new Scene(root);
         theStage.setScene(theScene);
+        theStage.setFullScreen(true);
+        theStage.setFullScreenExitHint("");
+        DimensionsManager dimensions = new DimensionsManager();
+        dimensions.calculateScreenDimensions();
 
-        Canvas canvas = new Canvas(1280, 720);
+        Canvas canvas = new Canvas(dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight());
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
