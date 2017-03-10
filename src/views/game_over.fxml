@@ -13,7 +13,7 @@
          <Font name="System Bold" size="36.0" />
       </font>
    </Label>
-   <Button layoutX="503.0" layoutY="279.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="280.0" text="MAIN MENU">
+   <Button layoutX="566.0" layoutY="279.0" mnemonicParsing="false" onAction="#goBack" text="MAIN MENU">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
@@ -25,7 +25,7 @@
          </InnerShadow>
       </effect>
    </Button>
-   <Button layoutX="503.0" layoutY="351.0" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="280.0" text="QUIT">
+   <Button layoutX="603.0" layoutY="338.0" mnemonicParsing="false" onAction="#quit" text="QUIT">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>

@@ -128,7 +128,7 @@ public class UserInterfaceManager {
         Button pauseButton = new Button("PAUSE");
         pauseButton.setLayoutX(20);
         pauseButton.setLayoutY(110);
-        pauseButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font: 18 bolder; -fx-border-color: black");
+        pauseButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-border-width: 3; -fx-font-weight: bold");
 
         return pauseButton;
     }
@@ -137,7 +137,7 @@ public class UserInterfaceManager {
         Button resumeButton = new Button("RESUME");
         resumeButton.setLayoutX(640);
         resumeButton.setLayoutY(320);
-        resumeButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font: 18 bolder; -fx-border-color: black");
+        resumeButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         resumeButton.setVisible(false);
 
         return resumeButton;
@@ -147,7 +147,7 @@ public class UserInterfaceManager {
         Button quitButton = new Button("QUIT");
         quitButton.setLayoutX(655);
         quitButton.setLayoutY(370);
-        quitButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font: 18 bolder; -fx-border-color: black");
+        quitButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         quitButton.setVisible(false);
 
         return quitButton;

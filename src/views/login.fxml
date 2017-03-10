@@ -10,17 +10,17 @@
 
 <AnchorPane fx:id="loginPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuController">
     <children>
-        <TextField fx:id="usernameField" alignment="CENTER" layoutX="500.0" layoutY="255.0" prefHeight="80.0" prefWidth="280.0">
+        <TextField fx:id="usernameField" alignment="CENTER" layoutX="524.0" layoutY="272.0" prefHeight="80.0" prefWidth="280.0">
             <font>
                 <Font size="24.0" />
             </font>
         </TextField>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="500.0" layoutY="143.0" prefHeight="50.0" prefWidth="280.0" stylesheets="@../resources/styles.css" text="ENTER YOUR NAME" textAlignment="JUSTIFY" textFill="#b9a3a3">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="524.0" layoutY="143.0" prefHeight="50.0" prefWidth="280.0" stylesheets="@../resources/styles.css" text="ENTER YOUR NAME" textAlignment="JUSTIFY" textFill="#b9a3a3">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Button fx:id="startGameButton" contentDisplay="CENTER" layoutX="500.0" layoutY="360.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="280.0" text="START GAME" textAlignment="JUSTIFY" textOverrun="CENTER_ELLIPSIS">
+        <Button fx:id="startGameButton" contentDisplay="CENTER" layoutX="524.0" layoutY="386.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="280.0" text="START GAME" textAlignment="JUSTIFY" textOverrun="CENTER_ELLIPSIS">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
@@ -34,7 +34,7 @@
         </Button>
         <Label fx:id="loginLabel" layoutX="14.0" layoutY="14.0" />
         <Label fx:id="spaceWars" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="0.0" />
-      <Label alignment="CENTER" layoutX="500.0" layoutY="193.0" prefHeight="50.0" prefWidth="280.0" text="BETWEEN 1 AND 10 SYMBOLS" textAlignment="CENTER" textFill="#b9a3a3">
+      <Label alignment="CENTER" layoutX="524.0" layoutY="201.0" prefHeight="50.0" prefWidth="280.0" text="BETWEEN 1 AND 10 SYMBOLS" textAlignment="CENTER" textFill="#b9a3a3">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
