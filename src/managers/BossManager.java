@@ -6,7 +6,6 @@ import entities.Missile;
 import entities.enemies.bosses.Boss;
 import entities.enemies.bosses.Pedobear;
 import entities.level.Level;
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
 import javax.imageio.ImageIO;
@@ -37,11 +36,11 @@ public class BossManager extends EnemyManager {
         return this.justShowed;
     }
 
-    public Timer getShootTimer() {
+    private Timer getShootTimer() {
         return this.shootTimer;
     }
 
-    public void setShootTimer(Timer shootTimer) {
+    private void setShootTimer(Timer shootTimer) {
         this.shootTimer = shootTimer;
     }
 
@@ -56,7 +55,7 @@ public class BossManager extends EnemyManager {
         return pedobear;
     }
 
-    public void manageBoss(Level level, AsteroidManager asteroidManager) {
+    void manageBoss(Level level, AsteroidManager asteroidManager) {
         for (Boss boss : level.getBosses()) {
             if (level.getPlayer().getPoints() != 0
                     && level.getPlayer().getPoints() % Constants.POINTS_TILL_BOSS == 0
@@ -123,7 +122,7 @@ public class BossManager extends EnemyManager {
         missile.setSpriteSheet(missileSpriteSheet);
         missile.splitSprites();
 
-        level.getEnemyMissiles().add(missile);
+        level.addEnemyMissile(missile);
     }
 
     private void manageBossCollision(Level level, Boss boss) {

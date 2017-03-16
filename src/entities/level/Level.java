@@ -30,11 +30,11 @@ public abstract class Level {
     private Image backgroundImage;
     private boolean isActiveBoss;
 
-    private ArrayList<Missile> missiles;
-    private ArrayList<Missile> enemyMissiles;
-    private ArrayList<Asteroid> asteroids;
-    private ArrayList<GameObject> enemies;
-    private ArrayList<Boss> bosses;
+    private List<Missile> missiles;
+    private List<Missile> enemyMissiles;
+    private List<Asteroid> asteroids;
+    private List<GameObject> enemies;
+    private List<Boss> bosses;
 
     public Level() {
     }
@@ -64,6 +64,22 @@ public abstract class Level {
         this.setFuelManager(fuelManager);
     }
 
+    public void addEnemyMissile(Missile missile){
+        this.enemyMissiles.add(missile);
+    }
+
+    public void removeEnemyMissile(Missile missile){
+        this.enemyMissiles.remove(missile);
+    }
+
+    public void addMissile(Missile missile){
+        this.missiles.add(missile);
+    }
+
+    public void removeMissile(Missile missile){
+        this.missiles.remove(missile);
+    }
+
     public List<Boss> getBosses() {
         return Collections.unmodifiableList(this.bosses);
     }
@@ -74,8 +90,8 @@ public abstract class Level {
 
     public abstract void setDifficultyParameters();
 
-    public ArrayList<GameObject> getEnemies() {
-        return this.enemies;
+    public List<GameObject> getEnemies() {
+        return Collections.unmodifiableList(this.enemies);
     }
 
     private void setEnemies(ArrayList<GameObject> ufos) {
@@ -122,27 +138,27 @@ public abstract class Level {
         this.currentFrame = currentFrame;
     }
 
-    public ArrayList<Missile> getMissiles() {
-        return this.missiles;
+    public List<Missile> getMissiles() {
+        return Collections.unmodifiableList(this.missiles);
     }
 
     private void setMissiles(ArrayList<Missile> missiles) {
         this.missiles = missiles;
     }
 
-    public ArrayList<Missile> getEnemyMissiles() {
-        return this.enemyMissiles;
+    public List<Missile> getEnemyMissiles() {
+        return Collections.unmodifiableList(this.enemyMissiles);
     }
 
     private void setEnemyMissiles(ArrayList<Missile> enemyMissiles) {
         this.enemyMissiles = enemyMissiles;
     }
 
-    public ArrayList<Asteroid> getAsteroids() {
-        return this.asteroids;
+    public List<Asteroid> getAsteroids() {
+        return Collections.unmodifiableList(this.asteroids);
     }
 
-    private void setAsteroids(ArrayList<Asteroid> asteroids) {
+    private void setAsteroids(List<Asteroid> asteroids) {
         this.asteroids = asteroids;
     }
 

@@ -139,7 +139,7 @@ public class PlayerManager {
                     break;
                 case CONTROL:
                     if (!this.getPlayer().isFired()) {
-                        level.getMissiles().add(this.fire());
+                        level.addMissile(this.fire());
                         this.getPlayer().setFired(true);
                     }
                     break;

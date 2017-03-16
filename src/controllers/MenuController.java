@@ -5,7 +5,6 @@ import entities.level.Level;
 import entities.level.LevelEasy;
 import entities.level.LevelHard;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,13 +25,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class MenuController {
+
+    //make fields private
+    public TextField usernameField;
+    public Button startGameButton;
+    public AnchorPane finalScorePane;
+    public AnchorPane launcherPane;
+    public Label loginLabel;
+    public AnchorPane loginPane;
     public static String userName;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private Label spaceWars;
-    @FXML
-    private Button easyLevelButton;
+    public Label spaceWars;
+    public AnchorPane difficultyPane;
+    public Button easyLevelButton;
+    public Button hardLevelButton;
 
     private DimensionsManager dimensions = new DimensionsManager();
 

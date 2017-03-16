@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class AsteroidManager {
@@ -105,13 +106,13 @@ public class AsteroidManager {
         }
     }
 
-    public ArrayList<Asteroid> resetAsteroidPosition(ArrayList<Asteroid> asteroids, Canvas canvas) {
-        ArrayList<Asteroid> asteroidsToReturn = asteroids;
+    //
+    public List<Asteroid> resetAsteroidPosition(List<Asteroid> asteroids, Canvas canvas) {
 
-        for (Asteroid asteroidToUpdate : asteroidsToReturn) {
+        for (Asteroid asteroidToUpdate : asteroids) {
             asteroidToUpdate.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas));
         }
 
-        return asteroidsToReturn;
+        return asteroids;
     }
 }

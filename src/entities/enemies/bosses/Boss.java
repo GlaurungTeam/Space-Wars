@@ -36,4 +36,6 @@ public abstract class Boss extends GameObject {
     public abstract void resetHealth();
 
     protected abstract void initializeHitbox() throws FileNotFoundException;
+
+    protected abstract void fire();
 }

@@ -35,7 +35,7 @@ public class GameManager {
         FuelManager fuelManager = new FuelManager(root, canvas);
         EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
         AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
-        MissileManager missileManager = new MissileManager();
+        MissileManager missileManager = new MissileManager(level);
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
         EffectsManager effectsManager = new EffectsManager();
         BackgroundManager backgroundManager = new BackgroundManager();
@@ -63,7 +63,7 @@ public class GameManager {
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageUfos(level);
-                missileManager.manageMissiles(level);
+                missileManager.manageMissiles();
                 missileManager.manageEnemyMissiles(level);
                 asteroidManager.manageAsteroids(level);
                 playerManager.managePlayer(level, t, this);

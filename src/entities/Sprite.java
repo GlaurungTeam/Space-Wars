@@ -19,6 +19,7 @@ public abstract class Sprite {
     private int height;
     private int rows;
     private int cols;
+    //unmodifiable
     private Image[] sprites;
     private BufferedImage spriteSheet;
 

@@ -52,7 +52,7 @@ public class Constants {
     public static final int UFO_COUNT_HARD = 4;
     public static final int ASTEROID_HEALTH_HARD = 2;
     public static final long START_POINTS = 0;
-    public static final int BOSS_PEDOBEAR_HEALTH = 5;
+    public static final int BOSS_PEDOBEAR_HEALTH = 10;
     public static final int POINTS_TILL_BOSS = 10;
     public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
 

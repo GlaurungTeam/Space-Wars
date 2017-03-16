@@ -33,6 +33,11 @@ public class Pedobear extends Boss {
         super.setSvgPath(svgPath);
     }
 
+    @Override
+    protected void fire() {
+        //TODO create missiles
+    }
+
     private double getRandomY() {
         return randomY;
     }
