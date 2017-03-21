@@ -3,10 +3,13 @@ package managers;
 import entities.*;
 import entities.enemies.Asteroid;
 import entities.level.Level;
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,36 +46,48 @@ public class AsteroidManager {
         this.fuelManager = fuelManager;
     }
 
-    public ArrayList<Asteroid> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
-        ArrayList<Asteroid> asteroids = new ArrayList<>();
+    public List<Asteroid> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
+        List<Asteroid> asteroids = new ArrayList<>();
 
         for (int i = 0; i < asteroidCount; i++) {
-            Asteroid currentAsteroid = new Asteroid(Constants.ASTEROID_SPEED, health, health);
+            BufferedImage asteroidSpritesheet = null;
 
-            Image image = new Image(Constants.ASTEROID_IMAGE +
-                    String.valueOf(SpawnCoordinates.getRandom(4)) + ".png");
+            String path = Constants.PROJECT_PATH + Constants.ASTEROID_IMAGE +
+                    String.valueOf(SpawnCoordinates.getRandom(4)) + ".png";
 
-            currentAsteroid.setImage(image);
-            currentAsteroid.setPosition(SpawnCoordinates.getSpawnX(canvas),
-                    SpawnCoordinates.getSpawnY(canvas));
+            File sprites = new File(path);
+
+            try {
+                asteroidSpritesheet = ImageIO.read(sprites);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int currentXPos = (int)SpawnCoordinates.getSpawnX(canvas);
+            int currentYPos = (int)SpawnCoordinates.getSpawnY(canvas);
+            int asteroidWidth = 32;
+            int asteroidHeight = 32;
+
+            Asteroid currentAsteroid = new Asteroid(currentXPos,currentYPos,
+                    Constants.ASTEROID_SPEED, asteroidSpritesheet, asteroidWidth, asteroidHeight, 1, 1, health, health);
+
+            //currentAsteroid.setImage(asteroidSpritesheet.getSubimage(currentXPos, currentYPos, asteroidWidth, asteroidHeight));
 
             asteroids.add(currentAsteroid);
         }
         return asteroids;
     }
 
-    private void updateAsteroidLocation(Level level, Asteroid asteroid, int health) {
+    private void move(Level level, Asteroid asteroid, int health) {
         //Offset so that asteroids don't spawn outside of boundaries
         double heightOffset = 37;
-
         //Offset Formula
         double offset = level.getCanvas().getHeight() - heightOffset;
 
-        asteroid.setPositionX(asteroid.getPositionX() - asteroid.getSpeed());
+        asteroid.updateLocation(asteroid.getPositionX() - asteroid.getSpeed(), asteroid.getPositionY());
 
         if (asteroid.getPositionX() < -20 && !level.isActiveBoss()) {
-            asteroid.setPositionX(level.getCanvas().getWidth());
-            asteroid.setPositionY(this.rnd.nextInt((int) offset));
+            asteroid.updateLocation(level.getCanvas().getWidth(),this.rnd.nextInt((int) offset));
             asteroid.setHealth(health);
         }
     }
@@ -82,22 +97,33 @@ public class AsteroidManager {
         //Iterate through all asteroids
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
             if (asteroidToRenderAndUpdate.getHealth() > 0) {
+                Image currentFrame = asteroidToRenderAndUpdate.getCurrentAsteroidFrame(0);
+                asteroidToRenderAndUpdate.setImage(currentFrame);
                 asteroidToRenderAndUpdate.render(level.getGc());
                 this.manageAsteroidCollision(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
             }
             //Asteroid speed updating every rotation making them faster:
-            asteroidToRenderAndUpdate.setSpeed(asteroidToRenderAndUpdate.getSpeed() +
-                    Constants.OBJECT_SPEED_UP_VALUE);
-            this.updateAsteroidLocation(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
+            asteroidToRenderAndUpdate.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
+            this.move(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
         }
     }
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, int health) {
         if (this.getPlayerManager().checkCollision(asteroid)) {
 
-            EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY()));
+            BufferedImage explosionSpriteSheet = null;
 
-            asteroid.setPositionX(-1300);
+            try {
+                explosionSpriteSheet = ImageIO.read(new File(
+                        Constants.PROJECT_PATH + Constants.EXPLOSION_SPRITESHEET_IMAGE));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+
+            EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY(),
+                    Constants.EXPLOSION_SPEED, explosionSpriteSheet, 48, 49, 1, 25));
+
+            asteroid.resetLocation(-1300, asteroid.getPositionY());
             asteroid.setHealth(health);
             this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
             this.getPlayerManager().playerHit();

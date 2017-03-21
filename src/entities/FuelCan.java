@@ -3,18 +3,23 @@ package entities;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class FuelCan extends Sprite {
+public class FuelCan extends GameObject {
     private boolean isTaken;
 
-    public FuelCan(Canvas canvas, double speed) {
+    public FuelCan(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+    }
+
+    /*public FuelCan(Canvas canvas, double speed) {
         Image image = new Image(Constants.FUELCAN_IMAGE);
 
         super.setImage(image);
         super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas));
         super.setSpeed(speed);
-    }
+    }*/
 
     public boolean getTakenStatus() {
         return this.isTaken;
@@ -33,11 +38,12 @@ public class FuelCan extends Sprite {
 
         Random rnd = new Random();
 
-        this.setPositionX(this.getPositionX() - this.getSpeed());
+        this.updateLocation(this.getPositionX() - this.getSpeed(), this.getPositionY());
 
         if (this.getPositionX() < -200) {
-            this.setPositionX(rnd.nextInt((int) canvas.getWidth()));
-            this.setPositionY(rnd.nextInt((int) offset));
+            int randomX = rnd.nextInt((int) canvas.getWidth());
+            int randomY = rnd.nextInt((int) offset);
+            this.setPosition(randomX, randomY);
             this.setTakenStatus(false);
         }
     }

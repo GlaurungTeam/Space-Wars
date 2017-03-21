@@ -3,9 +3,12 @@ package managers;
 import entities.*;
 import entities.enemies.Ufo;
 import entities.level.Level;
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,7 +20,6 @@ public class EnemyManager {
 
     private PlayerManager playerManager;
     private FuelManager fuelManager;
-    private Random rnd;
 
     private PlayerManager getPlayerManager() {
         return this.playerManager;
@@ -38,11 +40,9 @@ public class EnemyManager {
     public EnemyManager(PlayerManager playerManager, FuelManager fuelManager) {
         this.setPlayerManager(playerManager);
         this.setFuelManager(fuelManager);
-        this.rnd = new Random();
     }
 
-    public ArrayList<GameObject> initializeEnemies(
-            Canvas canvas, int enemyCount, int enemySpeed, String enemyType) {
+    public ArrayList<GameObject> initializeEnemies(int enemyCount, String enemyType) {
 
         ArrayList<GameObject> enemiesToReturn = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class EnemyManager {
             GameObject enemy = null;
             switch (enemyType) {
                 case "ufo":
-                    enemy = new Ufo(canvas, enemySpeed);
+                    enemy = createEnemy();
                     break;
             }
             enemiesToReturn.add(enemy);
@@ -58,38 +58,82 @@ public class EnemyManager {
         return enemiesToReturn;
     }
 
+    private GameObject createEnemy() {
+        BufferedImage ufoSpriteSheet = null;
+
+        try {
+            ufoSpriteSheet = ImageIO.read(new File(
+                    Constants.PROJECT_PATH + Constants.UFO_SpriteSheet));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        int lowBound = 1300;
+        int highBound = 2500;
+
+        int currentXPos = this.getRandomNumber(lowBound,highBound);
+        int currentYPos = this.getRandomNumber(720);
+        int enemyWidth = 39;
+        int enemyHeight = 30;
+
+        GameObject ufo = new Ufo(currentXPos, currentYPos, Constants.UFO_SPEED_EASY, ufoSpriteSheet, enemyWidth, enemyHeight, 1, 6);
+
+        return ufo;
+    }
+
     private void manageEnemyCollision(Level level, GameObject enemy) {
         if (this.getPlayerManager().checkCollision(enemy)) {
             this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
-            enemy.setPositionX(-1300);
+            enemy.resetLocation(-1300, enemy.getPositionY());
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);
             this.getPlayerManager().playerHit();
         }
     }
 
-    private void updateEnemyLocation(GameObject enemy, Canvas canvas) {
+    private void move(GameObject enemy, Canvas canvas) {
         double heightOffset = 37;
         double offset = canvas.getHeight() - heightOffset;
 
-        enemy.setPositionX(enemy.getPositionX() - enemy.getSpeed());
+        double nextXPosition = enemy.getPositionX() - enemy.getSpeed();
 
+        //enemy.updateLocation(enemy.getPositionX() - enemy.getSpeed(), enemy.getPositionY());
         if (enemy.getPositionX() < -20) {
-            enemy.setPositionX(canvas.getWidth());
-            enemy.setPositionY(this.rnd.nextInt((int) offset));
+            enemy.updateLocation(canvas.getWidth(),this.getRandomNumber((int) offset));
             enemy.setHitStatus(false);
+            return;
         }
+
+        enemy.updateLocation(nextXPosition, enemy.getPositionY());
     }
 
     public void manageUfos(Level level) {
         for (GameObject enemy : level.getEnemies()) {
             if (!enemy.getHitStatus()) {
+                enemy.setImage(enemy.getCurrentFrame(1));//TODO here the index of the current image is hardcoded - change this!!!
                 enemy.render(level.getGc());
-
                 this.manageEnemyCollision(level, enemy);
+                this.move(enemy, level.getCanvas());
+            } else{
+                int low = 1300;
+                int high = 2500;
+                int newRandomX = this.getRandomNumber(low, high);
+                int newRandomY = this.getRandomNumber(720);
+
+                enemy.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
+                enemy.updateLocation(newRandomX, newRandomY);
+                enemy.setHitStatus(false);
             }
-            enemy.setSpeed(enemy.getSpeed() + Constants.OBJECT_SPEED_UP_VALUE);
-            this.updateEnemyLocation(enemy, level.getCanvas());
         }
+    }
+
+    private int getRandomNumber(int bound){
+        Random rnd = new Random();
+        return rnd.nextInt(bound);
+    }
+
+    private int getRandomNumber(int lowBound, int highBound){
+        Random rnd = new Random();
+        return rnd.nextInt(highBound - lowBound) + lowBound;
     }
 }

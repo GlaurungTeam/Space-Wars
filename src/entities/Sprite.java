@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 //The whole point of this class is so that we can use hit detection easily
 //Thanks to it every object on the field has width, height, image and coordinates which we can use for the aforementioned reason
@@ -19,9 +22,18 @@ public abstract class Sprite {
     private int height;
     private int rows;
     private int cols;
-    //unmodifiable
-    private Image[] sprites;
+    private List<Image> sprites;
     private BufferedImage spriteSheet;
+
+    protected Sprite(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols){
+        //TODO initialize sprite object in the constructor
+        this.setPositionX(positionX);
+        this.setPositionY(positionY);
+        this.setSpeed(objectSpeed);
+        this.setSpriteSheet(spriteSheet);
+        this.setSpriteParameters(width,height,rows,cols);
+        this.splitSprites();
+    }
 
     public Image getImage() {
         return this.image;
@@ -31,7 +43,7 @@ public abstract class Sprite {
         return this.positionX;
     }
 
-    public void setPositionX(double positionX) {
+    private void setPositionX(double positionX) {
         this.positionX = positionX;
     }
 
@@ -39,7 +51,7 @@ public abstract class Sprite {
         return this.positionY;
     }
 
-    public void setPositionY(double positionY) {
+    private void setPositionY(double positionY) {
         this.positionY = positionY;
     }
 
@@ -47,7 +59,7 @@ public abstract class Sprite {
         return this.speed;
     }
 
-    public void setSpeed(double speed) {
+    private void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -83,11 +95,11 @@ public abstract class Sprite {
         this.cols = cols;
     }
 
-    public Image[] getSprites() {
-        return this.sprites;
+    public List<Image> getSprites() {
+        return Collections.unmodifiableList(this.sprites);
     }
 
-    protected void setSprites(Image[] sprites) {
+    protected void setSprites(List<Image> sprites) {
         this.sprites = sprites;
     }
 
@@ -95,20 +107,21 @@ public abstract class Sprite {
         return this.spriteSheet;
     }
 
-    public void setSpriteSheet(BufferedImage spriteSheet) {
+    protected void setSpriteSheet(BufferedImage spriteSheet) {
         this.spriteSheet = spriteSheet;
     }
 
     //load sprites from image
-    public void splitSprites() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                this.sprites[(i * cols) + j] = SwingFXUtils.toFXImage(this.spriteSheet.getSubimage(
+    protected void splitSprites() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                BufferedImage image = this.spriteSheet.getSubimage(
                         j * this.width,
                         i * this.height,
                         this.width,
                         this.height
-                ), null);
+                );
+                this.sprites.add((i * this.cols) + j, SwingFXUtils.toFXImage(image, null));
             }
         }
     }
@@ -118,10 +131,7 @@ public abstract class Sprite {
         this.setHeight(height);
         this.setRows(rows);
         this.setCols(cols);
-        this.setSprites(new Image[rows * cols]);
-    }
-
-    public Sprite() {
+        this.sprites = new ArrayList<>();
     }
 
     public void setImage(Image image) {
@@ -135,9 +145,9 @@ public abstract class Sprite {
         this.setPositionY(y);
     }
 
-    public Image getFrame(Image[] sprites, double time, double duration) {
-        int index = (int) ((time % (sprites.length * duration)) / duration);
-        return sprites[index];
+    public Image getFrame(List<Image> sprites, double time, double duration) {
+        int index = (int) ((time % (sprites.size() * duration)) / duration);
+        return sprites.get(index);
     }
 
     public void render(GraphicsContext gc) {
@@ -154,6 +164,15 @@ public abstract class Sprite {
 
     public boolean intersects(Sprite s) {
         return s.getBoundary().intersects(this.getBoundary());
+    }
+
+    public void speedUp(double speed){
+        this.setSpeed(this.getSpeed() + speed);
+    }
+
+    public void updateLocation(double x, double y){
+        this.setPositionX(x);
+        this.setPositionY(y);
     }
 
     public String toString() {

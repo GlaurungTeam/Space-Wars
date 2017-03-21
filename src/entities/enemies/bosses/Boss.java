@@ -4,14 +4,16 @@ import entities.GameObject;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
 
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 
 public abstract class Boss extends GameObject {
     private int health;
     private SVGPath svgPath;
 
-    public Boss(Canvas canvas, double speed, String imagePath, int health) {
-        super(canvas, speed, imagePath);
+    protected Boss(double positionX, double positionY, double objectSpeed,
+                   BufferedImage spriteSheet, int width, int height, int rows, int cols, int health) {
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
         this.setHealth(health);
     }
 

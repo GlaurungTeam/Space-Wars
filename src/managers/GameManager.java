@@ -28,11 +28,15 @@ public class GameManager {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Make new player object
-        Player player = new Player(Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene, canvas);
+        double playerStartX = 100.0;
+        double playerStartY = 100.0;
+
+        Player player = new Player(playerStartX, playerStartY, Constants.PLAYER_SPEED, null, 0,0,0,0,
+                Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);
-        FuelManager fuelManager = new FuelManager(root, canvas);
+        FuelManager fuelManager = new FuelManager(root);
         EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
         AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
         MissileManager missileManager = new MissileManager(level);

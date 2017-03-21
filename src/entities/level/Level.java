@@ -219,20 +219,19 @@ public abstract class Level {
     }
 
     public void initializeUfos(int ufoCount, int ufoSpeed) {
-        ArrayList<GameObject> ufos = this.getEnemyManager().initializeEnemies(
-                canvas, ufoCount, ufoSpeed, "ufo");
+        ArrayList<GameObject> ufos = this.getEnemyManager().initializeEnemies(ufoCount, "ufo");
 
         this.setEnemies(ufos);
     }
 
     public void initializeAsteroids(int health, int asteroidCount) {
-        ArrayList<Asteroid> asteroids = this.getAsteroidManager().initializeAsteroids(
+        List<Asteroid> asteroids = this.getAsteroidManager().initializeAsteroids(
                 canvas, health, asteroidCount);
 
         this.setAsteroids(asteroids);
     }
 
-    public void initializeBosses() {
+    public void initializeBosses() throws FileNotFoundException {
         ArrayList<Boss> bosses = new ArrayList<>();
         bosses.add(this.getBossManager().initializeBoss(canvas));
 
@@ -243,7 +242,7 @@ public abstract class Level {
         SortedMap<String, Long> scores = new TreeMap<>();
 
         try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream(Constants.LEADERBOARD_FILE_LOCATION))) {
+                (new FileInputStream( Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
             String[] allScores = (String[]) in.readObject();
 
             for (int i = 0; i < allScores.length; i++) {
@@ -269,7 +268,7 @@ public abstract class Level {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         try (ObjectOutputStream out = new ObjectOutputStream(
-                (new FileOutputStream(Constants.LEADERBOARD_FILE_LOCATION)))) {
+                (new FileOutputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION)))) {
             Iterator it = sortedScores.iterator();
 
             int i = 0;

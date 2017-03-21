@@ -1,11 +1,17 @@
 package managers;
 
+import entities.Constants;
 import entities.Explosion;
 import entities.GameObject;
 import entities.Missile;
 import entities.enemies.Asteroid;
 import entities.enemies.bosses.Boss;
 import entities.level.Level;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MissileManager {
     private Level level;
@@ -34,7 +40,7 @@ public class MissileManager {
                     level.getPlayer().setLives(this.level.getPlayer().getLives() - 1);
                     this.level.getPlayerManager().playerHit();
 
-                    EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                    EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                     this.level.removeMissile(currentMissile);
                 }
 
@@ -48,9 +54,9 @@ public class MissileManager {
 
                         if (asteroidToCheck.getHealth() > 0) {
                             this.level.removeMissile(currentMissile);
-                            EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                         } else if (asteroidToCheck.getHealth() == 0) {
-                            EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                             this.level.removeMissile(currentMissile);
 
                             if (!this.level.isActiveBoss()) {
@@ -67,7 +73,7 @@ public class MissileManager {
                     if (currentMissile.intersects(ufoToCheck)) {
                         ufoToCheck.setHitStatus(true);
 
-                        EffectsManager.playUfoHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                        EffectsManager.playUfoHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
 
                         this.level.removeMissile(currentMissile);
                         this.level.getPlayer().setPoints(this.level.getPlayer().getPoints() + 3);
@@ -79,7 +85,7 @@ public class MissileManager {
                         if (currentMissile.intersects(boss)) {
                             boss.setHealth(boss.getHealth() - 1);
                             this.level.removeMissile(currentMissile);
-                            EffectsManager.playUfoHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            EffectsManager.playUfoHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                         }
                     }
                 }
@@ -106,10 +112,25 @@ public class MissileManager {
                     level.getPlayer().setLives(level.getPlayer().getLives() - 1);
                     level.getPlayerManager().playerHit();
 
-                    EffectsManager.playAsteroidHit(new Explosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                    EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                     level.removeEnemyMissile(currentMissile);
                 }
             }
         }
+    }
+
+    private Explosion createExplosion(double explosionX, double explosionY){
+        BufferedImage explosionSpriteSheet = null;
+
+        try {
+            explosionSpriteSheet = ImageIO.read(
+                    new File(Constants.PROJECT_PATH + Constants.EXPLOSION_SPRITESHEET_IMAGE));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet,
+                48,49,1,25);
     }
 }

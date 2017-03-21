@@ -45,7 +45,7 @@ public class EffectsManager {
                 Explosion explosion = this.getExplosions().get(i);
                 Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
 
-                if (explosion.getCurrentFrameIndex() < explosion.getSprites().length - 1) {
+                if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {
                     explosion.setImage(currentFrame);
                     explosion.render(graphicsContext);
                     explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);

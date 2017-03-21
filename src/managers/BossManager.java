@@ -1,5 +1,6 @@
 package managers;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import entities.Constants;
 import entities.Explosion;
 import entities.Missile;
@@ -11,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,9 +50,22 @@ public class BossManager extends EnemyManager {
         this.justShowed = justShowed;
     }
 
-    public Boss initializeBoss(Canvas canvas) {
-        Boss pedobear = new Pedobear(canvas, Constants.PEDOBEAR_SPEED);
-        pedobear.setPosition(canvas.getWidth() - 200, canvas.getHeight() / 2);
+    public Boss initializeBoss(Canvas canvas) throws FileNotFoundException {
+        double startPosX = canvas.getWidth() - 200;
+        double startPosY = canvas.getHeight() / 2;
+
+
+        BufferedImage pedobearSpriteSheet = null;
+
+        try{
+            pedobearSpriteSheet = ImageIO.read(new File(
+                    Constants.PROJECT_PATH + Constants.BOSS_PEDOBEAR_IMAGE));
+        }catch (IOException exception){
+            System.out.println(exception.getMessage());
+        }
+
+        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet,
+                186,280,1,1, Constants.BOSS_PEDOBEAR_HEALTH);
 
         return pedobear;
     }
@@ -85,6 +100,7 @@ public class BossManager extends EnemyManager {
                             }
                         }, 5000);
                     } else {
+                        boss.setImage(boss.getCurrentFrame(0));//TODO Always set the current image before render child of Sprite
                         boss.render(level.getGc());
                         boss.move();
                         this.updateBossLocation(boss);
@@ -108,8 +124,11 @@ public class BossManager extends EnemyManager {
     }
 
     private void fire(Level level, Boss boss) {
-        Missile missile = new Missile(boss.getPositionX(), boss.getPositionY() + 100, Constants.MISSILE_SPEED);
+        Missile missile;
         BufferedImage missileSpriteSheet = null;
+
+        double missileX = boss.getPositionX();
+        double missileY =  boss.getPositionY() + 100;
 
         try {
             missileSpriteSheet = ImageIO.read(
@@ -118,9 +137,7 @@ public class BossManager extends EnemyManager {
             e.printStackTrace();
         }
 
-        missile.setSpriteParameters(31, 7, 1, 23);
-        missile.setSpriteSheet(missileSpriteSheet);
-        missile.splitSprites();
+        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, 31,7,1,23);
 
         level.addEnemyMissile(missile);
     }
@@ -128,7 +145,20 @@ public class BossManager extends EnemyManager {
     private void manageBossCollision(Level level, Boss boss) {
         if (level.getPlayerManager().checkCollision(boss)) {
 
-            EffectsManager.playAsteroidHit(new Explosion(boss.getPositionX(), boss.getPositionY()));
+            BufferedImage explosionSpriteSheet = null;
+
+            try {
+                explosionSpriteSheet = ImageIO.read(
+                        new File(Constants.PROJECT_PATH + Constants.EXPLOSION_SPRITESHEET_IMAGE));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            double explosionX = boss.getPositionX();
+            double explosionY = boss.getPositionY();
+
+            EffectsManager.playAsteroidHit(new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet,
+                    48,49,1,25));
 
             level.getPlayer().setLives(0);
         }

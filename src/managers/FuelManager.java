@@ -4,24 +4,27 @@ import entities.Constants;
 import entities.FuelBar;
 import entities.FuelCan;
 import entities.level.Level;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class FuelManager {
     private FuelBar fuelBar;
     private FuelCan fuelCan;
     private Timeline timeline;
 
-    public FuelManager(Group root, Canvas canvas) {
+    public FuelManager(Group root) {
         this.setFuelBar(root);
-        this.setFuelCan(canvas);
+        this.setFuelCan();
     }
 
     private FuelBar getFuelBar() {
@@ -44,8 +47,18 @@ public class FuelManager {
         return this.fuelCan;
     }
 
-    private void setFuelCan(Canvas canvas) {
-        this.fuelCan = new FuelCan(canvas, Constants.FUELCAN_SPEED);
+    private void setFuelCan() {
+        BufferedImage fuelCanSpriteSheet = null;
+
+        try {
+            String path = Constants.PROJECT_PATH + Constants.FUELCAN_IMAGE;
+            fuelCanSpriteSheet = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.fuelCan = new FuelCan(150,150,Constants.FUELCAN_SPEED,fuelCanSpriteSheet,
+                30,45,1,1);
     }
 
     public void resetFuel() {
@@ -88,6 +101,7 @@ public class FuelManager {
 
     public void updateFuel(PlayerManager playerManager, Level level) {
         if (!this.getFuelCan().getTakenStatus()) {
+            this.getFuelCan().setImage(this.getFuelCan().getCurrentFrame(0));
             this.getFuelCan().render(level.getGc());
         }
 

@@ -10,8 +10,9 @@ import javafx.scene.shape.SVGPath;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Timer;
+import java.util.*;
 
 public class Player extends Sprite {
     private Integer lives;
@@ -20,12 +21,12 @@ public class Player extends Sprite {
     private boolean fired;
     private Timer timer;
     public SVGPath svgPath;
-    private Image[] originalSprites;
-    private Image[] playerHitSprites;
-    private Image[] playerUpSprites;
-    private Image[] playerDownSprites;
-    private Image[] playerDownHit;
-    private Image[] playerUpHit;
+    private List<Image> originalSprites;
+    private List<Image> playerHitSprites;
+    private List<Image> playerUpSprites;
+    private List<Image> playerDownSprites;
+    private List<Image> playerDownHit;
+    private List<Image> playerUpHit;
     private boolean isHit;
 
     private boolean goLeft;
@@ -34,12 +35,14 @@ public class Player extends Sprite {
     private boolean goDown;
     private boolean held;
 
-    public Player(Double speed, Integer lives, Scene scene, Canvas canvas) throws IOException {
+    public Player(double positionX, double positionY, double objectSpeed,
+                  BufferedImage spriteSheet, int width, int height, int rows, int cols,
+                  int lives, Scene scene) throws IOException {
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setPoints(Constants.START_POINTS);
 
-        super.setSpeed(speed);
         this.setLives(lives);
         this.setScene(scene);
 
@@ -54,19 +57,19 @@ public class Player extends Sprite {
         this.loadPlayerSprites();
 
         this.setHit(false);
-        super.setPosition(100, canvas.getHeight() / 2);
+        super.setPosition(100, 400/*canvas.getHeight() / 2*/);//TODO
     }
 
-    private Image[] splitSprites(BufferedImage bufferedImage) {
-        Image[] sprites = new Image[super.getRows() * super.getCols()];
+    private List<Image> splitSprites(BufferedImage bufferedImage) {
+        List<Image> sprites = new ArrayList<>();
         for (int i = 0; i < super.getRows(); i++) {
             for (int j = 0; j < super.getCols(); j++) {
-                sprites[(i * super.getCols()) + j] = SwingFXUtils.toFXImage(bufferedImage.getSubimage(
+                sprites.add((i * super.getCols()) + j, SwingFXUtils.toFXImage(bufferedImage.getSubimage(
                         j * super.getWidth(),
                         i * super.getHeight(),
                         super.getWidth(),
                         super.getHeight()
-                ), null);
+                ), null));
             }
         }
         return sprites;
@@ -109,19 +112,19 @@ public class Player extends Sprite {
         this.setOriginalSprites(super.getSprites());
     }
 
-    private Image[] getPlayerUpSprites() {
+    private List<Image> getPlayerUpSprites() {
         return playerUpSprites;
     }
 
-    private void setPlayerUpSprites(Image[] playerUpSprites) {
+    private void setPlayerUpSprites(List<Image> playerUpSprites) {
         this.playerUpSprites = playerUpSprites;
     }
 
-    private Image[] getPlayerDownSprites() {
+    private List<Image> getPlayerDownSprites() {
         return playerDownSprites;
     }
 
-    private void setPlayerDownSprites(Image[] playerDownSprites) {
+    private void setPlayerDownSprites(List<Image> playerDownSprites) {
         this.playerDownSprites = playerDownSprites;
     }
 
@@ -133,40 +136,42 @@ public class Player extends Sprite {
         isHit = hit;
     }
 
-    private Image[] getPlayerDownHit() {
+    private List<Image> getPlayerDownHit() {
         return playerDownHit;
     }
 
-    private void setPlayerDownHit(Image[] playerDownHit) {
+    private void setPlayerDownHit(List<Image> playerDownHit) {
         this.playerDownHit = playerDownHit;
     }
 
-    private Image[] getPlayerUpHit() {
+    private List<Image> getPlayerUpHit() {
         return playerUpHit;
     }
 
-    private void setPlayerUpHit(Image[] playerUpHit) {
+    private void setPlayerUpHit(List<Image> playerUpHit) {
         this.playerUpHit = playerUpHit;
     }
 
     public void refreshSprites() {
         this.setHit(false);
-        super.setSprites(this.getOriginalSprites());
+        super.setSprites(this.originalSprites);
     }
 
-    private Image[] getOriginalSprites() {
-        return originalSprites;
+
+
+    private List<Image> getOriginalSprites() {
+        return this.originalSprites;
     }
 
-    private void setOriginalSprites(Image[] originalSprites) {
+    private void setOriginalSprites(List<Image> originalSprites) {
         this.originalSprites = originalSprites;
     }
 
-    public Image[] getPlayerHitSprites() {
-        return playerHitSprites;
+    public List<Image> getPlayerHitSprites() {
+        return this.playerHitSprites;
     }
 
-    private void setPlayerHitSprites(Image[] playerHitSprites) {
+    private void setPlayerHitSprites(List<Image> playerHitSprites) {
         this.playerHitSprites = playerHitSprites;
     }
 

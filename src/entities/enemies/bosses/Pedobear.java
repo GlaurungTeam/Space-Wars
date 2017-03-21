@@ -6,22 +6,17 @@ import helpers.SVGPathReader;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
 
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Pedobear extends Boss {
     private double randomY;
 
-    public Pedobear(Canvas canvas, double speed) {
-        super(canvas, speed, Constants.BOSS_PEDOBEAR_IMAGE, Constants.BOSS_PEDOBEAR_HEALTH);
-
-        try {
-            this.initializeHitbox();
-        } catch (FileNotFoundException e) {
-            e.getMessage();
-        }
-
-        this.setRandomY(SpawnCoordinates.getRandom(720));
+    public Pedobear(double positionX, double positionY, double objectSpeed,
+                       BufferedImage spriteSheet, int width, int height, int rows, int cols, int health) throws FileNotFoundException {
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, health);
+        this.initializeHitbox();
     }
 
     @Override
@@ -47,11 +42,11 @@ public class Pedobear extends Boss {
     }
 
     private void moveUp() {
-        this.setPositionY(this.getPositionY() - this.getSpeed());
+        this.updateLocation(this.getPositionX(),this.getPositionY() - this.getSpeed());
     }
 
     private void moveDown() {
-        this.setPositionY(this.getPositionY() + this.getSpeed());
+        this.updateLocation(this.getPositionX(),this.getPositionY() + this.getSpeed());
     }
 
     @Override

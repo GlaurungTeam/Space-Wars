@@ -20,22 +20,23 @@ public class Constants {
     public static final String SOUNDTRACK_PATH = "src/resources/sound/soundtrack.mp3";
 
     //Object images
-    public static final String MISSILE_SPRITESHEET_IMAGE = "/src/resources/missiles/largeMissiles.png";
-    public static final String EXPLOSION_SPRITESHEET_IMAGE = "/src/resources/explosions/rsz_explosion-spritesheet.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE = "/src/resources/spaceship/spaceshipSprites4.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE_HIT = "/src/resources/spaceship/spaceshipHit.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP_HIT = "/src/resources/spaceship/spaceshipUpHit.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP = "/src/resources/spaceship/spaceshipUp.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN = "/src/resources/spaceship/spaceshipDown.png";
-    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT = "/src/resources/spaceship/spaceshipDownHit.png";
+    public static final String MISSILE_SPRITESHEET_IMAGE = "resources/missiles/largeMissiles.png";
+    public static final String EXPLOSION_SPRITESHEET_IMAGE = "resources/explosions/rsz_explosion-spritesheet.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE = "resources/spaceship/spaceshipSprites4.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_HIT = "resources/spaceship/spaceshipHit.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP_HIT = "resources/spaceship/spaceshipUpHit.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_UP = "resources/spaceship/spaceshipUp.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN = "resources/spaceship/spaceshipDown.png";
+    public static final String SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT = "resources/spaceship/spaceshipDownHit.png";
     public static final String FUELCAN_IMAGE = "resources/fuelcan/fuelCan.png";
     public static final String UFO_IMAGE = "resources/ufo/ufo_";
+    public static final String UFO_SpriteSheet = "resources/ufo/UFO_type1.png";
     public static final String ASTEROID_IMAGE = "resources/asteroid/asteroid";
     public static final String EARTH_IMAGE = "resources/planets/earth.png";
     public static final String SUN_IMAGE = "resources/planets/sun.png";
     public static final String EASY_LEVEL_BACKGROUND = "resources/backgrounds/easyBackground.png";
     public static final String HARD_LEVEL_BACKGROUND = "resources/backgrounds/hardBackground.png";
-    public static final String BOSS_PEDOBEAR_IMAGE = "/resources/bosses/pedobear.png";
+    public static final String BOSS_PEDOBEAR_IMAGE = "resources/bosses/pedobear.png";
 
     //Misc
     public static final double SOUND_VOLUME = 0.1;
@@ -53,12 +54,12 @@ public class Constants {
     public static final int ASTEROID_HEALTH_HARD = 2;
     public static final long START_POINTS = 0;
     public static final int BOSS_PEDOBEAR_HEALTH = 10;
-    public static final int POINTS_TILL_BOSS = 10;
+    public static final int POINTS_TILL_BOSS = 3;
     public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
 
     //Misc file paths
-    public static final String BOSS_PEDOBEAR_SVGPATH_LOCATION = "/src/resources/bosses/pedobear_hitbox.txt";
-    public static final String PLAYER_SVGPATH_LOCATION = "/src/resources/spaceship/spaceship_hitbox.txt";
-    public static final String PROJECT_PATH = System.getProperty("user.dir");
-    public static final String LEADERBOARD_FILE_LOCATION = "src/leaderboard/leaderboard.ser";
+    public static final String BOSS_PEDOBEAR_SVGPATH_LOCATION = "resources/bosses/pedobear_hitbox.txt";
+    public static final String PLAYER_SVGPATH_LOCATION = "resources/spaceship/spaceship_hitbox.txt";
+    public static final String PROJECT_PATH = System.getProperty("user.dir") + "/src/";
+    public static final String LEADERBOARD_FILE_LOCATION = "leaderboard/leaderboard.ser";
 }

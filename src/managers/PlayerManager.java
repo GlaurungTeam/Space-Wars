@@ -56,27 +56,32 @@ public class PlayerManager {
             speedMultiplier = 1.5;
         }
 
-        if (this.getPlayer().isGoUp()) {
-            this.getPlayer().setPositionY(
-                    Math.max(0, this.getPlayer().getPositionY() - this.getPlayer().getSpeed() * speedMultiplier));
+        double currentPlayerX = this.getPlayer().getPositionX();
+        double currentPlayerY = this.getPlayer().getPositionY();
+        double currentPlayerSpeed = this.getPlayer().getSpeed();
+
+        Player player = this.getPlayer();
+
+        if (player.isGoUp()) {
+            player.updateLocation(player.getPositionX(),
+                    Math.max(0, currentPlayerY - currentPlayerSpeed * speedMultiplier));
         }
-        if (this.getPlayer().isGoDown()) {
-            this.getPlayer().setPositionY(
-                    Math.min(heightOffset, this.getPlayer().getPositionY() + this.getPlayer().getSpeed() * speedMultiplier));
+        if (player.isGoDown()) {
+            player.updateLocation(player.getPositionX(),
+                    Math.min(heightOffset, currentPlayerY + currentPlayerSpeed * speedMultiplier));
         }
-        if (this.getPlayer().isGoLeft()) {
-            this.getPlayer().setPositionX(
-                    Math.max(0, this.getPlayer().getPositionX() - this.getPlayer().getSpeed() * speedMultiplier));
+        if (player.isGoLeft()) {
+            player.updateLocation(Math.max(0, currentPlayerX - currentPlayerSpeed * speedMultiplier),
+                    player.getPositionY());
         }
-        if (this.getPlayer().isGoRight()) {
-            this.getPlayer().setPositionX(
-                    Math.min(widthOffset, this.getPlayer().getPositionX() + this.getPlayer().getSpeed() * speedMultiplier));
+        if (player.isGoRight()) {
+            player.updateLocation(Math.min(widthOffset, currentPlayerX + currentPlayerSpeed * speedMultiplier),
+                    player.getPositionY());
         }
 
         //Update the SVG Path location
-        this.getPlayer().svgPath.setLayoutX(this.getPlayer().getPositionX());
-        this.getPlayer().svgPath.setLayoutY(this.getPlayer().getPositionY());
-
+        player.svgPath.setLayoutX(player.getPositionX());
+        player.svgPath.setLayoutY(player.getPositionY());
     }
 
     private void getFirePermission() {
@@ -97,9 +102,7 @@ public class PlayerManager {
         AudioClip shoot = new AudioClip(Paths.get(Constants.PLAYER_SHOOT_SOUND).toUri().toString());
         shoot.play(0.7);
 
-        //Make missile
-        Missile missile = new Missile(this.player.getPositionX() + this.player.getWidth() / 1.2,
-                this.player.getPositionY() + this.player.getHeight() / 2, Constants.MISSILE_SPEED);
+        Missile missile = null;
 
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;
@@ -111,9 +114,11 @@ public class PlayerManager {
             e.printStackTrace();
         }
 
-        missile.setSpriteParameters(31, 7, 1, 23);
-        missile.setSpriteSheet(missileSpriteSheet);
-        missile.splitSprites();
+        double missilePositionX = this.player.getPositionX() + this.player.getWidth() / 1.2;
+        double missilePositionY = this.player.getPositionY() + this.player.getHeight() / 2;
+
+        //Make missile
+        missile = new Missile(missilePositionX,missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, 31,7,1,23);
 
         this.getPlayer().setFired(true);
         return missile;
@@ -181,8 +186,7 @@ public class PlayerManager {
     }
 
     public void resetPlayerPosition(Canvas canvas, FuelManager fuelManager) {
-        this.getPlayer().setPositionX(50);
-        this.getPlayer().setPositionY(canvas.getHeight() / 2);
+        this.getPlayer().updateLocation(50,canvas.getHeight() / 2);
         fuelManager.resetFuel();
     }
 

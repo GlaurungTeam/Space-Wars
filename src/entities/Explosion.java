@@ -10,24 +10,8 @@ import java.io.IOException;
 public class Explosion extends Sprite {
     private int currentFrameIndex;
 
-    public Explosion(double x, double y) {
-        this.setCurrentFrameIndex(0);
-        super.setPositionX(x);
-        super.setPositionY(y);
-        super.setSpeed(Constants.EXPLOSION_SPEED);
-
-        BufferedImage explosionSpriteSheet = null;
-
-        try {
-            explosionSpriteSheet = ImageIO.read(new File(
-                    Constants.PROJECT_PATH + Constants.EXPLOSION_SPRITESHEET_IMAGE));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        this.setSpriteParameters(48, 49, 1, 25);
-        this.setSpriteSheet(explosionSpriteSheet);
-        this.splitSprites();
+    public Explosion(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
     }
 
     public int getCurrentFrameIndex() {
@@ -39,6 +23,6 @@ public class Explosion extends Sprite {
     }
 
     public Image getCurrentExplosionFrame(int index) {
-        return super.getSprites()[index];
+        return super.getSprites().get(index);
     }
 }
