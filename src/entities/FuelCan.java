@@ -1,5 +1,6 @@
 package entities;
 
+import enums.SpriteSheetParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
@@ -9,8 +10,12 @@ import java.util.Random;
 public class FuelCan extends GameObject {
     private boolean isTaken;
 
-    public FuelCan(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+    public FuelCan(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
+        super(positionX, positionY, objectSpeed, spriteSheet,
+                SpriteSheetParameters.FUEL_CAN.getWidth(),
+                SpriteSheetParameters.FUEL_CAN.getHeight(),
+                SpriteSheetParameters.FUEL_CAN.getRows(),
+                SpriteSheetParameters.FUEL_CAN.getCols());
     }
 
     /*public FuelCan(Canvas canvas, double speed) {

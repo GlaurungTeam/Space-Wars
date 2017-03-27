@@ -1,18 +1,20 @@
 package entities.enemies;
 
 import entities.GameObject;
-import entities.Sprite;
+import enums.SpriteSheetParameters;
 import javafx.scene.image.Image;
-
 import java.awt.image.BufferedImage;
 
 public class Asteroid extends GameObject {
     private int health;
     private int defaultHealth;
 
-    public Asteroid(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet,
-                       int width, int height, int rows, int cols, int health, int defaultHealth) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+    public Asteroid(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int health, int defaultHealth) {
+        super(positionX, positionY, objectSpeed, spriteSheet,
+                SpriteSheetParameters.ASTEROID.getWidth(),
+                SpriteSheetParameters.ASTEROID.getHeight(),
+                SpriteSheetParameters.ASTEROID.getRows(),
+                SpriteSheetParameters.ASTEROID.getCols());
 
         this.setHealth(health);
         this.setDefaultHealth(defaultHealth);

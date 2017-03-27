@@ -2,6 +2,7 @@ package entities.enemies.bosses;
 
 import entities.Constants;
 import entities.SpawnCoordinates;
+import enums.SpriteSheetParameters;
 import helpers.SVGPathReader;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
@@ -14,8 +15,13 @@ public class Pedobear extends Boss {
     private double randomY;
 
     public Pedobear(double positionX, double positionY, double objectSpeed,
-                       BufferedImage spriteSheet, int width, int height, int rows, int cols, int health) throws FileNotFoundException {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, health);
+                       BufferedImage spriteSheet, int health) throws FileNotFoundException {
+        super(positionX, positionY, objectSpeed, spriteSheet,
+                SpriteSheetParameters.BOSS_PEDO_BEAR.getWidth(),
+                SpriteSheetParameters.BOSS_PEDO_BEAR.getHeight(),
+                SpriteSheetParameters.BOSS_PEDO_BEAR.getRows(),
+                SpriteSheetParameters.BOSS_PEDO_BEAR.getCols(),
+                health);
         this.initializeHitbox();
     }
 

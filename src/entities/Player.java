@@ -1,20 +1,19 @@
 package entities;
 
+import enums.SpriteSheetParameters;
 import helpers.SVGPathReader;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.shape.SVGPath;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-public class Player extends Sprite {
+public class Player extends GameObject {
     private Integer lives;
     private long points;
     private Scene scene;
@@ -35,10 +34,12 @@ public class Player extends Sprite {
     private boolean goDown;
     private boolean held;
 
-    public Player(double positionX, double positionY, double objectSpeed,
-                  BufferedImage spriteSheet, int width, int height, int rows, int cols,
-                  int lives, Scene scene) throws IOException {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+    public Player(double positionX, double positionY, double objectSpeed, int lives, Scene scene) throws IOException {
+        super(positionX, positionY, objectSpeed, null,
+                SpriteSheetParameters.PLAYER.getWidth(),
+                SpriteSheetParameters.PLAYER.getHeight(),
+                SpriteSheetParameters.PLAYER.getRows(),
+                SpriteSheetParameters.PLAYER.getCols());
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setPoints(Constants.START_POINTS);
@@ -156,8 +157,6 @@ public class Player extends Sprite {
         this.setHit(false);
         super.setSprites(this.originalSprites);
     }
-
-
 
     private List<Image> getOriginalSprites() {
         return this.originalSprites;

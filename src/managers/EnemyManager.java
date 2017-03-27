@@ -50,7 +50,7 @@ public class EnemyManager {
             GameObject enemy = null;
             switch (enemyType) {
                 case "ufo":
-                    enemy = createEnemy();
+                    enemy = createUfo();
                     break;
             }
             enemiesToReturn.add(enemy);
@@ -58,7 +58,7 @@ public class EnemyManager {
         return enemiesToReturn;
     }
 
-    private GameObject createEnemy() {
+    private GameObject createUfo() {//TODO "create ufo"
         BufferedImage ufoSpriteSheet = null;
 
         try {
@@ -73,10 +73,8 @@ public class EnemyManager {
 
         int currentXPos = this.getRandomNumber(lowBound,highBound);
         int currentYPos = this.getRandomNumber(720);
-        int enemyWidth = 39;
-        int enemyHeight = 30;
 
-        GameObject ufo = new Ufo(currentXPos, currentYPos, Constants.UFO_SPEED_EASY, ufoSpriteSheet, enemyWidth, enemyHeight, 1, 6);
+        GameObject ufo = new Ufo(currentXPos, currentYPos, Constants.UFO_SPEED_EASY, ufoSpriteSheet);
 
         return ufo;
     }

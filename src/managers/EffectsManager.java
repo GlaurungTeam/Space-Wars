@@ -2,6 +2,7 @@ package managers;
 
 import entities.Constants;
 import entities.Explosion;
+import entities.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
@@ -14,17 +15,18 @@ public class EffectsManager {
     //Implements manageExplosions() from Level class
     //Renders explosion from the list afterwards
     //Plays sound for explosion
-    static List<Explosion> explosions = new ArrayList<>();
+    static List<GameObject> explosions;
 
     public EffectsManager() {
+        this.explosions = new ArrayList<>();
     }
 
     private void addExplosion(Explosion e) {
         explosions.add(e);
     }
 
-    private List<Explosion> getExplosions() {
-        return explosions;
+    private List<GameObject> getExplosions() {
+        return this.explosions;
     }
 
     public static void playAsteroidHit(Explosion e) {
@@ -42,7 +44,7 @@ public class EffectsManager {
     public void manageExplosions(GraphicsContext graphicsContext) {
         if (this.getExplosions().size() != 0) {
             for (int i = 0; i < this.getExplosions().size(); i++) {
-                Explosion explosion = this.getExplosions().get(i);
+                GameObject explosion = this.getExplosions().get(i);
                 Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
 
                 if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {

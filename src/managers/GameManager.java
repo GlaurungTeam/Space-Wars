@@ -31,8 +31,7 @@ public class GameManager {
         double playerStartX = 100.0;
         double playerStartY = 100.0;
 
-        Player player = new Player(playerStartX, playerStartY, Constants.PLAYER_SPEED, null, 0,0,0,0,
-                Constants.PLAYER_LIVES, theScene);
+        Player player = new Player(playerStartX, playerStartY, Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);

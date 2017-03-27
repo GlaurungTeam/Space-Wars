@@ -1,10 +1,17 @@
 package entities.enemies;
 import entities.GameObject;
+import enums.SpriteSheetParameters;
+
 import java.awt.image.BufferedImage;
 
 public class Ufo extends GameObject {
-    public Ufo(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+
+    public Ufo(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
+        super(positionX, positionY, objectSpeed, spriteSheet,
+                SpriteSheetParameters.UFO.getWidth(),
+                SpriteSheetParameters.UFO.getHeight(),
+                SpriteSheetParameters.UFO.getRows(),
+                SpriteSheetParameters.UFO.getCols());
     }
 
     /*public Ufo(Canvas canvas, double speed) {

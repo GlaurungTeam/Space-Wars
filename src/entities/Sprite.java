@@ -24,6 +24,7 @@ public abstract class Sprite {
     private int cols;
     private List<Image> sprites;
     private BufferedImage spriteSheet;
+    private int currentFrameIndex;
 
     protected Sprite(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols){
         //TODO initialize sprite object in the constructor
@@ -173,6 +174,18 @@ public abstract class Sprite {
     public void updateLocation(double x, double y){
         this.setPositionX(x);
         this.setPositionY(y);
+    }
+
+    public int getCurrentFrameIndex() {
+        return this.currentFrameIndex;
+    }
+
+    public void setCurrentFrameIndex(int currentFrameIndex) {
+        this.currentFrameIndex = currentFrameIndex;
+    }
+
+    public Image getCurrentExplosionFrame(int index) {
+        return this.getSprites().get(index);
     }
 
     public String toString() {

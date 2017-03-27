@@ -130,7 +130,6 @@ public class MissileManager {
         }
 
 
-        return new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet,
-                48,49,1,25);
+        return new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet);
     }
 }

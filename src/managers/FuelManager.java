@@ -57,8 +57,7 @@ public class FuelManager {
             e.printStackTrace();
         }
 
-        this.fuelCan = new FuelCan(150,150,Constants.FUELCAN_SPEED,fuelCanSpriteSheet,
-                30,45,1,1);
+        this.fuelCan = new FuelCan(150,150,Constants.FUELCAN_SPEED,fuelCanSpriteSheet);
     }
 
     public void resetFuel() {

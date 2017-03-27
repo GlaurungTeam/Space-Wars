@@ -46,8 +46,8 @@ public class AsteroidManager {
         this.fuelManager = fuelManager;
     }
 
-    public List<Asteroid> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
-        List<Asteroid> asteroids = new ArrayList<>();
+    public List<GameObject> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
+        List<GameObject> asteroids = new ArrayList<>();
 
         for (int i = 0; i < asteroidCount; i++) {
             BufferedImage asteroidSpritesheet = null;
@@ -65,11 +65,9 @@ public class AsteroidManager {
 
             int currentXPos = (int)SpawnCoordinates.getSpawnX(canvas);
             int currentYPos = (int)SpawnCoordinates.getSpawnY(canvas);
-            int asteroidWidth = 32;
-            int asteroidHeight = 32;
 
             Asteroid currentAsteroid = new Asteroid(currentXPos,currentYPos,
-                    Constants.ASTEROID_SPEED, asteroidSpritesheet, asteroidWidth, asteroidHeight, 1, 1, health, health);
+                    Constants.ASTEROID_SPEED, asteroidSpritesheet, health, health);
 
             //currentAsteroid.setImage(asteroidSpritesheet.getSubimage(currentXPos, currentYPos, asteroidWidth, asteroidHeight));
 
@@ -121,7 +119,7 @@ public class AsteroidManager {
             }
 
             EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY(),
-                    Constants.EXPLOSION_SPEED, explosionSpriteSheet, 48, 49, 1, 25));
+                    Constants.EXPLOSION_SPEED, explosionSpriteSheet));
 
             asteroid.resetLocation(-1300, asteroid.getPositionY());
             asteroid.setHealth(health);
@@ -132,7 +130,6 @@ public class AsteroidManager {
         }
     }
 
-    //
     public List<Asteroid> resetAsteroidPosition(List<Asteroid> asteroids, Canvas canvas) {
 
         for (Asteroid asteroidToUpdate : asteroids) {

@@ -64,8 +64,7 @@ public class BossManager extends EnemyManager {
             System.out.println(exception.getMessage());
         }
 
-        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet,
-                186,280,1,1, Constants.BOSS_PEDOBEAR_HEALTH);
+        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet, Constants.BOSS_PEDOBEAR_HEALTH);
 
         return pedobear;
     }
@@ -137,7 +136,7 @@ public class BossManager extends EnemyManager {
             e.printStackTrace();
         }
 
-        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, 31,7,1,23);
+        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet);
 
         level.addEnemyMissile(missile);
     }
@@ -157,8 +156,7 @@ public class BossManager extends EnemyManager {
             double explosionX = boss.getPositionX();
             double explosionY = boss.getPositionY();
 
-            EffectsManager.playAsteroidHit(new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet,
-                    48,49,1,25));
+            EffectsManager.playAsteroidHit(new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet));
 
             level.getPlayer().setLives(0);
         }

@@ -1,10 +1,17 @@
 package entities;
 
+import enums.SpriteSheetParameters;
+
 import java.awt.image.BufferedImage;
 
-public class Missile extends Sprite {
-    public Missile(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
+public class Missile extends GameObject {
+
+    public Missile(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
+        super(positionX, positionY, objectSpeed, spriteSheet,
+                SpriteSheetParameters.MISSILE.getWidth(),
+                SpriteSheetParameters.MISSILE.getHeight(),
+                SpriteSheetParameters.MISSILE.getRows(),
+                SpriteSheetParameters.MISSILE.getCols());
     }
 
     public void updateMissileLocation() {

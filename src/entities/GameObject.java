@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class GameObject extends Sprite {
+public abstract class GameObject extends Sprite {
     private boolean isHit;
     protected Image image;
     //protected Canvas canvas;
