@@ -2,26 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5d5ca50-8ff9-4d1f-8d09-c246c0d3d522" name="Default" comment="Added missiles to the podobear.Cleaned u reused methods.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/enums/SpriteSheetParameters.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/leaderboard/leaderboard.ser" afterPath="$PROJECT_DIR$/src/leaderboard/leaderboard.ser" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/Explosion.java" afterPath="$PROJECT_DIR$/src/entities/Explosion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/FuelCan.java" afterPath="$PROJECT_DIR$/src/entities/FuelCan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/GameObject.java" afterPath="$PROJECT_DIR$/src/entities/GameObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/Missile.java" afterPath="$PROJECT_DIR$/src/entities/Missile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/Player.java" afterPath="$PROJECT_DIR$/src/entities/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/Sprite.java" afterPath="$PROJECT_DIR$/src/entities/Sprite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/enemies/Asteroid.java" afterPath="$PROJECT_DIR$/src/entities/enemies/Asteroid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/enemies/Ufo.java" afterPath="$PROJECT_DIR$/src/entities/enemies/Ufo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/enemies/bosses/Pedobear.java" afterPath="$PROJECT_DIR$/src/entities/enemies/bosses/Pedobear.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/AsteroidManager.java" afterPath="$PROJECT_DIR$/src/managers/AsteroidManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/BossManager.java" afterPath="$PROJECT_DIR$/src/managers/BossManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/EffectsManager.java" afterPath="$PROJECT_DIR$/src/managers/EffectsManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/EnemyManager.java" afterPath="$PROJECT_DIR$/src/managers/EnemyManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/FuelManager.java" afterPath="$PROJECT_DIR$/src/managers/FuelManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/GameManager.java" afterPath="$PROJECT_DIR$/src/managers/GameManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/MissileManager.java" afterPath="$PROJECT_DIR$/src/managers/MissileManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/managers/PlayerManager.java" afterPath="$PROJECT_DIR$/src/managers/PlayerManager.java" />
     </list>
     <ignored path="Space-Wars.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,11 +34,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SpriteSheetParameters.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SpriteSheetParameters.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/enums/SpriteSheetParameters.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
               <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Level.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/entities/level/Level.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="228" column="47" lean-forward="true" selection-start-line="228" selection-start-column="47" selection-end-line="228" selection-end-column="47" />
+              <folding>
+                <element signature="e#4026#4027#0" expanded="true" />
+                <element signature="e#4093#4094#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BossManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/managers/BossManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="118" column="66" lean-forward="true" selection-start-line="118" selection-start-column="66" selection-end-line="118" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -86,8 +93,8 @@
       <file leaf-file-name="Sprite.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+            <state relative-caret-position="129">
+              <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#4807#4808#0" expanded="true" />
@@ -104,8 +111,8 @@
       <file leaf-file-name="AsteroidManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/managers/AsteroidManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-119">
-              <caret line="49" column="23" lean-forward="false" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+            <state relative-caret-position="205">
+              <caret line="95" column="60" lean-forward="false" selection-start-line="95" selection-start-column="60" selection-end-line="95" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -191,7 +198,6 @@
         <option value="$PROJECT_DIR$/src/entities/enemies/bosses/Boss.java" />
         <option value="$PROJECT_DIR$/src/entities/level/LevelEasy.java" />
         <option value="$PROJECT_DIR$/src/entities/level/LevelHard.java" />
-        <option value="$PROJECT_DIR$/src/entities/level/Level.java" />
         <option value="$PROJECT_DIR$/src/entities/Constants.java" />
         <option value="$PROJECT_DIR$/src/managers/PlayerManager.java" />
         <option value="$PROJECT_DIR$/src/managers/MissileManager.java" />
@@ -201,7 +207,6 @@
         <option value="$PROJECT_DIR$/src/managers/FuelManager.java" />
         <option value="$PROJECT_DIR$/src/entities/FuelCan.java" />
         <option value="$PROJECT_DIR$/src/entities/GameObject.java" />
-        <option value="$PROJECT_DIR$/src/managers/BossManager.java" />
         <option value="$PROJECT_DIR$/src/entities/enemies/bosses/Pedobear.java" />
         <option value="$PROJECT_DIR$/src/enums/SpriteSheetParameters.java" />
         <option value="$PROJECT_DIR$/src/managers/GameManager.java" />
@@ -209,8 +214,10 @@
         <option value="$PROJECT_DIR$/src/entities/Sprite.java" />
         <option value="$PROJECT_DIR$/src/managers/EffectsManager.java" />
         <option value="$PROJECT_DIR$/src/entities/Explosion.java" />
-        <option value="$PROJECT_DIR$/src/managers/AsteroidManager.java" />
         <option value="$PROJECT_DIR$/src/managers/EnemyManager.java" />
+        <option value="$PROJECT_DIR$/src/managers/BossManager.java" />
+        <option value="$PROJECT_DIR$/src/managers/AsteroidManager.java" />
+        <option value="$PROJECT_DIR$/src/entities/level/Level.java" />
       </list>
     </option>
   </component>
@@ -944,7 +951,7 @@
       <workItem from="1490026120274" duration="8636000" />
       <workItem from="1490039204002" duration="3712000" />
       <workItem from="1490088844433" duration="8003000" />
-      <workItem from="1490626491845" duration="7940000" />
+      <workItem from="1490626491845" duration="8435000" />
     </task>
     <task id="LOCAL-00001" summary="Move explosions and missile arrays to the GameController  class (get rid of the static variables).">
       <created>1486922825925</created>
@@ -992,7 +999,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="200461000" />
+    <option name="totallyTimeSpent" value="200956000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1283,14 +1290,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/level/Level.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="224" column="0" lean-forward="false" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/managers/PlayerManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -1369,14 +1368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="24" column="8" lean-forward="true" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/managers/BossManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1112">
-          <caret line="68" column="24" lean-forward="true" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -1493,32 +1484,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/managers/AsteroidManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="49" column="23" lean-forward="false" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4807#4808#0" expanded="true" />
-            <element signature="e#4852#4853#0" expanded="true" />
-            <element signature="e#4915#4916#0" expanded="true" />
-            <element signature="e#4973#4974#0" expanded="true" />
-            <element signature="e#5029#5030#0" expanded="true" />
-            <element signature="e#5080#5081#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Explosion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1543,6 +1508,51 @@
         <state relative-caret-position="153">
           <caret line="9" column="20" lean-forward="true" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Sprite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="21" column="23" lean-forward="true" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4807#4808#0" expanded="true" />
+            <element signature="e#4852#4853#0" expanded="true" />
+            <element signature="e#4915#4916#0" expanded="true" />
+            <element signature="e#4973#4974#0" expanded="true" />
+            <element signature="e#5029#5030#0" expanded="true" />
+            <element signature="e#5080#5081#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/managers/BossManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="118" column="66" lean-forward="true" selection-start-line="118" selection-start-column="66" selection-end-line="118" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/managers/AsteroidManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="95" column="60" lean-forward="false" selection-start-line="95" selection-start-column="60" selection-end-line="95" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/level/Level.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="228" column="47" lean-forward="true" selection-start-line="228" selection-start-column="47" selection-end-line="228" selection-end-column="47" />
+          <folding>
+            <element signature="e#4026#4027#0" expanded="true" />
+            <element signature="e#4093#4094#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

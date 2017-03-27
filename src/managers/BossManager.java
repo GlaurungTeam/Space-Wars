@@ -64,7 +64,7 @@ public class BossManager extends EnemyManager {
             System.out.println(exception.getMessage());
         }
 
-        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet, Constants.BOSS_PEDOBEAR_HEALTH);
+        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet,Constants.BOSS_PEDOBEAR_HEALTH);
 
         return pedobear;
     }

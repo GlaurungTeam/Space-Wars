@@ -46,8 +46,8 @@ public class AsteroidManager {
         this.fuelManager = fuelManager;
     }
 
-    public List<GameObject> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
-        List<GameObject> asteroids = new ArrayList<>();
+    public List<Asteroid> initializeAsteroids(Canvas canvas, int health, int asteroidCount) {
+        List<Asteroid> asteroids = new ArrayList<>();
 
         for (int i = 0; i < asteroidCount; i++) {
             BufferedImage asteroidSpritesheet = null;
@@ -130,6 +130,7 @@ public class AsteroidManager {
         }
     }
 
+    //
     public List<Asteroid> resetAsteroidPosition(List<Asteroid> asteroids, Canvas canvas) {
 
         for (Asteroid asteroidToUpdate : asteroids) {
