@@ -7,37 +7,23 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public abstract class GameObject extends Sprite {
+    private String type;
     private boolean isHit;
     protected Image image;
-    //protected Canvas canvas;
-    //protected String imagePath;
     private Random rnd;
 
     protected GameObject(double positionX, double positionY, double objectSpeed,
-                         BufferedImage spriteSheet, int width, int height, int rows, int cols) {
+                         BufferedImage spriteSheet, int width, int height, int rows, int cols, String type) {
         super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
 
         this.setHitStatus(false);
-        //TODO create setters
         this.rnd = new Random();
-
-        //super.setPosition(SpawnCoordinates.getSpawnX(this.canvas),
-         //       SpawnCoordinates.getSpawnY(this.canvas));
+        this.type = type;
     }
 
-    /*private void move(Canvas canvas) {
-        double heightOffset = 37;
-        double offset = canvas.getHeight() - heightOffset;
-
-        this.move(this.getPositionX() - this.getSpeed(), this.getPositionY());
-
-        if (this.getPositionX() < -20) {
-            this.move(canvas.getWidth(), super.generateRandomPosition((int) offset));
-            this.setHitStatus(false);
-        }
-    }*///TODO maybe?
-
-
+    public String getType() {
+        return this.type;
+    }
 
     public void move(Canvas canvas, GameObject gameObject) {
         double heightOffset = 37;

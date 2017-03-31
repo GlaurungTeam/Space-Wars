@@ -1,20 +1,19 @@
 package entities.enemies.bosses;
 
-import entities.GameObject;
-import javafx.scene.canvas.Canvas;
+import entities.HealthAbleGameObject;
 import javafx.scene.shape.SVGPath;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 
-public abstract class Boss extends GameObject {
-    private int health;
+public abstract class Boss extends HealthAbleGameObject {
+    private static final String type = "boss";
+
     private SVGPath svgPath;
 
     protected Boss(double positionX, double positionY, double objectSpeed,
                    BufferedImage spriteSheet, int width, int height, int rows, int cols, int health) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols);
-        this.setHealth(health);
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, health, health, type);
     }
 
     public SVGPath getSvgPath() {
@@ -23,14 +22,6 @@ public abstract class Boss extends GameObject {
 
     protected void setSvgPath(SVGPath svgPath) {
         this.svgPath = svgPath;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public abstract void move();

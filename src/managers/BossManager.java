@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 public class BossManager extends EnemyManager {
     private Timer showTimer;
@@ -69,7 +70,7 @@ public class BossManager extends EnemyManager {
         return pedobear;
     }
 
-    void manageBoss(Level level, AsteroidManager asteroidManager) {
+    void manageBoss(Level level, EnemyManager enemyManager) {
         for (Boss boss : level.getBosses()) {
             if (level.getPlayer().getPoints() != 0
                     && level.getPlayer().getPoints() % Constants.POINTS_TILL_BOSS == 0
@@ -116,7 +117,9 @@ public class BossManager extends EnemyManager {
 
                     boss.resetHealth();
                     level.getPlayer().setPoints(level.getPlayer().getPoints() + 5);
-                    asteroidManager.resetAsteroidPosition(level.getAsteroids(), level.getCanvas());
+                    /*enemyManager.resetAsteroidPosition(level.getRealEnemies().stream()//TODO stop asteroids when boss dies
+                            .filter(e -> e.getType().equals("asteroid"))
+                            .collect(Collectors.toList()), level.getCanvas());*/
                 }
             }
         }
@@ -136,9 +139,9 @@ public class BossManager extends EnemyManager {
             e.printStackTrace();
         }
 
-        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet);
+        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, "enemy");
 
-        level.addEnemyMissile(missile);
+        level.addMissile(missile);
     }
 
     private void manageBossCollision(Level level, Boss boss) {

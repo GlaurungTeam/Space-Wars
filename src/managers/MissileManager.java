@@ -1,9 +1,6 @@
 package managers;
 
-import entities.Constants;
-import entities.Explosion;
-import entities.GameObject;
-import entities.Missile;
+import entities.*;
 import entities.enemies.Asteroid;
 import entities.enemies.bosses.Boss;
 import entities.level.Level;
@@ -16,7 +13,6 @@ import java.io.IOException;
 public class MissileManager {
     private Level level;
 
-
     public MissileManager(Level level){
         this.level = level;
     }
@@ -25,38 +21,37 @@ public class MissileManager {
         if (this.level.getMissiles().size() != 0) {
             for (int i = 0; i < this.level.getMissiles().size(); i++) {
                 Missile currentMissile = this.level.getMissiles().get(i);
-                if (currentMissile.getPositionX() > this.level.getCanvas().getWidth()) {
+
+                if (this.missileOutsideBoundsOfCanvas(currentMissile)) {
                     this.level.removeMissile(currentMissile);
-                    return;
+                    continue;
                 }
-                currentMissile.setImage(currentMissile.getFrame(currentMissile.getSprites(),
-                        this.level.getCurrentFrame(), 0.100));
-                currentMissile.render(this.level.getGc());
-                currentMissile.updateMissileLocation();
+
+                this.renderMissile(currentMissile);
 
                 //Here we check if the player collides with a missile
-                if (currentMissile.intersects(this.level.getPlayer())) {
+                if (currentMissile.intersects(this.level.getPlayer()) && currentMissile.getType().equals("enemy")) {
                     this.level.getPlayerManager().resetPlayerPosition(this.level.getCanvas(), this.level.getFuelManager());
                     level.getPlayer().setLives(this.level.getPlayer().getLives() - 1);
                     this.level.getPlayerManager().playerHit();
 
-                    EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                    EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                     this.level.removeMissile(currentMissile);
                 }
 
                 //Collision detection missile hits asteroid and removes it from canvas
-                for (Asteroid asteroidToCheck : this.level.getAsteroids()) {
-                    if (asteroidToCheck.getHealth() == 0) {
+                for (HealthAbleGameObject enemy : this.level.getRealEnemies()) {
+                    if (enemy.getHealth() == 0) {
                         continue;
                     }
-                    if (currentMissile.intersects(asteroidToCheck)) {
-                        asteroidToCheck.setHealth(asteroidToCheck.getHealth() - 1);
+                    if (currentMissile.intersects(enemy) && currentMissile.getType().equals("player")) {
+                        enemy.setHealth(enemy.getHealth() - 1);
 
-                        if (asteroidToCheck.getHealth() > 0) {
+                        if (enemy.getHealth() > 0) {
                             this.level.removeMissile(currentMissile);
-                            EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
-                        } else if (asteroidToCheck.getHealth() == 0) {
-                            EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                        } else if (enemy.getHealth() == 0) {
+                            EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                             this.level.removeMissile(currentMissile);
 
                             if (!this.level.isActiveBoss()) {
@@ -66,26 +61,13 @@ public class MissileManager {
                     }
                 }
 
-                for (GameObject ufoToCheck : this.level.getEnemies()) {
-                    if (ufoToCheck.getHitStatus()) {
-                        continue;
-                    }
-                    if (currentMissile.intersects(ufoToCheck)) {
-                        ufoToCheck.setHitStatus(true);
-
-                        EffectsManager.playUfoHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
-
-                        this.level.removeMissile(currentMissile);
-                        this.level.getPlayer().setPoints(this.level.getPlayer().getPoints() + 3);
-                    }
-                }
 
                 if (this.level.isActiveBoss()) {
                     for (Boss boss : this.level.getBosses()) {
-                        if (currentMissile.intersects(boss)) {
+                        if (currentMissile.intersects(boss) && currentMissile.getType().equals("player")) {
                             boss.setHealth(boss.getHealth() - 1);
                             this.level.removeMissile(currentMissile);
-                            EffectsManager.playUfoHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
+                            EffectsManager.playUfoHit(this.generateExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                         }
                     }
                 }
@@ -93,33 +75,19 @@ public class MissileManager {
         }
     }
 
-    public void manageEnemyMissiles(Level level) {
-        if (level.getEnemyMissiles().size() != 0) {
-            for (int i = 0; i < level.getEnemyMissiles().size(); i++) {
-                Missile currentMissile = level.getEnemyMissiles().get(i);
-                if (currentMissile.getPositionX() < 50) {
-                    level.removeEnemyMissile(currentMissile);
-                    return;
-                }
-                currentMissile.setImage(currentMissile.getFrame(currentMissile.getSprites(),
-                        level.getCurrentFrame(), 0.100));
-                currentMissile.render(level.getGc());
-                currentMissile.updateEnemyMissileLocation();
-
-                //Here we check if the player collides with a missile
-                if (currentMissile.intersects(level.getPlayer())) {
-                    level.getPlayerManager().resetPlayerPosition(level.getCanvas(), level.getFuelManager());
-                    level.getPlayer().setLives(level.getPlayer().getLives() - 1);
-                    level.getPlayerManager().playerHit();
-
-                    EffectsManager.playAsteroidHit(this.createExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
-                    level.removeEnemyMissile(currentMissile);
-                }
-            }
-        }
+    private void renderMissile(Missile currentMissile) {
+        currentMissile.setImage(currentMissile.getFrame(currentMissile.getSprites(),
+                this.level.getCurrentFrame(), 0.100));
+        currentMissile.render(this.level.getGc());
+        currentMissile.updateMissileLocation();
     }
 
-    private Explosion createExplosion(double explosionX, double explosionY){
+    private boolean missileOutsideBoundsOfCanvas(GameObject currentMissile) {
+        return currentMissile.getPositionX() >= this.level.getCanvas().getWidth()
+                || currentMissile.getPositionX() == 0;
+    }
+
+    private Explosion generateExplosion(double explosionX, double explosionY){
         BufferedImage explosionSpriteSheet = null;
 
         try {
@@ -128,7 +96,6 @@ public class MissileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet);
     }

@@ -37,7 +37,7 @@ public class GameManager {
         PlayerManager playerManager = new PlayerManager(player, gc);
         FuelManager fuelManager = new FuelManager(root);
         EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
-        AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
+        //AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
         MissileManager missileManager = new MissileManager(level);
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
         EffectsManager effectsManager = new EffectsManager();
@@ -45,7 +45,7 @@ public class GameManager {
         BossManager bossManager = new BossManager(playerManager, fuelManager);
 
         level.initializeLevel(player, gc, canvas, theScene, 0.0,
-                enemyManager, asteroidManager, bossManager, playerManager, fuelManager);
+                enemyManager, bossManager, playerManager, fuelManager);
         level.setDifficultyParameters();
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
@@ -65,15 +65,14 @@ public class GameManager {
                 //Here we are using our shiny new managers! :)
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
-                enemyManager.manageUfos(level);
+                enemyManager.manageEnemies(level);
                 missileManager.manageMissiles();
-                missileManager.manageEnemyMissiles(level);
-                asteroidManager.manageAsteroids(level);
+                //asteroidManager.manageAsteroids(level);//TODO asteroid manager removed
                 playerManager.managePlayer(level, t, this);
                 userInterfaceManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(playerManager, level);
-                bossManager.manageBoss(level, asteroidManager);
+                bossManager.manageBoss(level, enemyManager);
             }
         };
         timer.start();

@@ -118,7 +118,7 @@ public class PlayerManager {
         double missilePositionY = this.player.getPositionY() + this.player.getHeight() / 2;
 
         //Make missile
-        missile = new Missile(missilePositionX,missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet);
+        missile = new Missile(missilePositionX,missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
 
         this.getPlayer().setFired(true);
         return missile;

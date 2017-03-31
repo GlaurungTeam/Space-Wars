@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Deprecated
 public class AsteroidManager {
     //TODO Asteroid class must only have fields, getters and setters. All other methods must be managed by the AsteroidManager class!
 
@@ -90,7 +91,7 @@ public class AsteroidManager {
         }
     }
 
-    public void manageAsteroids(Level level) {
+    /*public void manageAsteroids(Level level) {
         //Add explosion to list
         //Iterate through all asteroids
         for (Asteroid asteroidToRenderAndUpdate : level.getAsteroids()) {
@@ -104,7 +105,7 @@ public class AsteroidManager {
             asteroidToRenderAndUpdate.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
             this.move(level, asteroidToRenderAndUpdate, asteroidToRenderAndUpdate.getDefaultHealth());
         }
-    }
+    }*/
 
     private void manageAsteroidCollision(Level level, Asteroid asteroid, int health) {
         if (this.getPlayerManager().checkCollision(asteroid)) {
@@ -130,7 +131,6 @@ public class AsteroidManager {
         }
     }
 
-    //
     public List<Asteroid> resetAsteroidPosition(List<Asteroid> asteroids, Canvas canvas) {
 
         for (Asteroid asteroidToUpdate : asteroids) {

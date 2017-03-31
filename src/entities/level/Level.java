@@ -1,9 +1,6 @@
 package entities.level;
 
-import entities.Constants;
-import entities.GameObject;
-import entities.Missile;
-import entities.Player;
+import entities.*;
 import entities.enemies.Asteroid;
 import entities.enemies.bosses.Boss;
 import javafx.scene.Scene;
@@ -23,7 +20,6 @@ public abstract class Level {
     private Scene scene;
     private Double currentFrame;
     private EnemyManager enemyManager;
-    private AsteroidManager asteroidManager;
     private BossManager bossManager;
     private PlayerManager playerManager;
     private FuelManager fuelManager;
@@ -31,10 +27,10 @@ public abstract class Level {
     private boolean isActiveBoss;
 
     private List<Missile> missiles;
-    private List<Missile> enemyMissiles;
-    private List<Asteroid> asteroids;
-    private List<GameObject> enemies;
+    private List<HealthAbleGameObject> realEnemies;
     private List<Boss> bosses;
+
+
 
     public Level() {
     }
@@ -46,7 +42,6 @@ public abstract class Level {
             Scene scene,
             Double currentFrame,
             EnemyManager enemyManager,
-            AsteroidManager asteroidManager,
             BossManager bossManager,
             PlayerManager playerManager,
             FuelManager fuelManager) {
@@ -56,20 +51,15 @@ public abstract class Level {
         this.setScene(scene);
         this.setCurrentFrame(currentFrame);
         this.setMissiles(new ArrayList<>());
-        this.setEnemyMissiles(new ArrayList<>());
         this.setEnemyManager(enemyManager);
-        this.setAsteroidManager(asteroidManager);
         this.setBossManager(bossManager);
         this.setPlayerManager(playerManager);
         this.setFuelManager(fuelManager);
+        this.realEnemies = new ArrayList<>();
     }
 
-    public void addEnemyMissile(Missile missile){
-        this.enemyMissiles.add(missile);
-    }
-
-    public void removeEnemyMissile(Missile missile){
-        this.enemyMissiles.remove(missile);
+    public List<HealthAbleGameObject> getRealEnemies(){
+        return Collections.unmodifiableList(this.realEnemies);
     }
 
     public void addMissile(Missile missile){
@@ -89,14 +79,6 @@ public abstract class Level {
     }
 
     public abstract void setDifficultyParameters();
-
-    public List<GameObject> getEnemies() {
-        return Collections.unmodifiableList(this.enemies);
-    }
-
-    private void setEnemies(ArrayList<GameObject> ufos) {
-        this.enemies = ufos;
-    }
 
     public Player getPlayer() {
         return player;
@@ -146,22 +128,6 @@ public abstract class Level {
         this.missiles = missiles;
     }
 
-    public List<Missile> getEnemyMissiles() {
-        return Collections.unmodifiableList(this.enemyMissiles);
-    }
-
-    private void setEnemyMissiles(ArrayList<Missile> enemyMissiles) {
-        this.enemyMissiles = enemyMissiles;
-    }
-
-    public List<Asteroid> getAsteroids() {
-        return Collections.unmodifiableList(this.asteroids);
-    }
-
-    private void setAsteroids(List<Asteroid> asteroids) {
-        this.asteroids = asteroids;
-    }
-
     public Image getBackgroundImage() {
         return this.backgroundImage;
     }
@@ -202,14 +168,6 @@ public abstract class Level {
         this.enemyManager = enemyManager;
     }
 
-    public AsteroidManager getAsteroidManager() {
-        return this.asteroidManager;
-    }
-
-    private void setAsteroidManager(AsteroidManager asteroidManager) {
-        this.asteroidManager = asteroidManager;
-    }
-
     public BossManager getBossManager() {
         return this.bossManager;
     }
@@ -218,17 +176,16 @@ public abstract class Level {
         this.bossManager = bossManager;
     }
 
-    public void initializeUfos(int ufoCount, int ufoSpeed) {
-        ArrayList<GameObject> ufos = this.getEnemyManager().initializeEnemies(ufoCount, "ufo");
+    public List<HealthAbleGameObject> initializeUfos(int health,int ufoCount) {
+        List<HealthAbleGameObject> ufos = this.getEnemyManager().initializeEnemies(health,ufoCount, "ufo");
 
-        this.setEnemies(ufos);
+        return ufos;
     }
 
-    public void initializeAsteroids(int health, int asteroidCount) {
-        List<Asteroid> asteroids = this.getAsteroidManager().initializeAsteroids(
-                canvas, health, asteroidCount);
+    public List<HealthAbleGameObject> initializeAsteroids(int health, int asteroidCount) {
+        List<HealthAbleGameObject> asteroids = this.getEnemyManager().initializeEnemies(health, asteroidCount, "asteroid");
 
-        this.setAsteroids(asteroids);
+        return asteroids;
     }
 
     public void initializeBosses() throws FileNotFoundException {
@@ -285,5 +242,12 @@ public abstract class Level {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initializeEnemies() {
+        List<HealthAbleGameObject> asteroids = this.initializeAsteroids(Constants.ASTEROID_HEALTH_EASY, Constants.ASTEROIDS_COUNT_EASY);
+        List<HealthAbleGameObject> ufos = this.initializeUfos(Constants.UFO_HEALTH_EASY,Constants.UFO_COUNT_EASY);
+        this.realEnemies.addAll(asteroids);
+        this.realEnemies.addAll(ufos);
     }
 }

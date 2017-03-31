@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Player extends GameObject {
+public class Player extends HealthAbleGameObject {
+    private static final String type = "player";
+
+
     private Integer lives;
     private long points;
     private Scene scene;
@@ -35,11 +38,12 @@ public class Player extends GameObject {
     private boolean held;
 
     public Player(double positionX, double positionY, double objectSpeed, int lives, Scene scene) throws IOException {
+
         super(positionX, positionY, objectSpeed, null,
                 SpriteSheetParameters.PLAYER.getWidth(),
                 SpriteSheetParameters.PLAYER.getHeight(),
                 SpriteSheetParameters.PLAYER.getRows(),
-                SpriteSheetParameters.PLAYER.getCols());
+                SpriteSheetParameters.PLAYER.getCols(),1,1,type);//TODO add health
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setPoints(Constants.START_POINTS);
@@ -271,4 +275,6 @@ public class Player extends GameObject {
     public void setHeld(boolean value) {
         this.held = value;
     }
+
+
 }

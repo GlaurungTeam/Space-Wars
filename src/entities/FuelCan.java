@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class FuelCan extends GameObject {
+    private static final String type = "fuelcan";
+
     private boolean isTaken;
 
     public FuelCan(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
@@ -15,7 +17,8 @@ public class FuelCan extends GameObject {
                 SpriteSheetParameters.FUEL_CAN.getWidth(),
                 SpriteSheetParameters.FUEL_CAN.getHeight(),
                 SpriteSheetParameters.FUEL_CAN.getRows(),
-                SpriteSheetParameters.FUEL_CAN.getCols());
+                SpriteSheetParameters.FUEL_CAN.getCols(),
+                type);
     }
 
     /*public FuelCan(Canvas canvas, double speed) {
