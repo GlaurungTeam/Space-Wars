@@ -42,8 +42,8 @@ public class Constants {
     public static final double SOUND_VOLUME = 0.1;
     public static final int DEFAULT_LABEL_PADDING = 5;
     public static final int MISSILE_SPEED_MULTIPLIER = 2;
-    public static final int ASTEROIDS_COUNT_EASY = 20;
-    public static final int ASTEROIDS_COUNT_HARD = 30;
+    public static final int ASTEROID_COUNT_EASY = 20;
+    public static final int ASTEROID_COUNT_HARD = 30;
     public static final int TOTAL_FUEL = 50;
     public static final int FUEL_RATE_FAST = 3;
     public static final int FUEL_RATE_SLOW = 1;
@@ -55,13 +55,14 @@ public class Constants {
     public static final int ASTEROID_HEALTH_HARD = 2;
     public static final int UFO_HEALTH_HARD = 2;
     public static final long START_POINTS = 0;
-    public static final int BOSS_PEDOBEAR_HEALTH = 10;
+    public static final int BOSS_PEDOBEAR_HEALTH = 2;
     public static final int POINTS_TILL_BOSS = 3;
     public static final boolean DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY = false;
+    public static final double playerStartX = 100;
 
     //Misc file paths
     public static final String BOSS_PEDOBEAR_SVGPATH_LOCATION = "resources/bosses/pedobear_hitbox.txt";
     public static final String PLAYER_SVGPATH_LOCATION = "resources/spaceship/spaceship_hitbox.txt";
     public static final String PROJECT_PATH = System.getProperty("user.dir") + "/src/";
-    public static final String LEADERBOARD_FILE_LOCATION = "leaderboard/leaderboard.ser";
+    public static final String LEADERBOARD_FILE_LOCATION = "src/leaderboard/leaderboard.ser";
 }

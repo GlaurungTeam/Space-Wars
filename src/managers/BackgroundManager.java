@@ -21,6 +21,14 @@ public class BackgroundManager {
     private Image sun;
     private Image space;
 
+    public BackgroundManager() {
+        this.setPlanetX(500);
+        this.setPlanetY(196);
+
+        this.setEarth(new Image(Constants.EARTH_IMAGE));
+        this.setSun(new Image(Constants.SUN_IMAGE));
+    }
+
     private double getBackgroundX() {
         return this.backgroundX;
     }
@@ -87,14 +95,6 @@ public class BackgroundManager {
 
     public void setBackgroundImage(Image space) {
         this.space = space;
-    }
-
-    public BackgroundManager() {
-        this.setPlanetX(500);
-        this.setPlanetY(196);
-
-        this.setEarth(new Image(Constants.EARTH_IMAGE));
-        this.setSun(new Image(Constants.SUN_IMAGE));
     }
 
     public void updateBackground(double t, Canvas canvas) {

@@ -2,14 +2,13 @@ package entities;
 
 import java.awt.image.BufferedImage;
 
-public abstract class HealthAbleGameObject extends GameObject{
+public abstract class HealthAbleGameObject extends GameObject {
     private int health;
     private int defaultHealth;
 
-
     protected HealthAbleGameObject(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet,
                                    int width, int height, int rows, int cols, int health, int defaultHealth, String type) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols,type);
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, type);
 
         this.setHealth(health);
         this.setDefaultHealth(defaultHealth);

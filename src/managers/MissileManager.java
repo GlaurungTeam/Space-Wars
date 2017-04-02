@@ -13,7 +13,7 @@ import java.io.IOException;
 public class MissileManager {
     private Level level;
 
-    public MissileManager(Level level){
+    public MissileManager(Level level) {
         this.level = level;
     }
 
@@ -44,6 +44,7 @@ public class MissileManager {
                     if (enemy.getHealth() == 0) {
                         continue;
                     }
+
                     if (currentMissile.intersects(enemy) && currentMissile.getType().equals("player")) {
                         enemy.setHealth(enemy.getHealth() - 1);
 
@@ -67,6 +68,7 @@ public class MissileManager {
                         if (currentMissile.intersects(boss) && currentMissile.getType().equals("player")) {
                             boss.setHealth(boss.getHealth() - 1);
                             this.level.removeMissile(currentMissile);
+
                             EffectsManager.playUfoHit(this.generateExplosion(currentMissile.getPositionX(), currentMissile.getPositionY()));
                         }
                     }
@@ -87,7 +89,7 @@ public class MissileManager {
                 || currentMissile.getPositionX() == 0;
     }
 
-    private Explosion generateExplosion(double explosionX, double explosionY){
+    private Explosion generateExplosion(double explosionX, double explosionY) {
         BufferedImage explosionSpriteSheet = null;
 
         try {
@@ -97,6 +99,6 @@ public class MissileManager {
             e.printStackTrace();
         }
 
-        return new Explosion(explosionX, explosionY,Constants.EXPLOSION_SPEED,explosionSpriteSheet);
+        return new Explosion(explosionX, explosionY, Constants.EXPLOSION_SPEED, explosionSpriteSheet);
     }
 }

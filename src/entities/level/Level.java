@@ -30,8 +30,6 @@ public abstract class Level {
     private List<HealthAbleGameObject> realEnemies;
     private List<Boss> bosses;
 
-
-
     public Level() {
     }
 
@@ -58,15 +56,15 @@ public abstract class Level {
         this.realEnemies = new ArrayList<>();
     }
 
-    public List<HealthAbleGameObject> getRealEnemies(){
+    public List<HealthAbleGameObject> getRealEnemies() {
         return Collections.unmodifiableList(this.realEnemies);
     }
 
-    public void addMissile(Missile missile){
+    public void addMissile(Missile missile) {
         this.missiles.add(missile);
     }
 
-    public void removeMissile(Missile missile){
+    public void removeMissile(Missile missile) {
         this.missiles.remove(missile);
     }
 
@@ -176,8 +174,8 @@ public abstract class Level {
         this.bossManager = bossManager;
     }
 
-    public List<HealthAbleGameObject> initializeUfos(int health,int ufoCount) {
-        List<HealthAbleGameObject> ufos = this.getEnemyManager().initializeEnemies(health,ufoCount, "ufo");
+    public List<HealthAbleGameObject> initializeUfos(int health, int ufoCount) {
+        List<HealthAbleGameObject> ufos = this.getEnemyManager().initializeEnemies(health, ufoCount, "ufo");
 
         return ufos;
     }
@@ -199,7 +197,7 @@ public abstract class Level {
         SortedMap<String, Long> scores = new TreeMap<>();
 
         try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream( Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
+                (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
             String[] allScores = (String[]) in.readObject();
 
             for (int i = 0; i < allScores.length; i++) {
@@ -244,9 +242,10 @@ public abstract class Level {
         }
     }
 
-    public void initializeEnemies() {
-        List<HealthAbleGameObject> asteroids = this.initializeAsteroids(Constants.ASTEROID_HEALTH_EASY, Constants.ASTEROIDS_COUNT_EASY);
-        List<HealthAbleGameObject> ufos = this.initializeUfos(Constants.UFO_HEALTH_EASY,Constants.UFO_COUNT_EASY);
+    public void initializeEnemies(int asteroidsHealth, int asteroidsCount, int ufoHealth, int ufoCount) {
+        List<HealthAbleGameObject> asteroids = this.initializeAsteroids(asteroidsHealth, asteroidsCount);
+        List<HealthAbleGameObject> ufos = this.initializeUfos(ufoHealth, ufoCount);
+
         this.realEnemies.addAll(asteroids);
         this.realEnemies.addAll(ufos);
     }

@@ -118,7 +118,7 @@ public class PlayerManager {
         double missilePositionY = this.player.getPositionY() + this.player.getHeight() / 2;
 
         //Make missile
-        missile = new Missile(missilePositionX,missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
+        missile = new Missile(missilePositionX, missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
 
         this.getPlayer().setFired(true);
         return missile;
@@ -186,7 +186,7 @@ public class PlayerManager {
     }
 
     public void resetPlayerPosition(Canvas canvas, FuelManager fuelManager) {
-        this.getPlayer().updateLocation(50,canvas.getHeight() / 2);
+        this.getPlayer().updateLocation(50, canvas.getHeight() / 2);
         fuelManager.resetFuel();
     }
 

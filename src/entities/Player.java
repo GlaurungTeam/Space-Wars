@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Player extends HealthAbleGameObject {
-    private static final String type = "player";
-
+    private static final String TYPE = "player";
 
     private Integer lives;
     private long points;
@@ -29,6 +28,7 @@ public class Player extends HealthAbleGameObject {
     private List<Image> playerDownSprites;
     private List<Image> playerDownHit;
     private List<Image> playerUpHit;
+
     private boolean isHit;
 
     private boolean goLeft;
@@ -38,12 +38,12 @@ public class Player extends HealthAbleGameObject {
     private boolean held;
 
     public Player(double positionX, double positionY, double objectSpeed, int lives, Scene scene) throws IOException {
-
         super(positionX, positionY, objectSpeed, null,
                 SpriteSheetParameters.PLAYER.getWidth(),
                 SpriteSheetParameters.PLAYER.getHeight(),
                 SpriteSheetParameters.PLAYER.getRows(),
-                SpriteSheetParameters.PLAYER.getCols(),1,1,type);//TODO add health
+                SpriteSheetParameters.PLAYER.getCols(), 1, 1, TYPE);//TODO add health
+
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setPoints(Constants.START_POINTS);
@@ -62,7 +62,6 @@ public class Player extends HealthAbleGameObject {
         this.loadPlayerSprites();
 
         this.setHit(false);
-        super.setPosition(100, 400/*canvas.getHeight() / 2*/);//TODO
     }
 
     private List<Image> splitSprites(BufferedImage bufferedImage) {
@@ -90,15 +89,15 @@ public class Player extends HealthAbleGameObject {
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_HIT));
 
-        BufferedImage playerUpSrites =
+        BufferedImage playerUpSprites =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_UP));
 
-        BufferedImage playerDownSrites =
+        BufferedImage playerDownSprites =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN));
 
-        BufferedImage playerDownHitSrites =
+        BufferedImage playerDownHitSprites =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT));
 
@@ -107,9 +106,9 @@ public class Player extends HealthAbleGameObject {
                         Constants.SPACESHIP_SPRITESHEET_IMAGE_UP_HIT));
 
         this.setPlayerHitSprites(this.splitSprites(playerHitSpriteSheet));
-        this.setPlayerUpSprites(this.splitSprites(playerUpSrites));
-        this.setPlayerDownSprites(this.splitSprites(playerDownSrites));
-        this.setPlayerDownHit(this.splitSprites(playerDownHitSrites));
+        this.setPlayerUpSprites(this.splitSprites(playerUpSprites));
+        this.setPlayerDownSprites(this.splitSprites(playerDownSprites));
+        this.setPlayerDownHit(this.splitSprites(playerDownHitSprites));
         this.setPlayerUpHit(this.splitSprites(playerUpHitSprites));
 
         super.setSpriteSheet(playerSpriteSheet);
@@ -180,6 +179,7 @@ public class Player extends HealthAbleGameObject {
 
     private void playerHit() {
         this.setSprites(this.getPlayerHitSprites());
+
         if (!this.isHit()) {
             if (this.isGoUp()) {
                 this.setSprites(this.getPlayerUpSprites());
@@ -275,6 +275,4 @@ public class Player extends HealthAbleGameObject {
     public void setHeld(boolean value) {
         this.held = value;
     }
-
-
 }

@@ -27,21 +27,20 @@ public abstract class GameObject extends Sprite {
 
     public void move(Canvas canvas, GameObject gameObject) {
         double heightOffset = 37;
-        //Offset Formula
         double offset = canvas.getHeight() - heightOffset;
 
         gameObject.updateLocation(gameObject.getPositionX() - gameObject.getSpeed(), gameObject.getPositionY());
 
         if (gameObject.getPositionX() < -20) {
-            gameObject.updateLocation(canvas.getWidth(),this.rnd.nextInt((int) offset));
+            gameObject.updateLocation(canvas.getWidth(), this.rnd.nextInt((int) offset));
         }
     }
 
-    public void resetLocation(double x, double y){//TODO Refactor/duplicated code
-        super.updateLocation(x,y);
+    public void resetLocation(double x, double y) {//TODO Refactor/duplicated code
+        super.updateLocation(x, y);
     }
 
-    protected double generateRandomPosition(int offset){
+    protected double generateRandomPosition(int offset) {
         return this.rnd.nextInt(offset);
     }
 

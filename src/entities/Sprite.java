@@ -26,13 +26,13 @@ public abstract class Sprite {
     private BufferedImage spriteSheet;
     private int currentFrameIndex;
 
-    protected Sprite(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols){
+    protected Sprite(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
         //TODO initialize sprite object in the constructor
         this.setPositionX(positionX);
         this.setPositionY(positionY);
         this.setSpeed(objectSpeed);
         this.setSpriteSheet(spriteSheet);
-        this.setSpriteParameters(width,height,rows,cols);
+        this.setSpriteParameters(width, height, rows, cols);
         this.splitSprites();
     }
 
@@ -122,6 +122,7 @@ public abstract class Sprite {
                         this.width,
                         this.height
                 );
+
                 this.sprites.add((i * this.cols) + j, SwingFXUtils.toFXImage(image, null));
             }
         }
@@ -167,11 +168,11 @@ public abstract class Sprite {
         return s.getBoundary().intersects(this.getBoundary());
     }
 
-    public void speedUp(double speed){
+    public void speedUp(double speed) {
         this.setSpeed(this.getSpeed() + speed);
     }
 
-    public void updateLocation(double x, double y){
+    public void updateLocation(double x, double y) {
         this.setPositionX(x);
         this.setPositionY(y);
     }

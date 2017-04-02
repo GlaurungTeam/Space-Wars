@@ -19,6 +19,7 @@ public class GameManager {
         theStage.setScene(theScene);
         theStage.setFullScreen(true);
         theStage.setFullScreenExitHint("");
+
         DimensionsManager dimensions = new DimensionsManager();
         dimensions.calculateScreenDimensions();
 
@@ -27,17 +28,13 @@ public class GameManager {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        //Make new player object
-        double playerStartX = 100.0;
-        double playerStartY = 100.0;
-
-        Player player = new Player(playerStartX, playerStartY, Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
+        Player player = new Player(Constants.playerStartX, canvas.getHeight() / 2,
+                Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);
         FuelManager fuelManager = new FuelManager(root);
         EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
-        //AsteroidManager asteroidManager = new AsteroidManager(playerManager, fuelManager);
         MissileManager missileManager = new MissileManager(level);
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
         EffectsManager effectsManager = new EffectsManager();
@@ -67,12 +64,11 @@ public class GameManager {
                 backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageEnemies(level);
                 missileManager.manageMissiles();
-                //asteroidManager.manageAsteroids(level);//TODO asteroid manager removed
                 playerManager.managePlayer(level, t, this);
                 userInterfaceManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(playerManager, level);
-                bossManager.manageBoss(level, enemyManager);
+                bossManager.manageBoss(level);
             }
         };
         timer.start();

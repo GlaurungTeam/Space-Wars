@@ -2,13 +2,12 @@ package enums;
 
 public enum SpriteSheetParameters {
     EXPLOSION(48, 49, 1, 25),
-    ASTEROID(32,32,1,1),
-    UFO(39,30,1,6),
-    MISSILE(31,7,1,23),
-    FUEL_CAN(30,45,1,1),
-    BOSS_PEDO_BEAR(186,280,1,1),
-    PLAYER(0,0,0,0);
-
+    ASTEROID(32, 32, 1, 1),
+    UFO(39, 30, 1, 6),
+    MISSILE(31, 7, 1, 23),
+    FUEL_CAN(30, 45, 1, 1),
+    BOSS_PEDOBEAR(186, 280, 1, 1),
+    PLAYER(0, 0, 0, 0);
 
     private int width;
     private int height;

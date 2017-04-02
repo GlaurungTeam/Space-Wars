@@ -5,7 +5,7 @@ import enums.SpriteSheetParameters;
 import java.awt.image.BufferedImage;
 
 public class Ufo extends HealthAbleGameObject {
-    private static final String type = "ufo";
+    private static final String TYPE = "ufo";
 
     public Ufo(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int health, int defaultHealth) {
         super(positionX, positionY, objectSpeed, spriteSheet,
@@ -15,6 +15,6 @@ public class Ufo extends HealthAbleGameObject {
                 SpriteSheetParameters.UFO.getCols(),
                 health,
                 defaultHealth,
-                type);
+                TYPE);
     }
 }

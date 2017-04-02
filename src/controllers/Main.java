@@ -19,10 +19,11 @@ public class Main extends Application {
     @Override
     public void start(Stage theStage) throws Exception {
         Platform.runLater(() -> {
-        AudioClip soundtrack = new AudioClip(Paths.get(Constants.SOUNDTRACK_PATH).toUri().toString());
-        soundtrack.play(Constants.SOUND_VOLUME);
+            AudioClip soundtrack = new AudioClip(Paths.get(Constants.SOUNDTRACK_PATH).toUri().toString());
+            soundtrack.play(Constants.SOUND_VOLUME);
 
             Parent root = null;
+
             try {
                 root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
             } catch (IOException e) {

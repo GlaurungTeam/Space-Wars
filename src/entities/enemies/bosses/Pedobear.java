@@ -1,27 +1,31 @@
 package entities.enemies.bosses;
 
 import entities.Constants;
-import entities.SpawnCoordinates;
+import entities.Missile;
+import entities.level.Level;
 import enums.SpriteSheetParameters;
 import helpers.SVGPathReader;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.shape.SVGPath;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 
 public class Pedobear extends Boss {
     private double randomY;
 
     public Pedobear(double positionX, double positionY, double objectSpeed,
-                       BufferedImage spriteSheet, int health) throws FileNotFoundException {
+                    BufferedImage spriteSheet, int health) throws FileNotFoundException {
         super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.BOSS_PEDO_BEAR.getWidth(),
-                SpriteSheetParameters.BOSS_PEDO_BEAR.getHeight(),
-                SpriteSheetParameters.BOSS_PEDO_BEAR.getRows(),
-                SpriteSheetParameters.BOSS_PEDO_BEAR.getCols(),
+                SpriteSheetParameters.BOSS_PEDOBEAR.getWidth(),
+                SpriteSheetParameters.BOSS_PEDOBEAR.getHeight(),
+                SpriteSheetParameters.BOSS_PEDOBEAR.getRows(),
+                SpriteSheetParameters.BOSS_PEDOBEAR.getCols(),
                 health);
+
         this.initializeHitbox();
     }
 
@@ -35,8 +39,23 @@ public class Pedobear extends Boss {
     }
 
     @Override
-    protected void fire() {
-        //TODO create missiles
+    public void fire(Level level) {
+        Missile missile;
+        BufferedImage missileSpriteSheet = null;
+
+        double missileX = this.getPositionX();
+        double missileY = this.getPositionY() + 100;
+
+        try {
+            missileSpriteSheet = ImageIO.read(
+                    new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, "enemy");
+
+        level.addMissile(missile);
     }
 
     private double getRandomY() {
@@ -48,11 +67,11 @@ public class Pedobear extends Boss {
     }
 
     private void moveUp() {
-        this.updateLocation(this.getPositionX(),this.getPositionY() - this.getSpeed());
+        this.updateLocation(this.getPositionX(), this.getPositionY() - this.getSpeed());
     }
 
     private void moveDown() {
-        this.updateLocation(this.getPositionX(),this.getPositionY() + this.getSpeed());
+        this.updateLocation(this.getPositionX(), this.getPositionY() + this.getSpeed());
     }
 
     @Override

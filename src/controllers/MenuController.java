@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,23 +26,15 @@ import java.io.ObjectInputStream;
 
 public class MenuController {
 
-    //make fields private
     public TextField usernameField;
-    public Button startGameButton;
-    public AnchorPane finalScorePane;
-    public AnchorPane launcherPane;
-    public Label loginLabel;
-    public AnchorPane loginPane;
     public static String userName;
     public Label spaceWars;
-    public AnchorPane difficultyPane;
     public Button easyLevelButton;
     public Button hardLevelButton;
 
     private DimensionsManager dimensions = new DimensionsManager();
 
     public void start(ActionEvent actionEvent) throws Exception {
-
         Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
@@ -104,7 +95,6 @@ public class MenuController {
         System.exit(0);
     }
 
-
     public void goBack(ActionEvent actionEvent) throws Exception {
         Pane root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
 
@@ -123,11 +113,13 @@ public class MenuController {
 
             if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
                 Parent root = null;
+
                 try {
                     root = FXMLLoader.load(getClass().getResource("../views/difficulty.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
 
                 dimensions.calculateScreenDimensions();
@@ -139,7 +131,6 @@ public class MenuController {
 
             }
         });
-
     }
 
     public void startEasyLevel(ActionEvent actionEvent) throws Exception {
@@ -150,15 +141,13 @@ public class MenuController {
 
             Level level = new LevelEasy();
             stage.setFullScreen(true);
+
             try {
                 gameManager.start(stage, level);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-
-
-
     }
 
     public void startHardLevel(ActionEvent actionEvent) throws Exception {
@@ -175,6 +164,5 @@ public class MenuController {
                 e.printStackTrace();
             }
         });
-
     }
 }

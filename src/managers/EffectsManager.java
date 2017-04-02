@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EffectsManager {
-    //Implements manageExplosions() from Level class
-    //Renders explosion from the list afterwards
-    //Plays sound for explosion
     static List<GameObject> explosions;
 
     public EffectsManager() {

@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 public class LevelHard extends Level {
     @Override
     public void setDifficultyParameters() {
-        super.initializeEnemies();
+        super.initializeEnemies(Constants.ASTEROID_HEALTH_HARD, Constants.ASTEROID_COUNT_HARD,
+                Constants.UFO_HEALTH_HARD, Constants.UFO_COUNT_HARD);
+
         try {
             super.initializeBosses();
         } catch (FileNotFoundException e) {
