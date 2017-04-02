@@ -4,6 +4,7 @@ import entities.Constants;
 import entities.level.Level;
 import entities.level.LevelEasy;
 import entities.level.LevelHard;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,6 +43,7 @@ public class MenuController {
     private DimensionsManager dimensions = new DimensionsManager();
 
     public void start(ActionEvent actionEvent) throws Exception {
+
         Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
@@ -116,41 +118,63 @@ public class MenuController {
     }
 
     public void startGame(ActionEvent actionEvent) throws Exception {
-        userName = usernameField.getText();
+        Platform.runLater(() -> {
+            userName = usernameField.getText();
 
-        if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
-            Parent root = FXMLLoader.load(getClass().getResource("../views/difficulty.fxml"));
-            Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
+            if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("../views/difficulty.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
 
-            dimensions.calculateScreenDimensions();
+                dimensions.calculateScreenDimensions();
 
-            difficultyStage.setTitle("Difficulty selector");
-            difficultyStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
-            difficultyStage.show();
-            difficultyStage.setFullScreen(true);
+                difficultyStage.setTitle("Difficulty selector");
+                difficultyStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
+                difficultyStage.show();
+                difficultyStage.setFullScreen(true);
 
-        }
+            }
+        });
+
     }
 
     public void startEasyLevel(ActionEvent actionEvent) throws Exception {
-        Stage stage = new Stage();
-        ((Stage) easyLevelButton.getScene().getWindow()).close();
-        GameManager gameManager = new GameManager();
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            ((Stage) easyLevelButton.getScene().getWindow()).close();
+            GameManager gameManager = new GameManager();
 
-        Level level = new LevelEasy();
-        stage.setFullScreen(true);
-        gameManager.start(stage, level);
+            Level level = new LevelEasy();
+            stage.setFullScreen(true);
+            try {
+                gameManager.start(stage, level);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
 
 
     }
 
     public void startHardLevel(ActionEvent actionEvent) throws Exception {
-        Stage stage = new Stage();
-        ((Stage) easyLevelButton.getScene().getWindow()).close();
-        GameManager gameManager = new GameManager();
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            ((Stage) easyLevelButton.getScene().getWindow()).close();
+            GameManager gameManager = new GameManager();
 
-        Level level = new LevelHard();
+            Level level = new LevelHard();
 
-        gameManager.start(stage, level);
+            try {
+                gameManager.start(stage, level);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 }
