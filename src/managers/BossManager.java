@@ -95,7 +95,6 @@ public class BossManager extends EnemyManager {
                             }
                         }, 5000);
                     } else {
-                        //TODO Always set the current image before render child of Sprite
                         boss.setImage(boss.getCurrentFrame(0));
                         boss.render(level.getGc());
                         boss.move();

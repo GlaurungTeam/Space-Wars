@@ -1,10 +1,11 @@
 package managers;
 
-import entities.*;
+import entities.Constants;
+import entities.Explosion;
+import entities.HealthAbleGameObject;
 import entities.enemies.Asteroid;
 import entities.enemies.Ufo;
 import entities.level.Level;
-import javafx.scene.canvas.Canvas;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,12 +22,14 @@ public class EnemyManager {
 
         for (int i = 0; i < enemyCount; i++) {
             HealthAbleGameObject enemy = null;
+
             switch (enemyType) {
                 case "ufo":
                     enemy = createUfo(enemyHealth, enemySpeed);
                     break;
                 case "asteroid":
                     enemy = createAsteroid(enemyHealth, enemySpeed);
+                    break;
             }
             enemiesToReturn.add(enemy);
         }
@@ -57,7 +60,7 @@ public class EnemyManager {
         return asteroid;
     }
 
-    //TODO Create Factory for enemies
+    //TODO Create EnemyFactory to create enemies!
     private HealthAbleGameObject createUfo(int ufoHealth, int ufoSpeed) {
         BufferedImage ufoSpriteSheet = null;
 
@@ -107,19 +110,23 @@ public class EnemyManager {
                 Constants.EXPLOSION_SPEED, explosionSpriteSheet));
     }
 
-    private void move(HealthAbleGameObject enemy, Canvas canvas) {
-        double offset = canvas.getHeight() - Constants.HEIGHT_OFFSET;
-
+    private void move(HealthAbleGameObject enemy) {
         double nextXPosition = enemy.getPositionX() - enemy.getSpeed();
 
         if (enemy.getPositionX() < Constants.OBJECT_RESTART_LEFT_COORDINATE || enemy.getHealth() == 0) {
-            enemy.updateLocation(canvas.getWidth(), this.getRandomNumber((int) offset));
-            enemy.speedUp(Constants.OBJECT_SPEED_UP_VALUE);//TODO crete method "resurrectEnemy()"
-            enemy.setHealth(1);
+            this.resurrectEnemy(enemy);
             return;
         }
 
         enemy.updateLocation(nextXPosition, enemy.getPositionY());
+    }
+
+    private void resurrectEnemy(HealthAbleGameObject enemy) {
+        double offset = Constants.SCREEN_HEIGHT - Constants.HEIGHT_OFFSET;
+
+        enemy.updateLocation(Constants.SCREEN_WIDTH, this.getRandomNumber((int) offset));
+        enemy.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
+        enemy.setHealth(enemy.getDefaultHealth());
     }
 
     public void manageEnemies(Level level) {
@@ -129,7 +136,7 @@ public class EnemyManager {
                 enemy.setImage(enemy.getCurrentFrame(0));
                 enemy.render(level.getGc());
 
-                this.move(enemy, level.getCanvas());
+                this.move(enemy);
                 this.manageEnemyCollision(level, enemy);
             } else if (enemy.getPositionX() > Constants.OBJECT_RESTART_LEFT_COORDINATE &&
                     enemy.getPositionX() < Constants.SCREEN_WIDTH) {
@@ -142,6 +149,7 @@ public class EnemyManager {
     private void resetEnemyLocationOnActiveBoss(HealthAbleGameObject enemy) {
         int x = this.setStartPosition("x");
         int y = this.setStartPosition("y");
+
         enemy.updateLocation(x, y);
     }
 

@@ -1,5 +1,6 @@
 package managers;
 
+import entities.Constants;
 import entities.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -135,7 +136,7 @@ public class UserInterfaceManager {
 
     private Button createResumeButton() {
         Button resumeButton = new Button("RESUME");
-        resumeButton.setLayoutX(640);
+        resumeButton.setLayoutX(Constants.SCREEN_WIDTH / 2);
         resumeButton.setLayoutY(320);
         resumeButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         resumeButton.setVisible(false);
@@ -145,7 +146,7 @@ public class UserInterfaceManager {
 
     private Button createQuitButton() {
         Button quitButton = new Button("QUIT");
-        quitButton.setLayoutX(655);
+        quitButton.setLayoutX(Constants.SCREEN_WIDTH / 2 + 15);
         quitButton.setLayoutY(370);
         quitButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         quitButton.setVisible(false);

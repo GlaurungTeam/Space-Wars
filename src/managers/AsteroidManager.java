@@ -52,8 +52,10 @@ public class AsteroidManager {
         for (int i = 0; i < asteroidCount; i++) {
             BufferedImage asteroidSpritesheet = null;
 
+            Random rnd = new Random();
+
             String path = Constants.PROJECT_PATH + Constants.ASTEROID_IMAGE +
-                    String.valueOf(SpawnCoordinates.getRandom(4)) + ".png";
+                    String.valueOf(rnd.nextInt(4)) + ".png";
 
             File sprites = new File(path);
 
@@ -63,15 +65,15 @@ public class AsteroidManager {
                 e.printStackTrace();
             }
 
-            int currentXPos = (int)SpawnCoordinates.getSpawnX(canvas);
-            int currentYPos = (int)SpawnCoordinates.getSpawnY(canvas);
-
-            Asteroid currentAsteroid = new Asteroid(currentXPos,currentYPos,
-                    Constants.ASTEROID_SPEED_EASY, asteroidSpritesheet, health, health);
+//            int currentXPos = (int)SpawnCoordinates.getSpawnX(canvas);
+//            int currentYPos = (int)SpawnCoordinates.getSpawnY(canvas);
+//
+//            Asteroid currentAsteroid = new Asteroid(currentXPos,currentYPos,
+//                    Constants.ASTEROID_SPEED_EASY, asteroidSpritesheet, health, health);
 
             //currentAsteroid.setImage(asteroidSpritesheet.getSubimage(currentXPos, currentYPos, asteroidWidth, asteroidHeight));
 
-            asteroids.add(currentAsteroid);
+//            asteroids.add(currentAsteroid);
         }
         return asteroids;
     }
@@ -85,7 +87,7 @@ public class AsteroidManager {
         asteroid.updateLocation(asteroid.getPositionX() - asteroid.getSpeed(), asteroid.getPositionY());
 
         if (asteroid.getPositionX() < -20 && !level.isActiveBoss()) {
-            asteroid.updateLocation(level.getCanvas().getWidth(),this.rnd.nextInt((int) offset));
+            asteroid.updateLocation(level.getCanvas().getWidth(), this.rnd.nextInt((int) offset));
             asteroid.setHealth(health);
         }
     }
@@ -132,9 +134,9 @@ public class AsteroidManager {
 
     public List<Asteroid> resetAsteroidPosition(List<Asteroid> asteroids, Canvas canvas) {
 
-        for (Asteroid asteroidToUpdate : asteroids) {
-            asteroidToUpdate.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas));
-        }
+//        for (Asteroid asteroidToUpdate : asteroids) {
+//            asteroidToUpdate.setPosition(SpawnCoordinates.getSpawnX(canvas), SpawnCoordinates.getSpawnY(canvas));
+//        }
 
         return asteroids;
     }

@@ -20,15 +20,12 @@ public class GameManager {
         theStage.setFullScreen(true);
         theStage.setFullScreenExitHint("");
 
-        DimensionsManager dimensionsManager = new DimensionsManager();
-        dimensionsManager.calculateScreenDimensions();
-
-        Canvas canvas = new Canvas(dimensionsManager.getCurrentDeviceWidth(), dimensionsManager.getCurrentDeviceHeight());
+        Canvas canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Player player = new Player(Constants.PLAYER_START_X, canvas.getHeight() / 2,
+        Player player = new Player(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2,
                 Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers
