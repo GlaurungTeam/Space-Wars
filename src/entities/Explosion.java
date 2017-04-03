@@ -1,10 +1,11 @@
 package entities;
 
 import enums.SpriteSheetParameters;
+
 import java.awt.image.BufferedImage;
 
 public class Explosion extends GameObject {
-    private static final String type = "explosion";
+    private static final String TYPE = "explosion";
 
     public Explosion(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
         super(positionX, positionY, objectSpeed, spriteSheet,
@@ -12,7 +13,6 @@ public class Explosion extends GameObject {
                 SpriteSheetParameters.EXPLOSION.getHeight(),
                 SpriteSheetParameters.EXPLOSION.getRows(),
                 SpriteSheetParameters.EXPLOSION.getCols(),
-                type);
+                TYPE);
     }
-
 }

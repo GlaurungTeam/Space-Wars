@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import managers.DimensionsManager;
 import managers.GameManager;
 
 import java.io.FileInputStream;
@@ -27,21 +26,17 @@ import java.io.ObjectInputStream;
 public class MenuController {
 
     public TextField usernameField;
-    public static String userName;
+    public static String USERNAME;
     public Label spaceWars;
     public Button easyLevelButton;
     public Button hardLevelButton;
-
-    private DimensionsManager dimensions = new DimensionsManager();
 
     public void start(ActionEvent actionEvent) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../views/login.fxml"));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
-        dimensions.calculateScreenDimensions();
-
         loginStage.setTitle("User Login");
-        loginStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
+        loginStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         loginStage.show();
         loginStage.setFullScreen(true);
     }
@@ -49,17 +44,15 @@ public class MenuController {
     public void openHighScores(ActionEvent actionEvent) throws IOException, InterruptedException {
         Stage primaryStage = (Stage) this.spaceWars.getScene().getWindow();
 
-        dimensions.calculateScreenDimensions();
-
         Pane root = FXMLLoader.load(getClass().getResource("../views/leaderboard.fxml"));
-        Scene scene = new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight());
+        Scene scene = new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
 
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream(Constants.LEADERBOARD_FILE_LOCATION))) {
+                (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
             String[] scores = (String[]) in.readObject();
 
             int i = 1;
@@ -100,18 +93,16 @@ public class MenuController {
 
         Stage leaderBoardStage = (Stage) this.spaceWars.getScene().getWindow();
 
-        dimensions.calculateScreenDimensions();
-
         leaderBoardStage.setTitle("Launcher");
-        leaderBoardStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
+        leaderBoardStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         leaderBoardStage.show();
     }
 
     public void startGame(ActionEvent actionEvent) throws Exception {
         Platform.runLater(() -> {
-            userName = usernameField.getText();
+            USERNAME = usernameField.getText();
 
-            if (userName.trim().length() != 0 && userName.trim().length() <= 10) {
+            if (USERNAME.trim().length() != 0 && USERNAME.trim().length() <= 10) {
                 Parent root = null;
 
                 try {
@@ -122,10 +113,8 @@ public class MenuController {
 
                 Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
 
-                dimensions.calculateScreenDimensions();
-
                 difficultyStage.setTitle("Difficulty selector");
-                difficultyStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
+                difficultyStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
                 difficultyStage.show();
                 difficultyStage.setFullScreen(true);
 
@@ -153,6 +142,7 @@ public class MenuController {
     public void startHardLevel(ActionEvent actionEvent) throws Exception {
         Platform.runLater(() -> {
             Stage stage = new Stage();
+
             ((Stage) easyLevelButton.getScene().getWindow()).close();
             GameManager gameManager = new GameManager();
 

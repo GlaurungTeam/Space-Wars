@@ -22,6 +22,7 @@ public class Player extends HealthAbleGameObject {
     private boolean fired;
     private Timer timer;
     public SVGPath svgPath;
+
     private List<Image> originalSprites;
     private List<Image> playerHitSprites;
     private List<Image> playerUpSprites;
@@ -30,7 +31,6 @@ public class Player extends HealthAbleGameObject {
     private List<Image> playerUpHit;
 
     private boolean isHit;
-
     private boolean goLeft;
     private boolean goRight;
     private boolean goUp;
@@ -42,7 +42,10 @@ public class Player extends HealthAbleGameObject {
                 SpriteSheetParameters.PLAYER.getWidth(),
                 SpriteSheetParameters.PLAYER.getHeight(),
                 SpriteSheetParameters.PLAYER.getRows(),
-                SpriteSheetParameters.PLAYER.getCols(), 1, 1, TYPE);//TODO add health
+                SpriteSheetParameters.PLAYER.getCols(),
+                Constants.PLAYER_DEFAULT_HEALTH,
+                Constants.PLAYER_DEFAULT_HEALTH,
+                0, TYPE);
 
         this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
@@ -177,24 +180,6 @@ public class Player extends HealthAbleGameObject {
         this.playerHitSprites = playerHitSprites;
     }
 
-    private void playerHit() {
-        this.setSprites(this.getPlayerHitSprites());
-
-        if (!this.isHit()) {
-            if (this.isGoUp()) {
-                this.setSprites(this.getPlayerUpSprites());
-            } else if (this.isGoDown()) {
-                this.setSprites(this.getPlayerDownSprites());
-            }
-        } else {
-            if (this.isGoUp()) {
-                this.setSprites(this.getPlayerUpHit());
-            } else if (this.isGoDown()) {
-                this.setSprites(this.getPlayerDownHit());
-            }
-        }
-    }
-
     public void playerMove() {
         this.playerHit();
     }
@@ -203,7 +188,6 @@ public class Player extends HealthAbleGameObject {
         return timer;
     }
 
-    //Movement getters and setters
     public boolean isGoLeft() {
         return this.goLeft;
     }
@@ -274,5 +258,23 @@ public class Player extends HealthAbleGameObject {
 
     public void setHeld(boolean value) {
         this.held = value;
+    }
+
+    private void playerHit() {
+        this.setSprites(this.getPlayerHitSprites());
+
+        if (!this.isHit()) {
+            if (this.isGoUp()) {
+                this.setSprites(this.getPlayerUpSprites());
+            } else if (this.isGoDown()) {
+                this.setSprites(this.getPlayerDownSprites());
+            }
+        } else {
+            if (this.isGoUp()) {
+                this.setSprites(this.getPlayerUpHit());
+            } else if (this.isGoDown()) {
+                this.setSprites(this.getPlayerDownHit());
+            }
+        }
     }
 }

@@ -21,9 +21,7 @@ public class BossManager extends EnemyManager {
     private boolean justShowed;
     private BossManager bossManager = this;
 
-    public BossManager(PlayerManager playerManager, FuelManager fuelManager) {
-        super(playerManager, fuelManager);
-
+    public BossManager() {
         this.setShowTimer(new Timer());
         this.setJustShowed(true);
         this.setShootTimer(new Timer());
@@ -50,7 +48,7 @@ public class BossManager extends EnemyManager {
     }
 
     public Boss initializeBoss(Canvas canvas) throws FileNotFoundException {
-        double startPosX = canvas.getWidth() - 200;
+        double startPosX = canvas.getWidth() - Constants.BOSS_RIGHT_OFFSET;
         double startPosY = canvas.getHeight() / 2;
 
         BufferedImage pedobearSpriteSheet = null;
@@ -97,7 +95,8 @@ public class BossManager extends EnemyManager {
                             }
                         }, 5000);
                     } else {
-                        boss.setImage(boss.getCurrentFrame(0));//TODO Always set the current image before render child of Sprite
+                        //TODO Always set the current image before render child of Sprite
+                        boss.setImage(boss.getCurrentFrame(0));
                         boss.render(level.getGc());
                         boss.move();
                         this.updateBossLocation(boss);
@@ -113,10 +112,7 @@ public class BossManager extends EnemyManager {
                     level.setIsActiveBoss(false);
 
                     boss.resetHealth();
-                    level.getPlayer().setPoints(level.getPlayer().getPoints() + 5);
-                    /*enemyManager.resetAsteroidPosition(level.getRealEnemies().stream()//TODO stop asteroids when boss dies
-                            .filter(e -> e.getType().equals("asteroid"))
-                            .collect(Collectors.toList()), level.getCanvas());*/
+                    level.getPlayer().setPoints(level.getPlayer().getPoints() + boss.getPointsOnKill());
                 }
             }
         }

@@ -1,4 +1,6 @@
 package entities.enemies;
+
+import entities.Constants;
 import entities.HealthAbleGameObject;
 import enums.SpriteSheetParameters;
 
@@ -13,8 +15,6 @@ public class Ufo extends HealthAbleGameObject {
                 SpriteSheetParameters.UFO.getHeight(),
                 SpriteSheetParameters.UFO.getRows(),
                 SpriteSheetParameters.UFO.getCols(),
-                health,
-                defaultHealth,
-                TYPE);
+                health, defaultHealth, Constants.UFO_POINTS_ON_KILL, TYPE);
     }
 }

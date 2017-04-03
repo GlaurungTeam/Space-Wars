@@ -26,8 +26,9 @@ public abstract class Sprite {
     private BufferedImage spriteSheet;
     private int currentFrameIndex;
 
-    protected Sprite(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int width, int height, int rows, int cols) {
-        //TODO initialize sprite object in the constructor
+    protected Sprite(double positionX, double positionY, double objectSpeed,
+                     BufferedImage spriteSheet, int width, int height, int rows, int cols) {
+        //TODO Initialize sprite object in the constructor
         this.setPositionX(positionX);
         this.setPositionY(positionY);
         this.setSpeed(objectSpeed);

@@ -30,11 +30,13 @@ public class Main extends Application {
                 e.printStackTrace();
             }
 
-            DimensionsManager dimensions = new DimensionsManager();
-            dimensions.calculateScreenDimensions();
+            DimensionsManager dimensionsManager = new DimensionsManager();
+            dimensionsManager.calculateScreenDimensions();
+            Constants.setResolutionConstants((int) dimensionsManager.getCurrentDeviceWidth(),
+                    (int) dimensionsManager.getCurrentDeviceHeight());
 
             theStage.setTitle("Launcher");
-            theStage.setScene(new Scene(root, dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight()));
+            theStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
             theStage.show();
             theStage.setFullScreen(true);
             theStage.setFullScreenExitHint("");

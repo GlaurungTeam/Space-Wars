@@ -4,12 +4,12 @@ import javafx.scene.canvas.Canvas;
 
 import java.util.Random;
 
+@Deprecated
 public class SpawnCoordinates {
     //Method class for getting random X and Y coordinates for initial spawning of various objects
-    static double heightOffset = 37;
-    static Random rnd = new Random();
-    static Random rndX = new Random();
-    static Random rndY = new Random();
+    private static Random rnd = new Random();
+    private static Random rndX = new Random();
+    private static Random rndY = new Random();
 
     public static int getRandom(int number) {
         return rnd.nextInt(number);
@@ -21,7 +21,7 @@ public class SpawnCoordinates {
 
     public static double getSpawnY(Canvas canvas) {
         //Offset formula so that objects don't spawn out of boundaries
-        double offset = canvas.getHeight() - heightOffset;
+        double offset = canvas.getHeight() - Constants.HEIGHT_OFFSET;
         return rndY.nextInt((int) offset);
     }
 }

@@ -1,5 +1,6 @@
 package entities.enemies.bosses;
 
+import entities.Constants;
 import entities.HealthAbleGameObject;
 import entities.level.Level;
 import javafx.scene.shape.SVGPath;
@@ -14,7 +15,7 @@ public abstract class Boss extends HealthAbleGameObject {
 
     protected Boss(double positionX, double positionY, double objectSpeed,
                    BufferedImage spriteSheet, int width, int height, int rows, int cols, int health) {
-        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, health, health, TYPE);
+        super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, health, health, Constants.BOSS_POINTS_ON_KILL, TYPE);
     }
 
     public SVGPath getSvgPath() {

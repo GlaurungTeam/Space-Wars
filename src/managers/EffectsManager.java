@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EffectsManager {
-    static List<GameObject> explosions;
+    private static List<GameObject> explosions;
 
     public EffectsManager() {
-        this.explosions = new ArrayList<>();
+        explosions = new ArrayList<>();
     }
 
     private void addExplosion(Explosion e) {
@@ -23,7 +23,7 @@ public class EffectsManager {
     }
 
     private List<GameObject> getExplosions() {
-        return this.explosions;
+        return explosions;
     }
 
     public static void playAsteroidHit(Explosion e) {

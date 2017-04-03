@@ -20,30 +20,29 @@ public class GameManager {
         theStage.setFullScreen(true);
         theStage.setFullScreenExitHint("");
 
-        DimensionsManager dimensions = new DimensionsManager();
-        dimensions.calculateScreenDimensions();
+        DimensionsManager dimensionsManager = new DimensionsManager();
+        dimensionsManager.calculateScreenDimensions();
 
-        Canvas canvas = new Canvas(dimensions.getCurrentDeviceWidth(), dimensions.getCurrentDeviceHeight());
+        Canvas canvas = new Canvas(dimensionsManager.getCurrentDeviceWidth(), dimensionsManager.getCurrentDeviceHeight());
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Player player = new Player(Constants.playerStartX, canvas.getHeight() / 2,
+        Player player = new Player(Constants.PLAYER_START_X, canvas.getHeight() / 2,
                 Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);
         FuelManager fuelManager = new FuelManager(root);
-        EnemyManager enemyManager = new EnemyManager(playerManager, fuelManager);
+        EnemyManager enemyManager = new EnemyManager();
         MissileManager missileManager = new MissileManager(level);
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
         EffectsManager effectsManager = new EffectsManager();
         BackgroundManager backgroundManager = new BackgroundManager();
-        BossManager bossManager = new BossManager(playerManager, fuelManager);
+        BossManager bossManager = new BossManager();
 
         level.initializeLevel(player, gc, canvas, theScene, 0.0,
                 enemyManager, bossManager, playerManager, fuelManager);
-        level.setDifficultyParameters();
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
 

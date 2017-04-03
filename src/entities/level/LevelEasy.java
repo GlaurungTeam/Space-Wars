@@ -8,8 +8,8 @@ import java.io.FileNotFoundException;
 public class LevelEasy extends Level {
     @Override
     public void setDifficultyParameters() {
-        super.initializeEnemies(Constants.ASTEROID_HEALTH_EASY, Constants.ASTEROID_COUNT_EASY,
-                Constants.UFO_HEALTH_EASY, Constants.UFO_COUNT_EASY);
+        super.initializeEnemies(Constants.ASTEROID_HEALTH_EASY, Constants.ASTEROID_SPEED_EASY, Constants.ASTEROID_COUNT_EASY,
+                Constants.UFO_HEALTH_EASY, Constants.UFO_SPEED_EASY, Constants.UFO_COUNT_EASY);
 
         try {
             super.initializeBosses();

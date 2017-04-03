@@ -4,7 +4,6 @@ import entities.*;
 import entities.enemies.Asteroid;
 import entities.level.Level;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -68,7 +67,7 @@ public class AsteroidManager {
             int currentYPos = (int)SpawnCoordinates.getSpawnY(canvas);
 
             Asteroid currentAsteroid = new Asteroid(currentXPos,currentYPos,
-                    Constants.ASTEROID_SPEED, asteroidSpritesheet, health, health);
+                    Constants.ASTEROID_SPEED_EASY, asteroidSpritesheet, health, health);
 
             //currentAsteroid.setImage(asteroidSpritesheet.getSubimage(currentXPos, currentYPos, asteroidWidth, asteroidHeight));
 
@@ -122,9 +121,9 @@ public class AsteroidManager {
             EffectsManager.playAsteroidHit(new Explosion(asteroid.getPositionX(), asteroid.getPositionY(),
                     Constants.EXPLOSION_SPEED, explosionSpriteSheet));
 
-            asteroid.resetLocation(-1300, asteroid.getPositionY());
+            asteroid.updateLocation(-1300, asteroid.getPositionY());
             asteroid.setHealth(health);
-            this.getPlayerManager().resetPlayerPosition(level.getCanvas(), this.getFuelManager());
+            this.getPlayerManager().resetPlayerPosition();
             this.getPlayerManager().playerHit();
 
             level.getPlayer().setLives(level.getPlayer().getLives() - 1);

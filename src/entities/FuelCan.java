@@ -2,13 +2,12 @@ package entities;
 
 import enums.SpriteSheetParameters;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class FuelCan extends GameObject {
-    private static final String type = "fuelcan";
+    private static final String TYPE = "fuelcan";
 
     private boolean isTaken;
 
@@ -18,7 +17,7 @@ public class FuelCan extends GameObject {
                 SpriteSheetParameters.FUEL_CAN.getHeight(),
                 SpriteSheetParameters.FUEL_CAN.getRows(),
                 SpriteSheetParameters.FUEL_CAN.getCols(),
-                type);
+                TYPE);
     }
 
     /*public FuelCan(Canvas canvas, double speed) {
@@ -48,7 +47,7 @@ public class FuelCan extends GameObject {
 
         this.updateLocation(this.getPositionX() - this.getSpeed(), this.getPositionY());
 
-        if (this.getPositionX() < -200) {
+        if (this.getPositionX() < Constants.FUELCAN_RESTART_LEFT_COORDINATE) {
             int randomX = rnd.nextInt((int) canvas.getWidth());
             int randomY = rnd.nextInt((int) offset);
             this.setPosition(randomX, randomY);

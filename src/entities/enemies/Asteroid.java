@@ -1,7 +1,9 @@
 package entities.enemies;
 
+import entities.Constants;
 import entities.HealthAbleGameObject;
 import enums.SpriteSheetParameters;
+
 import java.awt.image.BufferedImage;
 
 public class Asteroid extends HealthAbleGameObject {
@@ -13,7 +15,6 @@ public class Asteroid extends HealthAbleGameObject {
                 SpriteSheetParameters.ASTEROID.getHeight(),
                 SpriteSheetParameters.ASTEROID.getRows(),
                 SpriteSheetParameters.ASTEROID.getCols(),
-                health, defaultHealth, TYPE);
+                health, defaultHealth, Constants.ASTEROID_POINTS_ON_KILL, TYPE);
     }
-
 }

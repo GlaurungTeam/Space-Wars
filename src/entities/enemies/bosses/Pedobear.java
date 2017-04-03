@@ -44,7 +44,7 @@ public class Pedobear extends Boss {
         BufferedImage missileSpriteSheet = null;
 
         double missileX = this.getPositionX();
-        double missileY = this.getPositionY() + 100;
+        double missileY = this.getPositionY() + Constants.MISSILE_POSITION_Y_OFFSET;
 
         try {
             missileSpriteSheet = ImageIO.read(
@@ -77,17 +77,16 @@ public class Pedobear extends Boss {
     @Override
     public void move() {
         Random random = new Random();
-        Pedobear pedobear = this;
 
         if (this.getPositionY() > this.getRandomY()) {
-            pedobear.moveUp();
+            this.moveUp();
             return;
         }
 
-        this.setRandomY(random.nextInt(20000));
+        this.setRandomY(random.nextInt(Constants.BOSS_POSITION_Y_BOUND));
 
         if (this.getPositionY() < this.getRandomY()) {
-            pedobear.moveDown();
+            this.moveDown();
         }
     }
 

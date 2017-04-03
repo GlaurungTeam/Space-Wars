@@ -6,7 +6,6 @@ import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
@@ -36,7 +35,7 @@ public class PlayerManager {
         this.graphicsContext = graphicsContext;
     }
 
-    private Player getPlayer() {
+    public Player getPlayer() {
         return this.player;
     }
 
@@ -44,12 +43,12 @@ public class PlayerManager {
         this.player = player;
     }
 
-    private void updatePlayerLocation(Canvas canvas) {
+    private void updatePlayerLocation() {
         //Offset Formula
-        double heightOffset = canvas.getHeight() - 72;
-        double widthOffset = canvas.getWidth() - 82;
+        double heightOffset = Constants.SCREEN_HEIGHT - this.getPlayer().getHeight();
+        double widthOffset = Constants.SCREEN_WIDTH - this.getPlayer().getWidth() / 2;
 
-        double speedMultiplier = 1;
+        double speedMultiplier = Constants.PLAYER_SPEED_MULTIPLIER;
 
         //Speed up if held var is true
         if (this.getPlayer().isHeld()) {
@@ -185,9 +184,8 @@ public class PlayerManager {
         return false;
     }
 
-    public void resetPlayerPosition(Canvas canvas, FuelManager fuelManager) {
-        this.getPlayer().updateLocation(50, canvas.getHeight() / 2);
-        fuelManager.resetFuel();
+    public void resetPlayerPosition() {
+        this.getPlayer().updateLocation(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2);
     }
 
     private void animateSprites(double time) {
@@ -201,7 +199,7 @@ public class PlayerManager {
 
             try {
                 level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
-                level.writeInLeaderboard(MenuController.userName, this.getPlayer().getPoints());
+                level.writeInLeaderboard(MenuController.USERNAME, this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);
@@ -226,7 +224,7 @@ public class PlayerManager {
     }
 
     public void managePlayer(Level level, double t, AnimationTimer animationTimer) {
-        this.updatePlayerLocation(level.getCanvas());
+        this.updatePlayerLocation();
         this.animateSprites(t);
 
         try {

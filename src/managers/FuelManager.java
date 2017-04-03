@@ -57,16 +57,20 @@ public class FuelManager {
             e.printStackTrace();
         }
 
-        this.fuelCan = new FuelCan(150,150,Constants.FUELCAN_SPEED,fuelCanSpriteSheet);
+        this.fuelCan = new FuelCan(150, 150, Constants.FUELCAN_SPEED, fuelCanSpriteSheet);
     }
 
     public void resetFuel() {
         this.getTimeline().playFromStart();
     }
 
-    public void pauseFuel() { this.getTimeline().pause();}
+    public void pauseFuel() {
+        this.getTimeline().pause();
+    }
 
-    public void resumeFuel() {this.getTimeline().play();}
+    public void resumeFuel() {
+        this.getTimeline().play();
+    }
 
     private void setFuelBar(Group root) {
         String FUEL_BURNED_FORMAT = "%.0f";
@@ -118,14 +122,15 @@ public class FuelManager {
         }
 
         this.getFuelCan().updateFuelCanLocation(level.getCanvas());
-        this.checkFuel(level, playerManager);
+        this.checkFuel(playerManager);
     }
 
-    private void checkFuel(Level level, PlayerManager playerManager) {
+    private void checkFuel(PlayerManager playerManager) {
         if (this.getFuelBar().getWorkDone().getValue() == 0.0) {
-            level.getPlayer().setLives(level.getPlayer().getLives() - 1);
-            playerManager.resetPlayerPosition(level.getCanvas(), this);
+            playerManager.getPlayer().setLives(playerManager.getPlayer().getLives() - 1);
+            playerManager.resetPlayerPosition();
 
+            this.resetFuel();
             this.getTimeline().playFromStart();
         }
     }

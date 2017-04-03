@@ -22,8 +22,8 @@ public class BackgroundManager {
     private Image space;
 
     public BackgroundManager() {
-        this.setPlanetX(500);
-        this.setPlanetY(196);
+        this.setPlanetX(Constants.PLANET_START_X);
+        this.setPlanetY(Constants.PLANET_START_Y);
 
         this.setEarth(new Image(Constants.EARTH_IMAGE));
         this.setSun(new Image(Constants.SUN_IMAGE));
@@ -107,11 +107,11 @@ public class BackgroundManager {
         this.setBackgroundX(this.getBackgroundX() - Constants.BACKGROUND_SPEED);
         this.setPlanetX(this.getPlanetX() - Constants.BACKGROUND_SPEED);
 
-        if (this.getBackgroundX() < -1280) {
+        if (this.getBackgroundX() < -Constants.SCREEN_WIDTH) {
             this.setBackgroundX(0);
         }
-        if (this.getPlanetX() < -1280) {
-            this.setPlanetX(canvas.getWidth() + 50);
+        if (this.getPlanetX() < -Constants.SCREEN_WIDTH) {
+            this.setPlanetX(canvas.getWidth() + 50); //TODO Hardcoded value
         }
     }
 

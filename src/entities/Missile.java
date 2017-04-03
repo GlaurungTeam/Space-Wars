@@ -13,15 +13,15 @@ public class Missile extends GameObject {
                 SpriteSheetParameters.MISSILE.getRows(),
                 SpriteSheetParameters.MISSILE.getCols(),
                 type);
-
     }
 
     public void updateMissileLocation() {
-        if(super.getType().equals("player")){
-            super.updateLocation(Math.max(0, super.getPositionX() + super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), super.getPositionY());
-        }else{
-            super.updateLocation(Math.max(0, super.getPositionX() - super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), super.getPositionY());
+        if (super.getType().equals("player")) {
+            super.updateLocation(Math.max(0, super.getPositionX() +
+                    super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), super.getPositionY());
+        } else {
+            super.updateLocation(Math.max(0, super.getPositionX() -
+                    super.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), super.getPositionY());
         }
-
     }
 }

@@ -31,7 +31,9 @@ public class MissileManager {
 
                 //Here we check if the player collides with a missile
                 if (currentMissile.intersects(this.level.getPlayer()) && currentMissile.getType().equals("enemy")) {
-                    this.level.getPlayerManager().resetPlayerPosition(this.level.getCanvas(), this.level.getFuelManager());
+                    this.level.getPlayerManager().resetPlayerPosition();
+                    this.level.getFuelManager().resetFuel();
+
                     level.getPlayer().setLives(this.level.getPlayer().getLives() - 1);
                     this.level.getPlayerManager().playerHit();
 
@@ -39,7 +41,7 @@ public class MissileManager {
                     this.level.removeMissile(currentMissile);
                 }
 
-                //Collision detection missile hits asteroid and removes it from canvas
+                //Collision detection missile hits enemy and removes it from canvas
                 for (HealthAbleGameObject enemy : this.level.getRealEnemies()) {
                     if (enemy.getHealth() == 0) {
                         continue;
@@ -56,7 +58,7 @@ public class MissileManager {
                             this.level.removeMissile(currentMissile);
 
                             if (!this.level.isActiveBoss()) {
-                                this.level.getPlayer().setPoints(this.level.getPlayer().getPoints() + 1);
+                                this.level.getPlayer().setPoints(this.level.getPlayer().getPoints() + enemy.getPointsOnKill());
                             }
                         }
                     }
