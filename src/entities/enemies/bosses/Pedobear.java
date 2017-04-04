@@ -1,17 +1,12 @@
 package entities.enemies.bosses;
 
 import entities.Constants;
-import entities.Missile;
-import entities.level.Level;
 import enums.SpriteSheetParameters;
 import helpers.SVGPathReader;
 import javafx.scene.shape.SVGPath;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Random;
 
 public class Pedobear extends Boss {
@@ -36,26 +31,6 @@ public class Pedobear extends Boss {
 
         svgPath.setContent(SVGPathReader.readString(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION));
         super.setSvgPath(svgPath);
-    }
-
-    @Override
-    public void fire(Level level) {
-        Missile missile;
-        BufferedImage missileSpriteSheet = null;
-
-        double missileX = this.getPositionX();
-        double missileY = this.getPositionY() + Constants.MISSILE_POSITION_Y_OFFSET;
-
-        try {
-            missileSpriteSheet = ImageIO.read(
-                    new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, "enemy");
-
-        level.addMissile(missile);
     }
 
     private double getRandomY() {

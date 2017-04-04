@@ -31,8 +31,25 @@ public class FuelManager {
         return fuelBar;
     }
 
-    private void setFuelBar(FuelBar fuelBar) {
-        this.fuelBar = fuelBar;
+    private void setFuelBar(Group root) {
+        String FUEL_BURNED_FORMAT = "%.0f";
+        ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
+
+        FuelBar bar = new FuelBar(
+                workDone.getReadOnlyProperty(),
+                Constants.TOTAL_FUEL,
+                FUEL_BURNED_FORMAT
+        );
+
+        this.setCountdown(Constants.TOTAL_FUEL, workDone);
+
+        VBox layout = new VBox(20);
+        layout.setLayoutX(80);
+        layout.setLayoutY(60);
+        layout.getChildren().addAll(bar);
+        root.getChildren().add(layout);
+
+        this.fuelBar = bar;
     }
 
     private Timeline getTimeline() {
@@ -72,27 +89,6 @@ public class FuelManager {
         this.getTimeline().play();
     }
 
-    private void setFuelBar(Group root) {
-        String FUEL_BURNED_FORMAT = "%.0f";
-        ReadOnlyDoubleWrapper workDone = new ReadOnlyDoubleWrapper();
-
-        FuelBar bar = new FuelBar(
-                workDone.getReadOnlyProperty(),
-                Constants.TOTAL_FUEL,
-                FUEL_BURNED_FORMAT
-        );
-
-        this.setCountdown(Constants.TOTAL_FUEL, workDone);
-
-        VBox layout = new VBox(20);
-        layout.setLayoutX(80);
-        layout.setLayoutY(60);
-        layout.getChildren().addAll(bar);
-        root.getChildren().add(layout);
-
-        this.fuelBar = bar;
-    }
-
     private void setCountdown(int totalFuel, ReadOnlyDoubleWrapper workDone) {
         this.setTimeline(new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
@@ -102,14 +98,14 @@ public class FuelManager {
         this.getTimeline().play();
     }
 
-    public void updateFuel(PlayerManager playerManager, Level level) {
+    public void updateFuel(Level level) {
         if (!this.getFuelCan().getTakenStatus()) {
             this.getFuelCan().setImage(this.getFuelCan().getCurrentFrame(0));
             this.getFuelCan().render(level.getGc());
         }
 
         if (!this.getFuelCan().getTakenStatus() &&
-                playerManager.checkCollision(fuelCan)) {
+                level.getPlayerManager().checkCollision(fuelCan)) {
 
             this.getTimeline().playFromStart();
             this.getFuelCan().setTakenStatus(true);
@@ -122,7 +118,7 @@ public class FuelManager {
         }
 
         this.getFuelCan().updateFuelCanLocation(level.getCanvas());
-        this.checkFuel(playerManager);
+        this.checkFuel(level.getPlayerManager());
     }
 
     private void checkFuel(PlayerManager playerManager) {

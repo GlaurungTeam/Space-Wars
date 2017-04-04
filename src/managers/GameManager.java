@@ -32,7 +32,7 @@ public class GameManager {
         PlayerManager playerManager = new PlayerManager(player, gc);
         FuelManager fuelManager = new FuelManager(root);
         EnemyManager enemyManager = new EnemyManager();
-        MissileManager missileManager = new MissileManager(level);
+        MissileManager missileManager = new MissileManager();
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
         EffectsManager effectsManager = new EffectsManager();
         BackgroundManager backgroundManager = new BackgroundManager();
@@ -44,7 +44,7 @@ public class GameManager {
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
 
         //The shiny PlayerManager class :D
-        playerManager.initializePlayerControls(theScene, level);
+        playerManager.initializePlayerControls(level);
 
         final long startNanoTime = System.nanoTime();
 
@@ -59,11 +59,11 @@ public class GameManager {
                 backgroundManager.renderBackground(gc);
                 backgroundManager.updateBackground(t, canvas);
                 enemyManager.manageEnemies(level);
-                missileManager.manageMissiles();
+                missileManager.manageMissiles(level);
                 playerManager.managePlayer(level, t, this);
                 userInterfaceManager.updateText(level.getPlayer());
                 effectsManager.manageExplosions(level.getGc());
-                fuelManager.updateFuel(playerManager, level);
+                fuelManager.updateFuel(level);
                 bossManager.manageBoss(level);
             }
         };

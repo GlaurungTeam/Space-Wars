@@ -55,68 +55,14 @@ public class Player extends HealthAbleGameObject {
         this.setScene(scene);
 
         //We are using SVG Path to make up for the complex form of the spaceship
-        svgPath = new SVGPath();
+        this.svgPath = new SVGPath();
 
         SVGPathReader SVGPathReader = new SVGPathReader();
-        svgPath.setContent(SVGPathReader.readString(Constants.PLAYER_SVGPATH_LOCATION));
+        this.svgPath.setContent(SVGPathReader.readString(Constants.PLAYER_SVGPATH_LOCATION));
 
         this.timer = new Timer();
         super.setSpriteParameters(43, 39, 1, 2);
         this.loadPlayerSprites();
-
-        this.setHit(false);
-    }
-
-    private List<Image> splitSprites(BufferedImage bufferedImage) {
-        List<Image> sprites = new ArrayList<>();
-        for (int i = 0; i < super.getRows(); i++) {
-            for (int j = 0; j < super.getCols(); j++) {
-                sprites.add((i * super.getCols()) + j, SwingFXUtils.toFXImage(bufferedImage.getSubimage(
-                        j * super.getWidth(),
-                        i * super.getHeight(),
-                        super.getWidth(),
-                        super.getHeight()
-                ), null));
-            }
-        }
-        return sprites;
-    }
-
-    private void loadPlayerSprites() throws IOException {
-        //Load sprites from file
-        BufferedImage playerSpriteSheet =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE));
-
-        BufferedImage playerHitSpriteSheet =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE_HIT));
-
-        BufferedImage playerUpSprites =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP));
-
-        BufferedImage playerDownSprites =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN));
-
-        BufferedImage playerDownHitSprites =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT));
-
-        BufferedImage playerUpHitSprites =
-                ImageIO.read(new File(Constants.PROJECT_PATH +
-                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP_HIT));
-
-        this.setPlayerHitSprites(this.splitSprites(playerHitSpriteSheet));
-        this.setPlayerUpSprites(this.splitSprites(playerUpSprites));
-        this.setPlayerDownSprites(this.splitSprites(playerDownSprites));
-        this.setPlayerDownHit(this.splitSprites(playerDownHitSprites));
-        this.setPlayerUpHit(this.splitSprites(playerUpHitSprites));
-
-        super.setSpriteSheet(playerSpriteSheet);
-        super.splitSprites();
-        this.setOriginalSprites(super.getSprites());
     }
 
     private List<Image> getPlayerUpSprites() {
@@ -258,6 +204,58 @@ public class Player extends HealthAbleGameObject {
 
     public void setHeld(boolean value) {
         this.held = value;
+    }
+
+    private List<Image> splitSprites(BufferedImage bufferedImage) {
+        List<Image> sprites = new ArrayList<>();
+        for (int i = 0; i < super.getRows(); i++) {
+            for (int j = 0; j < super.getCols(); j++) {
+                sprites.add((i * super.getCols()) + j, SwingFXUtils.toFXImage(bufferedImage.getSubimage(
+                        j * super.getWidth(),
+                        i * super.getHeight(),
+                        super.getWidth(),
+                        super.getHeight()
+                ), null));
+            }
+        }
+        return sprites;
+    }
+
+    private void loadPlayerSprites() throws IOException {
+        //Load sprites from file
+        BufferedImage playerSpriteSheet =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE));
+
+        BufferedImage playerHitSpriteSheet =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_HIT));
+
+        BufferedImage playerUpSprites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP));
+
+        BufferedImage playerDownSprites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN));
+
+        BufferedImage playerDownHitSprites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_DOWN_HIT));
+
+        BufferedImage playerUpHitSprites =
+                ImageIO.read(new File(Constants.PROJECT_PATH +
+                        Constants.SPACESHIP_SPRITESHEET_IMAGE_UP_HIT));
+
+        this.setPlayerHitSprites(this.splitSprites(playerHitSpriteSheet));
+        this.setPlayerUpSprites(this.splitSprites(playerUpSprites));
+        this.setPlayerDownSprites(this.splitSprites(playerDownSprites));
+        this.setPlayerDownHit(this.splitSprites(playerDownHitSprites));
+        this.setPlayerUpHit(this.splitSprites(playerUpHitSprites));
+
+        super.setSpriteSheet(playerSpriteSheet);
+        super.splitSprites();
+        this.setOriginalSprites(super.getSprites());
     }
 
     private void playerHit() {

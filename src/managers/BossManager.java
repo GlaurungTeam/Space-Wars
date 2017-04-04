@@ -2,6 +2,7 @@ package managers;
 
 import entities.Constants;
 import entities.Explosion;
+import entities.Missile;
 import entities.enemies.bosses.Boss;
 import entities.enemies.bosses.Pedobear;
 import entities.level.Level;
@@ -47,6 +48,23 @@ public class BossManager extends EnemyManager {
         this.justShowed = justShowed;
     }
 
+    private void fire(Level level, Boss boss) {
+        BufferedImage missileSpriteSheet = null;
+
+        double missileX = boss.getPositionX();
+        double missileY = boss.getPositionY() + Constants.MISSILE_POSITION_Y_OFFSET;
+
+        try {
+            missileSpriteSheet = ImageIO.read(
+                    new File(Constants.PROJECT_PATH + Constants.MISSILE_SPRITESHEET_IMAGE));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Missile missile = new Missile(missileX, missileY, Constants.MISSILE_SPEED, missileSpriteSheet, "enemy");
+        level.addMissile(missile);
+    }
+
     public Boss initializeBoss(Canvas canvas) throws FileNotFoundException {
         double startPosX = canvas.getWidth() - Constants.BOSS_RIGHT_OFFSET;
         double startPosY = canvas.getHeight() / 2;
@@ -61,21 +79,21 @@ public class BossManager extends EnemyManager {
         }
 
         Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet, Constants.BOSS_PEDOBEAR_HEALTH);
-
         return pedobear;
     }
 
-    void manageBoss(Level level) {
+    public void manageBoss(Level level) {
         for (Boss boss : level.getBosses()) {
-            if (level.getPlayer().getPoints() != 0
-                    && level.getPlayer().getPoints() % Constants.POINTS_TILL_BOSS == 0
-                    && !level.isActiveBoss()) {
-                level.setIsActiveBoss(true);
+            if (level.getPlayer().getPoints() != 0 &&
+                    level.getPlayer().getPoints() % Constants.POINTS_TILL_BOSS == 0 &&
+                    !level.isActiveBoss()) {
 
+                level.setIsActiveBoss(true);
+                BossManager that = this;
                 this.getShootTimer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        boss.fire(level);
+                        that.fire(level, boss);
                     }
                 }, 5000, 2000);
             }
@@ -98,6 +116,7 @@ public class BossManager extends EnemyManager {
                         boss.setImage(boss.getCurrentFrame(0));
                         boss.render(level.getGc());
                         boss.move();
+                        boss.setVisible(true);
                         this.updateBossLocation(boss);
                         this.manageBossCollision(level, boss);
                     }
@@ -109,6 +128,7 @@ public class BossManager extends EnemyManager {
 
                     this.setJustShowed(true);
                     level.setIsActiveBoss(false);
+                    boss.setVisible(false);
 
                     boss.resetHealth();
                     level.getPlayer().setPoints(level.getPlayer().getPoints() + boss.getPointsOnKill());

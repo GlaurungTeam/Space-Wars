@@ -53,6 +53,7 @@ public class MenuController {
 
         try (ObjectInputStream in = new ObjectInputStream
                 (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
+
             String[] scores = (String[]) in.readObject();
 
             int i = 1;

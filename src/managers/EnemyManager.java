@@ -156,7 +156,8 @@ public class EnemyManager {
     private int setStartPosition(String coordinate) {
         switch (coordinate.toLowerCase()) {
             case "x":
-                return this.getRandomNumber(Constants.SCREEN_WIDTH + 1, Constants.SCREEN_WIDTH * 2);
+                return this.getRandomNumber(Constants.SCREEN_WIDTH + 1,
+                        Constants.SCREEN_WIDTH * 2);
             case "y":
                 return this.getRandomNumber(0, Constants.SCREEN_HEIGHT);
             default:

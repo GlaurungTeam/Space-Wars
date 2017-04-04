@@ -113,7 +113,7 @@ public abstract class Sprite {
         this.spriteSheet = spriteSheet;
     }
 
-    //load sprites from image
+    //Load sprites from image
     protected void splitSprites() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {

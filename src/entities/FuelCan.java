@@ -20,14 +20,6 @@ public class FuelCan extends GameObject {
                 TYPE);
     }
 
-    /*public FuelCan(Canvas canvas, double speed) {
-        Image image = new Image(Constants.FUELCAN_IMAGE);
-
-        super.setImage(image);
-        super.setPosition(SpawnCoordinates.getRandom((int) canvas.getWidth()), SpawnCoordinates.getSpawnY(canvas));
-        super.setSpeed(speed);
-    }*/
-
     public boolean getTakenStatus() {
         return this.isTaken;
     }
@@ -37,6 +29,7 @@ public class FuelCan extends GameObject {
     }
 
     public void updateFuelCanLocation(Canvas canvas) {
+
         //Offset so that asteroids don't spawn outside of boundaries
         double heightOffset = this.getHeight();
 

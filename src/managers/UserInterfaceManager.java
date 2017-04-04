@@ -41,7 +41,8 @@ public class UserInterfaceManager {
         this.setResumeButton(this.createResumeButton());
         this.setQuitButton(this.createQuitButton());
 
-        root.getChildren().addAll(this.getPauseBox(), this.getPauseButton(), this.getResumeButton(), this.getQuitButton());
+        root.getChildren().addAll(this.getPauseBox(), this.getPauseButton(),
+                this.getResumeButton(), this.getQuitButton());
     }
 
     private Text getScoreLine() {
@@ -129,7 +130,8 @@ public class UserInterfaceManager {
         Button pauseButton = new Button("PAUSE");
         pauseButton.setLayoutX(20);
         pauseButton.setLayoutY(110);
-        pauseButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-border-width: 3; -fx-font-weight: bold");
+        pauseButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; " +
+                "-fx-font-size: 20; -fx-border-color: black; -fx-border-width: 3; -fx-font-weight: bold");
 
         return pauseButton;
     }
@@ -138,7 +140,8 @@ public class UserInterfaceManager {
         Button resumeButton = new Button("RESUME");
         resumeButton.setLayoutX(Constants.SCREEN_WIDTH / 2);
         resumeButton.setLayoutY(320);
-        resumeButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
+        resumeButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; " +
+                "-fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         resumeButton.setVisible(false);
 
         return resumeButton;
@@ -148,7 +151,8 @@ public class UserInterfaceManager {
         Button quitButton = new Button("QUIT");
         quitButton.setLayoutX(Constants.SCREEN_WIDTH / 2 + 15);
         quitButton.setLayoutY(370);
-        quitButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true; -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
+        quitButton.setStyle("-fx-alignment: baseline-center; -fx-animated: true;" +
+                " -fx-font-size: 20; -fx-border-color: black; -fx-font-weight: bold");
         quitButton.setVisible(false);
 
         return quitButton;

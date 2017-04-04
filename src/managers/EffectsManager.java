@@ -39,18 +39,20 @@ public class EffectsManager {
     }
 
     public void manageExplosions(GraphicsContext graphicsContext) {
-        if (this.getExplosions().size() != 0) {
-            for (int i = 0; i < this.getExplosions().size(); i++) {
-                GameObject explosion = this.getExplosions().get(i);
-                Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
+        if (this.getExplosions().size() == 0) {
+            return;
+        }
 
-                if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {
-                    explosion.setImage(currentFrame);
-                    explosion.render(graphicsContext);
-                    explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
-                } else {
-                    explosions.remove(i);
-                }
+        for (int i = 0; i < this.getExplosions().size(); i++) {
+            GameObject explosion = this.getExplosions().get(i);
+            Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
+
+            if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {
+                explosion.setImage(currentFrame);
+                explosion.render(graphicsContext);
+                explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
+            } else {
+                explosions.remove(i);
             }
         }
     }

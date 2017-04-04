@@ -1,11 +1,13 @@
 package managers;
 
 import controllers.MenuController;
-import entities.*;
+import entities.Constants;
+import entities.Missile;
+import entities.Player;
+import entities.Sprite;
 import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
@@ -65,14 +67,17 @@ public class PlayerManager {
             player.updateLocation(player.getPositionX(),
                     Math.max(0, currentPlayerY - currentPlayerSpeed * speedMultiplier));
         }
+
         if (player.isGoDown()) {
             player.updateLocation(player.getPositionX(),
                     Math.min(heightOffset, currentPlayerY + currentPlayerSpeed * speedMultiplier));
         }
+
         if (player.isGoLeft()) {
             player.updateLocation(Math.max(0, currentPlayerX - currentPlayerSpeed * speedMultiplier),
                     player.getPositionY());
         }
+
         if (player.isGoRight()) {
             player.updateLocation(Math.min(widthOffset, currentPlayerX + currentPlayerSpeed * speedMultiplier),
                     player.getPositionY());
@@ -101,8 +106,6 @@ public class PlayerManager {
         AudioClip shoot = new AudioClip(Paths.get(Constants.PLAYER_SHOOT_SOUND).toUri().toString());
         shoot.play(0.7);
 
-        Missile missile = null;
-
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;
 
@@ -117,15 +120,15 @@ public class PlayerManager {
         double missilePositionY = this.player.getPositionY() + this.player.getHeight() / 2;
 
         //Make missile
-        missile = new Missile(missilePositionX, missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
+        Missile missile = new Missile(missilePositionX, missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
 
         this.getPlayer().setFired(true);
         return missile;
     }
 
-    public void initializePlayerControls(Scene theScene, Level level) {
+    public void initializePlayerControls(Level level) {
         //Add event listener
-        theScene.setOnKeyPressed(event -> {
+        level.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
                     this.getPlayer().setGoUp(true);
@@ -141,18 +144,19 @@ public class PlayerManager {
                 case RIGHT:
                     this.getPlayer().setGoRight(true);
                     break;
-                case CONTROL:
+                case SHIFT:
+                    this.getPlayer().setHeld(true);
+                    break;
+                case E:
                     if (!this.getPlayer().isFired()) {
                         level.addMissile(this.fire());
                         this.getPlayer().setFired(true);
                     }
                     break;
-                case SHIFT:
-                    this.getPlayer().setHeld(true);
             }
         });
 
-        theScene.setOnKeyReleased(event -> {
+        level.getScene().setOnKeyReleased(event -> {
             switch (event.getCode()) {
                 case UP:
                     this.player.setGoUp(false);
@@ -170,6 +174,7 @@ public class PlayerManager {
                     break;
                 case SHIFT:
                     this.player.setHeld(false);
+                    break;
             }
         });
     }
