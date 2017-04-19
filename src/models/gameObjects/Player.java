@@ -6,6 +6,8 @@ import helpers.SVGPathReader;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.SVGPath;
 import utils.Constants;
 
@@ -15,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Player extends BaseHealthableGameObject {
+public class Player extends BaseHealthableGameObject implements IPlayer{
 
     private static final String TYPE = "player";
 
@@ -50,12 +52,12 @@ public class Player extends BaseHealthableGameObject {
                 Constants.PLAYER_DEFAULT_HEALTH,
                 0, TYPE);
 
-        this.setFired(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
-        this.setHeld(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
-        this.setPoints(Constants.START_POINTS);
+        this.changeFiredStatus(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.shiftLightningSpeed(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
+        this.points = Constants.START_POINTS;
 
-        this.setLives(lives);
-        this.setScene(scene);
+        this.lives = lives;
+        this.scene = scene;
 
         //We are using SVG Path to make up for the complex form of the spaceship
         this.svgPath = new SVGPath();
@@ -71,95 +73,6 @@ public class Player extends BaseHealthableGameObject {
                 SpriteSheetParameters.PLAYER.getCols()
         );
         this.loadPlayerSprites();
-    }
-
-    public void refreshSprites() {
-        this.isHit = false;
-        super.setSprites(this.originalSprites);
-    }
-
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public boolean isGoLeft() {
-        return this.goLeft;
-    }
-
-    public void setGoLeft(boolean goLeft) {
-        this.goLeft = goLeft;
-    }
-
-    public boolean isGoRight() {
-        return this.goRight;
-    }
-
-    public void setGoRight(boolean goRight) {
-        this.goRight = goRight;
-    }
-
-    public boolean isGoUp() {
-        return this.goUp;
-    }
-
-    public void setGoUp(boolean goUp) {
-        this.goUp = goUp;
-    }
-
-    public boolean isGoDown() {
-        return this.goDown;
-    }
-
-    public void setGoDown(boolean goDown) {
-        this.goDown = goDown;
-    }
-
-    public boolean isFired() {
-        return fired;
-    }
-
-    public void setFired(boolean fired) {
-        this.fired = fired;
-    }
-
-    public Integer getLives() {
-        return lives;
-    }
-
-    public void setLives(Integer lives) {
-        this.lives = lives;
-    }
-
-    public long getPoints() {
-        return points;
-    }
-
-    public void setPoints(long points) {
-        this.points = points;
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public boolean isHeld() {
-        return this.held;
-    }
-
-    public void setHeld(boolean value) {
-        this.held = value;
-    }
-
-    public boolean isHit() {
-        return this.isHit;
-    }
-
-    public void setHit(boolean hit) {
-        isHit = hit;
     }
 
     private List<Image> splitSprites(BufferedImage bufferedImage) {
@@ -216,19 +129,116 @@ public class Player extends BaseHealthableGameObject {
         this.originalSprites = super.getSprites();
     }
 
-    public void playerMove() {
+    @Override
+    public void refreshSprites() {
+        this.isHit = false;
+        super.setSprites(this.originalSprites);
+    }
+
+    @Override
+    public Timer getTimer() {
+        return this.timer;
+    }
+
+    @Override
+    public boolean isTurningLeft() {
+        return this.goLeft;
+    }
+
+    @Override
+    public boolean isTurningRight() {
+        return this.goRight;
+    }
+
+    @Override
+    public boolean isTurningUp() {
+        return this.goUp;
+    }
+
+    @Override
+    public boolean isTurningDown() {
+        return this.goDown;
+    }
+
+    @Override
+    public void setDirection(boolean value, KeyCode keyCode){
+        switch (keyCode){
+            case UP:
+                this.goUp = value;
+                break;
+            case DOWN:
+                this.goDown = value;
+                break;
+            case LEFT:
+                this.goLeft = value;
+                break;
+            case RIGHT:
+                this.goRight = value;
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public boolean isFired() {
+        return this.fired;
+    }
+
+    @Override
+    public void changeFiredStatus(boolean fired) {
+        this.fired = fired;
+    }
+
+    @Override
+    public int getCurrentLives() {
+        return this.lives;
+    }
+
+    @Override
+    public void decrementLives() {
+        this.lives--;
+    }
+
+    @Override
+    public long getPoints() {
+        return this.points;
+    }
+
+    @Override
+    public void incrementKillPoints(long points) {
+        this.points += points;
+    }
+
+    @Override
+    public boolean isLightningSpeedOn() {
+        return this.held;
+    }
+
+    @Override
+    public void shiftLightningSpeed(boolean value) {
+        this.held = value;
+    }
+
+    @Override
+    public void hitPlayer() {
+        isHit = true;
+    }
+
+    @Override
+    public void manageSpriteAnimation() {
         this.setSprites(this.playerHitSprites);
 
         if (!this.isHit) {
-            if (this.isGoUp()) {
+            if (this.isTurningUp()) {
                 this.setSprites(this.playerUpSprites);
-            } else if (this.isGoDown()) {
+            } else if (this.isTurningDown()) {
                 this.setSprites(this.playerDownSprites);
             }
         } else {
-            if (this.isGoUp()) {
+            if (this.isTurningUp()) {
                 this.setSprites(this.playerUpHitSprites);
-            } else if (this.isGoDown()) {
+            } else if (this.isTurningDown()) {
                 this.setSprites(this.playerDownHitSprites);
             }
         }

@@ -3,7 +3,6 @@ package models.gameObjects;
 import java.awt.image.BufferedImage;
 
 public abstract class BaseHealthableGameObject extends BaseGameObject implements HealthableGameObject {
-
     private int health;
     private int defaultHealth;
     private int pointsOnKill;

@@ -99,7 +99,7 @@ public class FuelManager {
             this.fuelCan.setTakenStatus(true);
         }
 
-        if (level.getPlayer().isHeld()) {
+        if (level.getPlayer().isLightningSpeedOn()) {
             this.timeline.setRate(Constants.FUEL_RATE_FAST);
         } else {
             this.timeline.setRate(Constants.FUEL_RATE_SLOW);
@@ -111,7 +111,7 @@ public class FuelManager {
 
     private void checkFuel(PlayerManager playerManager) {
         if (this.fuelBar.getWorkDone().getValue() == 0.0) {
-            playerManager.getPlayer().setLives(playerManager.getPlayer().getLives() - 1);
+            playerManager.getPlayer().decrementLives();
             playerManager.resetPlayerPosition();
 
             this.resetFuel();

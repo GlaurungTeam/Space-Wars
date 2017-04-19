@@ -14,7 +14,6 @@ import java.util.List;
 //The whole point of this class is so that we can use hit detection easily
 //Thanks to it every object on the field has width, height, image and coordinates which we can use for the aforementioned reason
 public abstract class BaseGameObject implements GameObject {
-
     private Image image;
     private double positionX;
     private double positionY;

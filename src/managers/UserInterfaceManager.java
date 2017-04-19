@@ -65,11 +65,11 @@ public class UserInterfaceManager {
         String score = String.format("Score: %d", player.getPoints());
         this.scoreLine.setText(score);
 
-        String livesNumber = String.format("Lives: %d", player.getLives());
+        String livesNumber = String.format("Lives: %d", player.getCurrentLives());
         this.lives.setText(livesNumber);
 
         //FuelBar Text
-        String livesC = String.format("Lives: %d", player.getLives());
+        String livesC = String.format("Lives: %d", player.getCurrentLives());
         this.lives.setText(livesC);
     }
 

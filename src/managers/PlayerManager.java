@@ -4,12 +4,12 @@ import controllers.MenuController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
 import models.gameObjects.GameObject;
 import models.gameObjects.Missile;
 import models.gameObjects.Player;
-import models.level.BaseLevel;
 import models.level.Level;
 import utils.Constants;
 
@@ -43,7 +43,7 @@ public class PlayerManager {
         double speedMultiplier = Constants.PLAYER_SPEED_MULTIPLIER;
 
         //Speed up if held var is true
-        if (this.getPlayer().isHeld()) {
+        if (this.player.isLightningSpeedOn()) {
             speedMultiplier = 1.5;
         }
 
@@ -53,22 +53,22 @@ public class PlayerManager {
 
         Player player = this.getPlayer();
 
-        if (player.isGoUp()) {
+        if (player.isTurningUp()) {
             player.updateLocation(player.getPositionX(),
                     Math.max(0, currentPlayerY - currentPlayerSpeed * speedMultiplier));
         }
 
-        if (player.isGoDown()) {
+        if (player.isTurningDown()) {
             player.updateLocation(player.getPositionX(),
                     Math.min(heightOffset, currentPlayerY + currentPlayerSpeed * speedMultiplier));
         }
 
-        if (player.isGoLeft()) {
+        if (player.isTurningLeft()) {
             player.updateLocation(Math.max(0, currentPlayerX - currentPlayerSpeed * speedMultiplier),
                     player.getPositionY());
         }
 
-        if (player.isGoRight()) {
+        if (player.isTurningRight()) {
             player.updateLocation(Math.min(widthOffset, currentPlayerX + currentPlayerSpeed * speedMultiplier),
                     player.getPositionY());
         }
@@ -83,7 +83,7 @@ public class PlayerManager {
         this.getPlayer().getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                that.setFired(false);
+                that.changeFiredStatus(false);
             }
         }, 0, 1000);
     }
@@ -112,58 +112,62 @@ public class PlayerManager {
         //Make missile
         Missile missile = new Missile(missilePositionX, missilePositionY, Constants.MISSILE_SPEED, missileSpriteSheet, "player");
 
-        this.getPlayer().setFired(true);
+        this.getPlayer().changeFiredStatus(true);
         return missile;
     }
 
     public void initializePlayerControls(Level level) {
         //Add event listener
         level.getScene().setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+
             switch (event.getCode()) {
                 case UP:
-                    this.getPlayer().setGoUp(true);
-                    this.getPlayer().playerMove();
+                    this.player.setDirection(true, keyCode);
+                    this.getPlayer().manageSpriteAnimation();
                     break;
                 case DOWN:
-                    this.getPlayer().setGoDown(true);
-                    this.getPlayer().playerMove();
+                    this.player.setDirection(true, keyCode);
+                    this.getPlayer().manageSpriteAnimation();
                     break;
                 case LEFT:
-                    this.getPlayer().setGoLeft(true);
+                    this.player.setDirection(true, keyCode);
                     break;
                 case RIGHT:
-                    this.getPlayer().setGoRight(true);
+                    this.player.setDirection(true, keyCode);
                     break;
                 case SHIFT:
-                    this.getPlayer().setHeld(true);
+                    this.getPlayer().shiftLightningSpeed(true);
                     break;
                 case E:
                     if (!this.getPlayer().isFired()) {
                         level.addMissile(this.fire());
-                        this.getPlayer().setFired(true);
+                        this.getPlayer().changeFiredStatus(true);
                     }
                     break;
             }
         });
 
         level.getScene().setOnKeyReleased(event -> {
-            switch (event.getCode()) {
+            KeyCode keyCode = event.getCode();
+
+            switch (keyCode) {
                 case UP:
-                    this.player.setGoUp(false);
+                    this.player.setDirection(false, keyCode);
                     this.getPlayer().refreshSprites();
                     break;
                 case DOWN:
-                    this.player.setGoDown(false);
+                    this.player.setDirection(false, keyCode);
                     this.getPlayer().refreshSprites();
                     break;
                 case LEFT:
-                    this.player.setGoLeft(false);
+                    this.player.setDirection(false, keyCode);
                     break;
                 case RIGHT:
-                    this.player.setGoRight(false);
+                    this.player.setDirection(false, keyCode);
                     break;
                 case SHIFT:
-                    this.player.setHeld(false);
+                    this.player.shiftLightningSpeed(false);
                     break;
             }
         });
@@ -189,7 +193,7 @@ public class PlayerManager {
     }
 
     private void checkIfPlayerIsDead(Level level, AnimationTimer timer) throws Exception {
-        if (this.getPlayer().getLives() <= 0) {
+        if (this.getPlayer().getCurrentLives() <= 0) {
             timer.stop();
 
             try {
@@ -213,8 +217,8 @@ public class PlayerManager {
     }
 
     public void playerHit() {
-        this.getPlayer().setHit(true);
-        this.getPlayer().playerMove();
+        this.getPlayer().hitPlayer();
+        this.getPlayer().manageSpriteAnimation();
         this.refreshSprites();
     }
 

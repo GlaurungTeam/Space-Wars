@@ -91,7 +91,7 @@ public class EnemyManager {
 
             enemy.updateLocation(Constants.OBJECT_RESTART_LEFT_COORDINATE, enemy.getPositionY());
 
-            level.getPlayer().setLives(level.getPlayer().getLives() - 1);
+            level.getPlayer().decrementLives();
             level.getPlayerManager().playerHit();
         }
     }

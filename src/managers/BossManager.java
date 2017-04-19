@@ -115,7 +115,7 @@ public class BossManager extends EnemyManager {
                     boss.setVisible(false);
 
                     boss.resetHealth();
-                    level.getPlayer().setPoints(level.getPlayer().getPoints() + boss.getPointsOnKill());
+                    level.getPlayer().incrementKillPoints(boss.getPointsOnKill());
                 }
             }
         }
@@ -140,7 +140,7 @@ public class BossManager extends EnemyManager {
                     new Explosion(explosionX, explosionY, Constants.EXPLOSION_SPEED, explosionSpriteSheet)
             );
 
-            level.getPlayer().setLives(0);
+            level.getPlayer().decrementLives();
         }
     }
 

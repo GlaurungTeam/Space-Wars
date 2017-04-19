@@ -4,7 +4,6 @@ import models.enemies.bosses.Boss;
 import models.gameObjects.Explosion;
 import models.gameObjects.GameObject;
 import models.gameObjects.HealthableGameObject;
-import models.gameObjects.Missile;
 import models.level.Level;
 import utils.Constants;
 
@@ -35,7 +34,7 @@ public class MissileManager {
                 level.getPlayerManager().resetPlayerPosition();
                 level.getFuelManager().resetFuel();
 
-                level.getPlayer().setLives(level.getPlayer().getLives() - 1);
+                level.getPlayer().decrementLives();
                 level.getPlayerManager().playerHit();
 
                 level.getExplosionManager().playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
@@ -62,7 +61,7 @@ public class MissileManager {
                         level.removeMissile(currentMissile);
 
                         if (!level.isActiveBoss()) {
-                            level.getPlayer().setPoints(level.getPlayer().getPoints() + enemy.getPointsOnKill());
+                            level.getPlayer().incrementKillPoints(enemy.getPointsOnKill());
                         }
                     }
                 }
