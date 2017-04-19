@@ -1,16 +1,17 @@
 package managers;
 
-import entities.Constants;
-import entities.Player;
-import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import models.gameObjects.Player;
+import models.level.Level;
+import utils.Constants;
 
 public class GameManager {
+
     public void start(Stage theStage, Level level) throws Exception {
         theStage.setTitle("Space Wars");
 
@@ -34,12 +35,12 @@ public class GameManager {
         EnemyManager enemyManager = new EnemyManager();
         MissileManager missileManager = new MissileManager();
         UserInterfaceManager userInterfaceManager = new UserInterfaceManager(root);
-        EffectsManager effectsManager = new EffectsManager();
+        ExplosionManager explosionManager = new ExplosionManager();
         BackgroundManager backgroundManager = new BackgroundManager();
         BossManager bossManager = new BossManager();
 
         level.initializeLevel(player, gc, canvas, theScene, 0.0,
-                enemyManager, bossManager, playerManager, fuelManager);
+                enemyManager, bossManager, playerManager, fuelManager, explosionManager);
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());
 
@@ -56,13 +57,12 @@ public class GameManager {
                 level.setCurrentFrame(t);
 
                 //Here we are using our shiny new managers! :)
-                backgroundManager.renderBackground(gc);
-                backgroundManager.updateBackground(t, canvas);
+                backgroundManager.updateBackground(t, canvas, gc);
                 enemyManager.manageEnemies(level);
                 missileManager.manageMissiles(level);
                 playerManager.managePlayer(level, t, this);
                 userInterfaceManager.updateText(level.getPlayer());
-                effectsManager.manageExplosions(level.getGc());
+                explosionManager.manageExplosions(level.getGc());
                 fuelManager.updateFuel(level);
                 bossManager.manageBoss(level);
             }

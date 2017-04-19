@@ -1,7 +1,7 @@
 package managers;
 
-import entities.Constants;
-import entities.Player;
+import utils.Constants;
+import models.gameObjects.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -21,96 +21,56 @@ public class UserInterfaceManager {
     private Button quitButton;
 
     public UserInterfaceManager(Group root) {
-        this.setScoreLine(new Text(20, 30, ""));
-        this.setLives(new Text(20, 50, ""));
-        this.setFuelBarText(new Text(20, 80, "Fuel: "));
+        this.scoreLine = new Text(20, 30, "");
+        this.lives = new Text(20, 50, "");
+        this.fuelBarText = new Text(20, 80, "Fuel: ");
 
-        root.getChildren().addAll(this.getScoreLine(), this.getLives(), this.getFuelBarText());
+        root.getChildren().addAll(this.scoreLine, this.lives, this.fuelBarText);
 
-        this.getScoreLine().setFont(Font.font("Verdana", 20));
-        this.getScoreLine().setFill(Color.WHITE);
+        this.scoreLine.setFont(Font.font("Verdana", 20));
+        this.scoreLine.setFill(Color.WHITE);
 
-        this.getLives().setFont(Font.font("Verdana", 20));
-        this.getLives().setFill(Color.WHITE);
+        this.lives.setFont(Font.font("Verdana", 20));
+        this.lives.setFill(Color.WHITE);
 
-        this.getFuelBarText().setFont(Font.font("Verdana", 20));
-        this.getFuelBarText().setFill(Color.WHITE);
+        this.fuelBarText.setFont(Font.font("Verdana", 20));
+        this.fuelBarText.setFill(Color.WHITE);
 
-        this.setPauseBox(this.createBox());
-        this.setPauseButton(this.createPauseButton());
-        this.setResumeButton(this.createResumeButton());
-        this.setQuitButton(this.createQuitButton());
+        this.pauseBox = this.createBox();
+        this.pauseButton = this.createPauseButton();
+        this.resumeButton = this.createResumeButton();
+        this.quitButton = this.createQuitButton();
 
         root.getChildren().addAll(this.getPauseBox(), this.getPauseButton(),
                 this.getResumeButton(), this.getQuitButton());
-    }
-
-    private Text getScoreLine() {
-        return this.scoreLine;
-    }
-
-    private void setScoreLine(Text scoreLine) {
-        this.scoreLine = scoreLine;
-    }
-
-    private Text getLives() {
-        return this.lives;
-    }
-
-    private void setLives(Text lives) {
-        this.lives = lives;
-    }
-
-    private Text getFuelBarText() {
-        return this.fuelBarText;
-    }
-
-    private void setFuelBarText(Text fuelBarText) {
-        this.fuelBarText = fuelBarText;
     }
 
     public VBox getPauseBox() {
         return this.pauseBox;
     }
 
-    private void setPauseBox(VBox pauseBox) {
-        this.pauseBox = pauseBox;
-    }
-
     public Button getPauseButton() {
         return this.pauseButton;
-    }
-
-    private void setPauseButton(Button pauseButton) {
-        this.pauseButton = pauseButton;
     }
 
     public Button getResumeButton() {
         return this.resumeButton;
     }
 
-    private void setResumeButton(Button resumeButton) {
-        this.resumeButton = resumeButton;
-    }
-
     public Button getQuitButton() {
         return this.quitButton;
     }
 
-    private void setQuitButton(Button quitButton) {
-        this.quitButton = quitButton;
-    }
-
     public void updateText(Player player) {
         String score = String.format("Score: %d", player.getPoints());
-        this.getScoreLine().setText(score);
+        this.scoreLine.setText(score);
 
         String livesNumber = String.format("Lives: %d", player.getLives());
-        this.getLives().setText(livesNumber);
+        this.lives.setText(livesNumber);
 
         //FuelBar Text
         String livesC = String.format("Lives: %d", player.getLives());
-        this.getLives().setText(livesC);
+        this.lives.setText(livesC);
     }
 
     private VBox createBox() {

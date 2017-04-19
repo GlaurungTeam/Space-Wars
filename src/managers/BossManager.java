@@ -1,12 +1,12 @@
 package managers;
 
-import entities.Constants;
-import entities.Explosion;
-import entities.Missile;
-import entities.enemies.bosses.Boss;
-import entities.enemies.bosses.Pedobear;
-import entities.level.Level;
 import javafx.scene.canvas.Canvas;
+import models.enemies.bosses.Boss;
+import models.enemies.bosses.Pedobear;
+import models.gameObjects.Explosion;
+import models.gameObjects.Missile;
+import models.level.Level;
+import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,25 +23,9 @@ public class BossManager extends EnemyManager {
     private BossManager bossManager = this;
 
     public BossManager() {
-        this.setShowTimer(new Timer());
-        this.setJustShowed(true);
-        this.setShootTimer(new Timer());
-    }
-
-    private void setShowTimer(Timer showTimer) {
-        this.showTimer = showTimer;
-    }
-
-    private boolean isJustShowed() {
-        return this.justShowed;
-    }
-
-    private Timer getShootTimer() {
-        return this.shootTimer;
-    }
-
-    private void setShootTimer(Timer shootTimer) {
-        this.shootTimer = shootTimer;
+        this.showTimer = new Timer();
+        this.shootTimer = new Timer();
+        this.justShowed = true;
     }
 
     private void setJustShowed(boolean justShowed) {
@@ -89,18 +73,18 @@ public class BossManager extends EnemyManager {
                     !level.isActiveBoss()) {
 
                 level.setIsActiveBoss(true);
-                BossManager that = this;
-                this.getShootTimer().schedule(new TimerTask() {
+
+                this.shootTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        that.fire(level, boss);
+                        bossManager.fire(level, boss);
                     }
                 }, 5000, 2000);
             }
 
             if (level.isActiveBoss()) {
                 if (boss.getHealth() > 0) {
-                    if (this.isJustShowed()) {
+                    if (this.justShowed) {
                         this.showTimer.schedule(new TimerTask() {
                             @Override
                             public void run() {
@@ -113,7 +97,7 @@ public class BossManager extends EnemyManager {
                             }
                         }, 5000);
                     } else {
-                        boss.setImage(boss.getCurrentFrame(0));
+                        boss.setImage(boss.getCurrentExplosionFrame(0));
                         boss.render(level.getGc());
                         boss.move();
                         boss.setVisible(true);
@@ -152,7 +136,9 @@ public class BossManager extends EnemyManager {
             double explosionX = boss.getPositionX();
             double explosionY = boss.getPositionY();
 
-            EffectsManager.playAsteroidHit(new Explosion(explosionX, explosionY, Constants.EXPLOSION_SPEED, explosionSpriteSheet));
+            level.getExplosionManager().playAsteroidHit(
+                    new Explosion(explosionX, explosionY, Constants.EXPLOSION_SPEED, explosionSpriteSheet)
+            );
 
             level.getPlayer().setLives(0);
         }

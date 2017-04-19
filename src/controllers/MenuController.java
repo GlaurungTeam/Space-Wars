@@ -1,9 +1,9 @@
 package controllers;
 
-import entities.Constants;
-import entities.level.Level;
-import entities.level.LevelEasy;
-import entities.level.LevelHard;
+import utils.Constants;
+import models.level.BaseLevel;
+import models.level.LevelEasy;
+import models.level.LevelHard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -129,7 +129,7 @@ public class MenuController {
             ((Stage) easyLevelButton.getScene().getWindow()).close();
             GameManager gameManager = new GameManager();
 
-            Level level = new LevelEasy();
+            BaseLevel level = new LevelEasy();
             stage.setFullScreen(true);
 
             try {
@@ -147,7 +147,7 @@ public class MenuController {
             ((Stage) easyLevelButton.getScene().getWindow()).close();
             GameManager gameManager = new GameManager();
 
-            Level level = new LevelHard();
+            BaseLevel level = new LevelHard();
 
             try {
                 gameManager.start(stage, level);

@@ -1,8 +1,12 @@
 package managers;
 
-import entities.*;
-import entities.enemies.bosses.Boss;
-import entities.level.Level;
+import models.enemies.bosses.Boss;
+import models.gameObjects.Explosion;
+import models.gameObjects.GameObject;
+import models.gameObjects.HealthableGameObject;
+import models.gameObjects.Missile;
+import models.level.Level;
+import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,7 +21,7 @@ public class MissileManager {
         }
 
         for (int i = 0; i < level.getMissiles().size(); i++) {
-            Missile currentMissile = level.getMissiles().get(i);
+            GameObject currentMissile = level.getMissiles().get(i);
 
             if (this.missileOutsideBoundsOfCanvas(currentMissile, level)) {
                 level.removeMissile(currentMissile);
@@ -34,13 +38,13 @@ public class MissileManager {
                 level.getPlayer().setLives(level.getPlayer().getLives() - 1);
                 level.getPlayerManager().playerHit();
 
-                EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
+                level.getExplosionManager().playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
                         currentMissile.getPositionY()));
                 level.removeMissile(currentMissile);
             }
 
             //Collision detection missile hits enemy and removes it from canvas
-            for (HealthAbleGameObject enemy : level.getRealEnemies()) {
+            for (HealthableGameObject enemy : level.getRealEnemies()) {
                 if (enemy.getHealth() == 0) {
                     continue;
                 }
@@ -50,10 +54,10 @@ public class MissileManager {
 
                     if (enemy.getHealth() > 0) {
                         level.removeMissile(currentMissile);
-                        EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
+                        level.getExplosionManager().playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
                                 currentMissile.getPositionY()));
                     } else if (enemy.getHealth() == 0) {
-                        EffectsManager.playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
+                        level.getExplosionManager().playAsteroidHit(this.generateExplosion(currentMissile.getPositionX(),
                                 currentMissile.getPositionY()));
                         level.removeMissile(currentMissile);
 
@@ -74,7 +78,7 @@ public class MissileManager {
                         boss.setHealth(boss.getHealth() - 1);
                         level.removeMissile(currentMissile);
 
-                        EffectsManager.playUfoHit(this.generateExplosion(currentMissile.getPositionX(),
+                        level.getExplosionManager().playUfoHit(this.generateExplosion(currentMissile.getPositionX(),
                                 currentMissile.getPositionY()));
                     }
                 }
@@ -82,11 +86,21 @@ public class MissileManager {
         }
     }
 
-    private void renderMissile(Missile currentMissile, Level level) {
+    private void renderMissile(GameObject currentMissile, Level level) {
         currentMissile.setImage(currentMissile.getFrame(currentMissile.getSprites(),
                 level.getCurrentFrame(), 0.100));
         currentMissile.render(level.getGc());
-        currentMissile.updateMissileLocation();
+        this.updateMissileLocation(currentMissile);
+    }
+
+    private void updateMissileLocation(GameObject missile) {
+        if (missile.getType().equals("player")) {
+            missile.updateLocation(Math.max(0, missile.getPositionX() +
+                    missile.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), missile.getPositionY());
+        } else {
+            missile.updateLocation(Math.max(0, missile.getPositionX() -
+                    missile.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), missile.getPositionY());
+        }
     }
 
     private boolean missileOutsideBoundsOfCanvas(GameObject currentMissile, Level level) {

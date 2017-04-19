@@ -1,12 +1,12 @@
 package helpers;
 
-import entities.Constants;
+import utils.Constants;
 
 import java.io.*;
 
-public class SVGPathReader {
+public class SVGPathReader implements Reader {
 
-    public String readString(String path) throws FileNotFoundException {
+    public String read(String path) throws FileNotFoundException {
         StringBuilder stringBuilder = new StringBuilder();
         File file = new File(Constants.PROJECT_PATH + path);
 

@@ -3,6 +3,7 @@ package managers;
 import java.awt.*;
 
 public class DimensionsManager {
+
     private double currentDeviceWidth;
     private double currentDeviceHeight;
 
@@ -10,16 +11,8 @@ public class DimensionsManager {
         return this.currentDeviceWidth;
     }
 
-    private void setCurrentDeviceWidth(double currentDeviceWidth) {
-        this.currentDeviceWidth = currentDeviceWidth;
-    }
-
     public double getCurrentDeviceHeight() {
         return this.currentDeviceHeight;
-    }
-
-    private void setCurrentDeviceHeight(double currentDeviceHeight) {
-        this.currentDeviceHeight = currentDeviceHeight;
     }
 
     public void calculateScreenDimensions() {
@@ -29,7 +22,7 @@ public class DimensionsManager {
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
 
-        this.setCurrentDeviceWidth(width);
-        this.setCurrentDeviceHeight(height);
+        this.currentDeviceWidth = width;
+        this.currentDeviceHeight = height;
     }
 }

@@ -1,16 +1,17 @@
 package managers;
 
 import controllers.MenuController;
-import entities.Constants;
-import entities.Missile;
-import entities.Player;
-import entities.Sprite;
-import entities.level.Level;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
+import models.gameObjects.GameObject;
+import models.gameObjects.Missile;
+import models.gameObjects.Player;
+import models.level.BaseLevel;
+import models.level.Level;
+import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,29 +21,18 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
+
     private Player player;
     private GraphicsContext graphicsContext;
 
     public PlayerManager(Player player, GraphicsContext graphicsContext) {
-        this.setPlayer(player);
+        this.player = player;
         this.getFirePermission();
-        this.setGraphicsContext(graphicsContext);
-    }
-
-    private GraphicsContext getGraphicsContext() {
-        return graphicsContext;
-    }
-
-    private void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
 
     public Player getPlayer() {
         return this.player;
-    }
-
-    private void setPlayer(Player player) {
-        this.player = player;
     }
 
     private void updatePlayerLocation() {
@@ -180,7 +170,7 @@ public class PlayerManager {
     }
 
     //Method that checks if the player collides with a given object
-    public boolean checkCollision(Sprite sprite) {
+    public boolean checkCollision(GameObject sprite) {
         Shape intersect = Shape.intersect(this.getPlayer().svgPath, sprite.getBoundsAsShape());
 
         if (intersect.getBoundsInLocal().getWidth() != -1) {
@@ -195,7 +185,7 @@ public class PlayerManager {
 
     private void animateSprites(double time) {
         this.getPlayer().setImage(this.getPlayer().getFrame(this.getPlayer().getSprites(), time, 0.100));
-        this.getPlayer().render(this.getGraphicsContext());
+        this.getPlayer().render(this.graphicsContext);
     }
 
     private void checkIfPlayerIsDead(Level level, AnimationTimer timer) throws Exception {

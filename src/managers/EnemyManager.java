@@ -1,11 +1,11 @@
 package managers;
 
-import entities.Constants;
-import entities.Explosion;
-import entities.HealthAbleGameObject;
-import entities.enemies.Asteroid;
-import entities.enemies.Ufo;
-import entities.level.Level;
+import models.enemies.Asteroid;
+import models.enemies.Ufo;
+import models.gameObjects.Explosion;
+import models.gameObjects.HealthableGameObject;
+import models.level.Level;
+import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,11 +17,11 @@ import java.util.Random;
 
 public class EnemyManager {
 
-    public List<HealthAbleGameObject> initializeEnemies(int enemyHealth, int enemySpeed, int enemyCount, String enemyType) {
-        List<HealthAbleGameObject> enemiesToReturn = new ArrayList<>();
+    public List<HealthableGameObject> initializeEnemies(int enemyHealth, int enemySpeed, int enemyCount, String enemyType) {
+        List<HealthableGameObject> enemiesToReturn = new ArrayList<>();
 
         for (int i = 0; i < enemyCount; i++) {
-            HealthAbleGameObject enemy = null;
+            HealthableGameObject enemy = null;
 
             switch (enemyType) {
                 case "ufo":
@@ -37,7 +37,7 @@ public class EnemyManager {
     }
 
     //TODO Create EnemyFactory to create enemies!
-    private HealthAbleGameObject createAsteroid(int asteroidHealth, int asteroidSpeed) {
+    private HealthableGameObject createAsteroid(int asteroidHealth, int asteroidSpeed) {
         BufferedImage asteroidSpritesheet = null;
 
         String path = Constants.PROJECT_PATH + Constants.ASTEROID_IMAGE +
@@ -54,14 +54,14 @@ public class EnemyManager {
         int currentXPos = this.getRandomNumber(Constants.SCREEN_WIDTH, Constants.SCREEN_WIDTH * 2);
         int currentYPos = this.getRandomNumber(0, Constants.SCREEN_HEIGHT);
 
-        HealthAbleGameObject asteroid = new Asteroid(currentXPos, currentYPos,
+        HealthableGameObject asteroid = new Asteroid(currentXPos, currentYPos,
                 asteroidSpeed, asteroidSpritesheet, asteroidHealth, asteroidHealth);
 
         return asteroid;
     }
 
     //TODO Create EnemyFactory to create enemies!
-    private HealthAbleGameObject createUfo(int ufoHealth, int ufoSpeed) {
+    private HealthableGameObject createUfo(int ufoHealth, int ufoSpeed) {
         BufferedImage ufoSpriteSheet = null;
 
         try {
@@ -77,14 +77,14 @@ public class EnemyManager {
         int currentXPos = this.getRandomNumber(lowBound, highBound);
         int currentYPos = this.getRandomNumber(Constants.SCREEN_HEIGHT);
 
-        HealthAbleGameObject ufo = new Ufo(currentXPos, currentYPos, ufoSpeed, ufoSpriteSheet, ufoHealth, ufoHealth);
+        HealthableGameObject ufo = new Ufo(currentXPos, currentYPos, ufoSpeed, ufoSpriteSheet, ufoHealth, ufoHealth);
 
         return ufo;
     }
 
-    private void manageEnemyCollision(Level level, HealthAbleGameObject enemy) {
+    private void manageEnemyCollision(Level level, HealthableGameObject enemy) {
         if (level.getPlayerManager().checkCollision(enemy)) {
-            this.explodeEnemy(enemy);
+            this.explodeEnemy(level, enemy);
 
             level.getPlayerManager().resetPlayerPosition();
             level.getFuelManager().resetFuel();
@@ -96,7 +96,7 @@ public class EnemyManager {
         }
     }
 
-    private void explodeEnemy(HealthAbleGameObject enemy) {
+    private void explodeEnemy(Level level, HealthableGameObject enemy) {
         BufferedImage explosionSpriteSheet = null;
 
         try {
@@ -106,11 +106,13 @@ public class EnemyManager {
             exception.printStackTrace();
         }
 
-        EffectsManager.playAsteroidHit(new Explosion(enemy.getPositionX(), enemy.getPositionY(),
-                Constants.EXPLOSION_SPEED, explosionSpriteSheet));
+        level.getExplosionManager().playAsteroidHit(
+                new Explosion(enemy.getPositionX(), enemy.getPositionY(),
+                        Constants.EXPLOSION_SPEED, explosionSpriteSheet)
+        );
     }
 
-    private void move(HealthAbleGameObject enemy) {
+    private void move(HealthableGameObject enemy) {
         double nextXPosition = enemy.getPositionX() - enemy.getSpeed();
 
         if (enemy.getPositionX() < Constants.OBJECT_RESTART_LEFT_COORDINATE || enemy.getHealth() == 0) {
@@ -121,7 +123,7 @@ public class EnemyManager {
         enemy.updateLocation(nextXPosition, enemy.getPositionY());
     }
 
-    private void resurrectEnemy(HealthAbleGameObject enemy) {
+    private void resurrectEnemy(HealthableGameObject enemy) {
         double offset = Constants.SCREEN_HEIGHT - Constants.HEIGHT_OFFSET;
 
         enemy.updateLocation(Constants.SCREEN_WIDTH, this.getRandomNumber((int) offset));
@@ -130,23 +132,23 @@ public class EnemyManager {
     }
 
     public void manageEnemies(Level level) {
-        for (HealthAbleGameObject enemy : level.getRealEnemies()) {
+        for (HealthableGameObject enemy : level.getRealEnemies()) {
             if (!level.isActiveBoss()) {
                 //TODO Here the index of the current image is hardcoded - change it
-                enemy.setImage(enemy.getCurrentFrame(0));
+                enemy.setImage(enemy.getCurrentExplosionFrame(0));
                 enemy.render(level.getGc());
 
                 this.move(enemy);
                 this.manageEnemyCollision(level, enemy);
             } else if (enemy.getPositionX() > Constants.OBJECT_RESTART_LEFT_COORDINATE &&
                     enemy.getPositionX() < Constants.SCREEN_WIDTH) {
-                this.explodeEnemy(enemy);
+                this.explodeEnemy(level, enemy);
                 this.resetEnemyLocationOnActiveBoss(enemy);
             }
         }
     }
 
-    private void resetEnemyLocationOnActiveBoss(HealthAbleGameObject enemy) {
+    private void resetEnemyLocationOnActiveBoss(HealthableGameObject enemy) {
         int x = this.setStartPosition("x");
         int y = this.setStartPosition("y");
 

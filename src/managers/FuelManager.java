@@ -1,23 +1,26 @@
 package managers;
 
-import entities.Constants;
-import entities.FuelBar;
-import entities.FuelCan;
-import entities.level.Level;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import models.gameObjects.FuelBar;
+import models.gameObjects.FuelCan;
+import models.level.Level;
+import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class FuelManager {
+
     private FuelBar fuelBar;
     private FuelCan fuelCan;
     private Timeline timeline;
@@ -25,10 +28,6 @@ public class FuelManager {
     public FuelManager(Group root) {
         this.setFuelBar(root);
         this.setFuelCan();
-    }
-
-    private FuelBar getFuelBar() {
-        return fuelBar;
     }
 
     private void setFuelBar(Group root) {
@@ -52,18 +51,6 @@ public class FuelManager {
         this.fuelBar = bar;
     }
 
-    private Timeline getTimeline() {
-        return this.timeline;
-    }
-
-    private void setTimeline(Timeline timeline) {
-        this.timeline = timeline;
-    }
-
-    private FuelCan getFuelCan() {
-        return this.fuelCan;
-    }
-
     private void setFuelCan() {
         BufferedImage fuelCanSpriteSheet = null;
 
@@ -74,60 +61,78 @@ public class FuelManager {
             e.printStackTrace();
         }
 
-        this.fuelCan = new FuelCan(150, 150, Constants.FUELCAN_SPEED, fuelCanSpriteSheet);
-    }
-
-    public void resetFuel() {
-        this.getTimeline().playFromStart();
-    }
-
-    public void pauseFuel() {
-        this.getTimeline().pause();
-    }
-
-    public void resumeFuel() {
-        this.getTimeline().play();
+        this.fuelCan = new FuelCan(
+                Constants.FUELCAN_SPAWN_X, Constants.FUELCAN_SPAWN_Y, Constants.FUELCAN_SPEED, fuelCanSpriteSheet);
     }
 
     private void setCountdown(int totalFuel, ReadOnlyDoubleWrapper workDone) {
-        this.setTimeline(new Timeline(
+        this.timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(workDone, totalFuel)),
                 new KeyFrame(Duration.seconds(30), new KeyValue(workDone, 0))
-        ));
+        );
 
-        this.getTimeline().play();
+        this.timeline.play();
+    }
+
+    public void resetFuel() {
+        this.timeline.playFromStart();
+    }
+
+    public void pauseFuel() {
+        this.timeline.pause();
+    }
+
+    public void resumeFuel() {
+        this.timeline.play();
     }
 
     public void updateFuel(Level level) {
-        if (!this.getFuelCan().getTakenStatus()) {
-            this.getFuelCan().setImage(this.getFuelCan().getCurrentFrame(0));
-            this.getFuelCan().render(level.getGc());
+        if (!this.fuelCan.getTakenStatus()) {
+            this.fuelCan.setImage(this.fuelCan.getCurrentExplosionFrame(0));
+            this.fuelCan.render(level.getGc());
         }
 
-        if (!this.getFuelCan().getTakenStatus() &&
+        if (!this.fuelCan.getTakenStatus() &&
                 level.getPlayerManager().checkCollision(fuelCan)) {
 
-            this.getTimeline().playFromStart();
-            this.getFuelCan().setTakenStatus(true);
+            this.timeline.playFromStart();
+            this.fuelCan.setTakenStatus(true);
         }
 
         if (level.getPlayer().isHeld()) {
-            this.getTimeline().setRate(Constants.FUEL_RATE_FAST);
+            this.timeline.setRate(Constants.FUEL_RATE_FAST);
         } else {
-            this.getTimeline().setRate(Constants.FUEL_RATE_SLOW);
+            this.timeline.setRate(Constants.FUEL_RATE_SLOW);
         }
 
-        this.getFuelCan().updateFuelCanLocation(level.getCanvas());
+        this.updateFuelCanLocation(level.getCanvas());
         this.checkFuel(level.getPlayerManager());
     }
 
     private void checkFuel(PlayerManager playerManager) {
-        if (this.getFuelBar().getWorkDone().getValue() == 0.0) {
+        if (this.fuelBar.getWorkDone().getValue() == 0.0) {
             playerManager.getPlayer().setLives(playerManager.getPlayer().getLives() - 1);
             playerManager.resetPlayerPosition();
 
             this.resetFuel();
-            this.getTimeline().playFromStart();
+            this.timeline.playFromStart();
+        }
+    }
+
+    private void updateFuelCanLocation(Canvas canvas) {
+        //Offset so that asteroids don't spawn outside of boundaries
+        double heightOffset = this.fuelCan.getHeight();
+        double offset = canvas.getHeight() - heightOffset;
+
+        Random rnd = new Random();
+
+        this.fuelCan.updateLocation(this.fuelCan.getPositionX() - this.fuelCan.getSpeed(), this.fuelCan.getPositionY());
+
+        if (this.fuelCan.getPositionX() < Constants.FUELCAN_RESTART_LEFT_COORDINATE) {
+            int randomX = rnd.nextInt((int) canvas.getWidth());
+            int randomY = rnd.nextInt((int) offset);
+            this.fuelCan.updateLocation(randomX, randomY);
+            this.fuelCan.setTakenStatus(false);
         }
     }
 }

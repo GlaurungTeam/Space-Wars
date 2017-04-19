@@ -1,6 +1,6 @@
 package managers;
 
-import entities.Constants;
+import utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,102 +22,41 @@ public class BackgroundManager {
     private Image space;
 
     public BackgroundManager() {
-        this.setPlanetX(Constants.PLANET_START_X);
-        this.setPlanetY(Constants.PLANET_START_Y);
+        this.planetX = Constants.PLANET_START_X;
+        this.planetY = Constants.PLANET_START_Y;
 
-        this.setEarth(new Image(Constants.EARTH_IMAGE));
-        this.setSun(new Image(Constants.SUN_IMAGE));
-    }
-
-    private double getBackgroundX() {
-        return this.backgroundX;
-    }
-
-    private void setBackgroundX(double backgroundX) {
-        this.backgroundX = backgroundX;
-    }
-
-    private double getBackgroundY() {
-        return this.backgroundY;
-    }
-
-    private double getPlanetX() {
-        return this.planetX;
-    }
-
-    private void setPlanetX(double planetX) {
-        this.planetX = planetX;
-    }
-
-    private double getPlanetY() {
-        return this.planetY;
-    }
-
-    private void setPlanetY(double planetY) {
-        this.planetY = planetY;
-    }
-
-    private double getEarthX() {
-        return this.earthX;
-    }
-
-    private void setEarthX(double earthX) {
-        this.earthX = earthX;
-    }
-
-    private double getEarthY() {
-        return this.earthY;
-    }
-
-    private void setEarthY(double earthY) {
-        this.earthY = earthY;
-    }
-
-    private Image getEarth() {
-        return this.earth;
-    }
-
-    private void setEarth(Image earth) {
-        this.earth = earth;
-    }
-
-    private Image getSun() {
-        return this.sun;
-    }
-
-    private void setSun(Image sun) {
-        this.sun = sun;
-    }
-
-    private Image getSpace() {
-        return this.space;
+        this.earth = new Image(Constants.EARTH_IMAGE);
+        this.sun = new Image(Constants.SUN_IMAGE);
     }
 
     public void setBackgroundImage(Image space) {
         this.space = space;
     }
 
-    public void updateBackground(double t, Canvas canvas) {
+    public void updateBackground(double t, Canvas canvas, GraphicsContext gc) {
         //The 2 rows below are used to help make the earth move around the sun
         //No need to understand it
-        this.setEarthX(this.getPlanetX() + 36 + 128 * Math.cos(t));
-        this.setEarthY(232 + 128 * Math.sin(t));
+        this.renderBackground(gc);
+
+        this.earthX = this.planetX + 36 + 128 * Math.cos(t);
+        this.earthY = 232 + 128 * Math.sin(t);
 
         //Update background, planet and earth location
-        this.setBackgroundX(this.getBackgroundX() - Constants.BACKGROUND_SPEED);
-        this.setPlanetX(this.getPlanetX() - Constants.BACKGROUND_SPEED);
+        this.backgroundX = this.backgroundX - Constants.BACKGROUND_SPEED;
+        this.planetX = this.planetX - Constants.BACKGROUND_SPEED;
 
-        if (this.getBackgroundX() < -Constants.SCREEN_WIDTH) {
-            this.setBackgroundX(0);
+        if (this.backgroundX < -Constants.SCREEN_WIDTH) {
+            this.backgroundX = 0;
         }
-        if (this.getPlanetX() < -Constants.SCREEN_WIDTH) {
-            this.setPlanetX(canvas.getWidth() + 50); //TODO Hardcoded value
+
+        if (this.planetX < -Constants.SCREEN_WIDTH) {
+            this.planetX = canvas.getWidth() + 50; //TODO Hardcoded value
         }
     }
 
-    public void renderBackground(GraphicsContext gc) {
-        gc.drawImage(this.getSpace(), this.getBackgroundX(), this.getBackgroundY());
-        gc.drawImage(this.getEarth(), this.getEarthX(), this.getEarthY());
-        gc.drawImage(this.getSun(), this.getPlanetX(), this.getPlanetY());
+    private void renderBackground(GraphicsContext gc) {
+        gc.drawImage(this.space, this.backgroundX, this.backgroundY);
+        gc.drawImage(this.earth, this.earthX, this.earthY);
+        gc.drawImage(this.sun, this.planetX, this.planetY);
     }
 }
