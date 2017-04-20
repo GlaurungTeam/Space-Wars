@@ -6,7 +6,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import utils.Constants;
 
-public class FuelBar extends StackPane {
+public class FuelBar extends StackPane implements IFuelBar{
 
     private ReadOnlyDoubleProperty workDone;
     private double totalWork;
@@ -31,6 +31,7 @@ public class FuelBar extends StackPane {
         getChildren().setAll(this.bar, this.text);
     }
 
+    @Override
     public ReadOnlyDoubleProperty getWorkDone() {
         return this.workDone;
     }

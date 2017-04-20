@@ -6,10 +6,13 @@ import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import models.gameObjects.FuelBar;
 import models.gameObjects.FuelCan;
+import models.gameObjects.IFuelBar;
+import models.gameObjects.IFuelCan;
 import models.level.Level;
 import utils.Constants;
 
@@ -21,8 +24,8 @@ import java.util.Random;
 
 public class FuelManager {
 
-    private FuelBar fuelBar;
-    private FuelCan fuelCan;
+    private IFuelBar fuelBar;
+    private IFuelCan fuelCan;
     private Timeline timeline;
 
     public FuelManager(Group root) {
