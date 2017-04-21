@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class BackgroundManager {
+
     @FXML
     private double backgroundX;
     private double backgroundY;

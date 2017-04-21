@@ -6,6 +6,7 @@ import javafx.scene.shape.SVGPath;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 public abstract class BaseBoss extends BaseHealthableGameObject implements Boss {
 
@@ -13,6 +14,8 @@ public abstract class BaseBoss extends BaseHealthableGameObject implements Boss 
 
     private SVGPath svgPath;
     private boolean visible;
+    private double randomY;
+    private Random random;
 
     protected BaseBoss(double positionX, double positionY, double objectSpeed,
                        BufferedImage spriteSheet, int width, int height,
@@ -21,6 +24,7 @@ public abstract class BaseBoss extends BaseHealthableGameObject implements Boss 
         super(positionX, positionY, objectSpeed, spriteSheet, width, height,
                 rows, cols, health, health, Constants.BOSS_POINTS_ON_KILL, TYPE);
         this.setVisible(false);
+        this.random = new Random();
     }
 
     public SVGPath getSvgPath() {
@@ -39,9 +43,27 @@ public abstract class BaseBoss extends BaseHealthableGameObject implements Boss 
         this.visible = visible;
     }
 
-    public abstract void move();
+    protected double getRandomY() {
+        return this.randomY;
+    }
 
-    public abstract void resetHealth();
+    protected void setRandomY(double getRandomY) {
+        this.randomY = getRandomY;
+    }
+
+    protected Random getRandom() {
+        return this.random;
+    }
+
+    protected void moveUp() {
+        this.updateLocation(this.getPositionX(), this.getPositionY() - this.getSpeed());
+    }
+
+    protected void moveDown() {
+        this.updateLocation(this.getPositionX(), this.getPositionY() + this.getSpeed());
+    }
+
+    public abstract void move();
 
     public abstract void initializeHitbox() throws FileNotFoundException;
 }

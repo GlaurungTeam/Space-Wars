@@ -8,6 +8,7 @@ public enum SpriteSheetParameters {
     MISSILE(31, 7, 1, 23),
     FUEL_CAN(30, 45, 1, 1),
     BOSS_PEDOBEAR(186, 280, 1, 1),
+    BOSS_GRUMPYCAT(186, 280, 1, 1),
     PLAYER_DEFAULT(0, 0, 0, 0),
     PLAYER(43, 39, 1, 2);
 

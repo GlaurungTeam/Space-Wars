@@ -1,25 +1,24 @@
 package models.enemies.bosses;
 
-import helpers.Reader;
-import utils.Constants;
 import enums.SpriteSheetParameters;
+import helpers.Reader;
 import helpers.SVGPathReader;
 import javafx.scene.shape.SVGPath;
+import utils.Constants;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
-import java.util.Random;
 
-public class Pedobear extends BaseBoss {
+public class GrumpyCat extends BaseBoss {
 
-    public Pedobear(double positionX, double positionY, double objectSpeed,
-                    BufferedImage spriteSheet, int health) throws FileNotFoundException {
+    public GrumpyCat(double positionX, double positionY, double objectSpeed,
+                     BufferedImage spriteSheet, int health) throws FileNotFoundException {
 
         super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.BOSS_PEDOBEAR.getWidth(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getHeight(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getRows(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getCols(),
+                SpriteSheetParameters.BOSS_GRUMPYCAT.getWidth(),
+                SpriteSheetParameters.BOSS_GRUMPYCAT.getHeight(),
+                SpriteSheetParameters.BOSS_GRUMPYCAT.getRows(),
+                SpriteSheetParameters.BOSS_GRUMPYCAT.getCols(),
                 health);
         this.initializeHitbox();
     }
@@ -29,7 +28,7 @@ public class Pedobear extends BaseBoss {
         Reader SVGPathReader = new SVGPathReader();
         SVGPath svgPath = new SVGPath();
 
-        svgPath.setContent(SVGPathReader.read(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION));
+        svgPath.setContent(SVGPathReader.read(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION)); //TODO uses pedobear hitbox
         super.setSvgPath(svgPath);
     }
 

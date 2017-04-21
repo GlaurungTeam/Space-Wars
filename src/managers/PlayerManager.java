@@ -9,7 +9,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
 import models.gameObjects.GameObject;
 import models.gameObjects.Missile;
-import models.gameObjects.Player;
+import models.gameObjects.PlayerImpl;
 import models.level.Level;
 import utils.Constants;
 
@@ -22,16 +22,16 @@ import java.util.TimerTask;
 
 public class PlayerManager {
 
-    private Player player;
+    private PlayerImpl player;
     private GraphicsContext graphicsContext;
 
-    public PlayerManager(Player player, GraphicsContext graphicsContext) {
+    public PlayerManager(PlayerImpl player, GraphicsContext graphicsContext) {
         this.player = player;
         this.getFirePermission();
         this.graphicsContext = graphicsContext;
     }
 
-    public Player getPlayer() {
+    public PlayerImpl getPlayer() {
         return this.player;
     }
 
@@ -51,7 +51,7 @@ public class PlayerManager {
         double currentPlayerY = this.getPlayer().getPositionY();
         double currentPlayerSpeed = this.getPlayer().getSpeed();
 
-        Player player = this.getPlayer();
+        PlayerImpl player = this.getPlayer();
 
         if (player.isTurningUp()) {
             player.updateLocation(player.getPositionX(),
@@ -79,7 +79,7 @@ public class PlayerManager {
     }
 
     private void getFirePermission() {
-        Player that = this.getPlayer();
+        PlayerImpl that = this.getPlayer();
         this.getPlayer().getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -207,7 +207,7 @@ public class PlayerManager {
     }
 
     private void refreshSprites() {
-        Player that = this.getPlayer();
+        PlayerImpl that = this.getPlayer();
         this.getPlayer().getTimer().schedule(new TimerTask() {
             @Override
             public void run() {

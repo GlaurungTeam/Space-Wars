@@ -4,8 +4,12 @@ import utils.Constants;
 import javafx.scene.image.Image;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class LevelEasy extends BaseLevel {
+
+    private static final String BOSS_TYPE = "Pedobear";
 
     @Override
     public void setDifficultyParameters() {
@@ -13,8 +17,8 @@ public class LevelEasy extends BaseLevel {
                 Constants.UFO_HEALTH_EASY, Constants.UFO_SPEED_EASY, Constants.UFO_COUNT_EASY);
 
         try {
-            super.initializeBosses();
-        } catch (FileNotFoundException e) {
+            super.initializeBoss(BOSS_TYPE);
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | InstantiationException | IOException e) {
             e.printStackTrace();
         }
 

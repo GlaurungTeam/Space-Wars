@@ -17,7 +17,5 @@ public interface Boss extends HealthableGameObject{
 
     void move();
 
-    void resetHealth();
-
     void initializeHitbox() throws FileNotFoundException;
 }

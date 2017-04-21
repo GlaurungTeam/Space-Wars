@@ -3,6 +3,7 @@ package models.gameObjects;
 import java.awt.image.BufferedImage;
 
 public abstract class BaseHealthableGameObject extends BaseGameObject implements HealthableGameObject {
+
     private int health;
     private int defaultHealth;
     private int pointsOnKill;
@@ -14,7 +15,7 @@ public abstract class BaseHealthableGameObject extends BaseGameObject implements
 
         super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, type);
 
-        this.setHealth(health);
+        this.health = health;
         this.defaultHealth = defaultHealth;
         this.pointsOnKill = pointsOnKill;
     }
@@ -25,13 +26,13 @@ public abstract class BaseHealthableGameObject extends BaseGameObject implements
     }
 
     @Override
-    public void setHealth(int health) {
-        this.health = health;
+    public void revive() {
+        this.health = this.defaultHealth;
     }
 
     @Override
-    public int getDefaultHealth() {
-        return defaultHealth;
+    public void decrementHealth() {
+        this.health -= 1;
     }
 
     @Override

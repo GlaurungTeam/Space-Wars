@@ -4,19 +4,20 @@ import managers.*;
 import models.enemies.bosses.Boss;
 import models.gameObjects.*;
 import utils.Constants;
-import models.enemies.bosses.BaseBoss;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class BaseLevel implements Level {
 
-    private Player player;
+    private PlayerImpl player;
     private GraphicsContext gc;
     private Canvas canvas;
     private Scene scene;
@@ -38,7 +39,7 @@ public abstract class BaseLevel implements Level {
 
     @Override
     public void initializeLevel(
-            Player player,
+            PlayerImpl player,
             GraphicsContext gc,
             Canvas canvas,
             Scene scene,
@@ -87,7 +88,7 @@ public abstract class BaseLevel implements Level {
     }
 
     @Override
-    public Player getPlayer() {
+    public PlayerImpl getPlayer() {
         return player;
     }
 
@@ -170,10 +171,11 @@ public abstract class BaseLevel implements Level {
     }
 
     @Override
-    public void initializeBosses() throws FileNotFoundException {
+    @SuppressWarnings("unchecked")
+    public void initializeBoss(String bossName) throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         ArrayList<Boss> bosses = new ArrayList<>();
 
-        bosses.add(this.bossManager.initializeBoss(canvas));
+        bosses.add(this.bossManager.initializeBoss(canvas, bossName));
         this.bosses = bosses;
     }
 

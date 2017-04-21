@@ -1,7 +1,7 @@
 package managers;
 
 import utils.Constants;
-import models.gameObjects.Player;
+import models.gameObjects.PlayerImpl;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -61,7 +61,7 @@ public class UserInterfaceManager {
         return this.quitButton;
     }
 
-    public void updateText(Player player) {
+    public void updateText(PlayerImpl player) {
         String score = String.format("Score: %d", player.getPoints());
         this.scoreLine.setText(score);
 

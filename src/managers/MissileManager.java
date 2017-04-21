@@ -49,7 +49,7 @@ public class MissileManager {
                 }
 
                 if (currentMissile.intersects(enemy) && currentMissile.getType().equals("player")) {
-                    enemy.setHealth(enemy.getHealth() - 1);
+                    enemy.decrementHealth();
 
                     if (enemy.getHealth() > 0) {
                         level.removeMissile(currentMissile);
@@ -74,7 +74,7 @@ public class MissileManager {
                     }
 
                     if (currentMissile.intersects(boss) && currentMissile.getType().equals("player")) {
-                        boss.setHealth(boss.getHealth() - 1);
+                        boss.decrementHealth();
                         level.removeMissile(currentMissile);
 
                         level.getExplosionManager().playUfoHit(this.generateExplosion(currentMissile.getPositionX(),

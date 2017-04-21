@@ -128,7 +128,7 @@ public class EnemyManager {
 
         enemy.updateLocation(Constants.SCREEN_WIDTH, this.getRandomNumber((int) offset));
         enemy.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
-        enemy.setHealth(enemy.getDefaultHealth());
+        enemy.revive();
     }
 
     public void manageEnemies(Level level) {

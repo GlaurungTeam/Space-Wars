@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import models.gameObjects.Player;
+import models.gameObjects.PlayerImpl;
 import models.level.Level;
 import utils.Constants;
 
@@ -26,7 +26,7 @@ public class GameManager {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Player player = new Player(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2,
+        PlayerImpl player = new PlayerImpl(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2,
                 Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
 
         //Initialize managers

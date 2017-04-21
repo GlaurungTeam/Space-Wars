@@ -4,9 +4,9 @@ public interface HealthableGameObject extends GameObject {
 
     int getHealth();
 
-    void setHealth(int health);
+    void revive();
 
-    int getDefaultHealth();
+    void decrementHealth();
 
     int getPointsOnKill();
 }

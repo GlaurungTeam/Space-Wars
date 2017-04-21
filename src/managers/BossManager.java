@@ -2,7 +2,6 @@ package managers;
 
 import javafx.scene.canvas.Canvas;
 import models.enemies.bosses.Boss;
-import models.enemies.bosses.Pedobear;
 import models.gameObjects.Explosion;
 import models.gameObjects.Missile;
 import models.level.Level;
@@ -11,12 +10,16 @@ import utils.Constants;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BossManager extends EnemyManager {
+
     private Timer showTimer;
     private Timer shootTimer;
     private boolean justShowed;
@@ -49,21 +52,41 @@ public class BossManager extends EnemyManager {
         level.addMissile(missile);
     }
 
-    public Boss initializeBoss(Canvas canvas) throws FileNotFoundException {
+    @SuppressWarnings("unchecked")
+    public Boss initializeBoss(Canvas canvas, String bossType) throws IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         double startPosX = canvas.getWidth() - Constants.BOSS_RIGHT_OFFSET;
         double startPosY = canvas.getHeight() / 2;
 
-        BufferedImage pedobearSpriteSheet = null;
+        Class<Constants> constantsClass = (Class<Constants>) Class.forName(Constants.CONSTANTS_PACKAGE + "Constants");
+        Field[] constantsFields = constantsClass.getDeclaredFields();
 
-        try {
-            pedobearSpriteSheet = ImageIO.read(new File(
-                    Constants.PROJECT_PATH + Constants.BOSS_PEDOBEAR_IMAGE));
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+        BufferedImage bossSpriteSheet = null;
+        double bossSpeed = 0;
+        int bossHealth = 0;
+
+        Class<? extends Annotation> healthAnnotation =
+                (Class<? extends Annotation>) Class.forName(Constants.ANNOTATIONS_PACKAGE + bossType + "Health");
+        Class<? extends Annotation> speedAnnotation =
+                (Class<? extends Annotation>) Class.forName(Constants.ANNOTATIONS_PACKAGE + bossType + "Speed");
+        Class<? extends Annotation> imageAnnotation =
+                (Class<? extends Annotation>) Class.forName(Constants.ANNOTATIONS_PACKAGE + bossType + "Image");
+
+        for (Field field : constantsFields) {
+            if (field.isAnnotationPresent(healthAnnotation)) {
+                bossHealth = field.getInt(null);
+            } else if (field.isAnnotationPresent(speedAnnotation)) {
+                bossSpeed = field.getDouble(null);
+            } else if (field.isAnnotationPresent(imageAnnotation)) {
+                bossSpriteSheet = ImageIO.read(new File(
+                        Constants.PROJECT_PATH + field.get(null)));
+            }
         }
 
-        Boss pedobear = new Pedobear(startPosX, startPosY, Constants.PEDOBEAR_SPEED, pedobearSpriteSheet, Constants.BOSS_PEDOBEAR_HEALTH);
-        return pedobear;
+        Class<? extends Boss> bossClass = (Class<? extends Boss>) Class.forName(Constants.BOSSES_PACKAGE + bossType);
+        Constructor<? extends Boss> constructor = (Constructor<? extends Boss>) bossClass.getDeclaredConstructors()[0];
+
+        Boss bossObject = constructor.newInstance(startPosX, startPosY, bossSpeed, bossSpriteSheet, bossHealth);
+        return bossObject;
     }
 
     public void manageBoss(Level level) {
@@ -114,7 +137,7 @@ public class BossManager extends EnemyManager {
                     level.setIsActiveBoss(false);
                     boss.setVisible(false);
 
-                    boss.resetHealth();
+                    boss.revive();
                     level.getPlayer().incrementKillPoints(boss.getPointsOnKill());
                 }
             }

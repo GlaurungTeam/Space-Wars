@@ -5,17 +5,17 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import managers.*;
-import models.enemies.bosses.BaseBoss;
 import models.enemies.bosses.Boss;
 import models.gameObjects.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public interface Level {
 
-    void initializeLevel(Player player, GraphicsContext gc, Canvas canvas, Scene scene, Double currentFrame,
+    void initializeLevel(PlayerImpl player, GraphicsContext gc, Canvas canvas, Scene scene, Double currentFrame,
                          EnemyManager enemyManager, BossManager bossManager, PlayerManager playerManager,
                          FuelManager fuelManager, ExplosionManager explosionManager);
 
@@ -29,7 +29,7 @@ public interface Level {
 
     void setDifficultyParameters();
 
-    Player getPlayer();
+    PlayerImpl getPlayer();
 
     GraphicsContext getGc();
 
@@ -61,7 +61,7 @@ public interface Level {
 
     void writeInLeaderboard(String name, long score) throws IOException;
 
-    void initializeBosses() throws FileNotFoundException;
+    void initializeBoss(String bossName) throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException;
 
     void initializeEnemies(int asteroidsHealth, int asteroidsSpeed, int asteroidsCount, int ufoHealth, int ufoSpeed, int ufoCount);
 }
