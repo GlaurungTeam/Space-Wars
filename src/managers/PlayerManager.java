@@ -20,6 +20,9 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
+    private static final String GAME_OVER_SCREEN_PATH = "../views/game_over.fxml";
+    private static final double SHOOT_VOLUME = 0.7;
+
     private PlayerImpl player;
     private GraphicsContext graphicsContext;
 
@@ -92,7 +95,7 @@ public class PlayerManager {
         }
 
         AudioClip shoot = new AudioClip(Paths.get(Constants.PLAYER_SHOOT_SOUND).toUri().toString());
-        shoot.play(0.7);
+        shoot.play(SHOOT_VOLUME);
 
         //Load missile sprites
         BufferedImage missileSpriteSheet = null;
@@ -195,7 +198,7 @@ public class PlayerManager {
             timer.stop();
 
             try {
-                level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
+                level.getScene().setRoot(FXMLLoader.load(getClass().getResource(GAME_OVER_SCREEN_PATH)));
                 level.getLeaderBoardWriter().writeInLeaderboard(this.player.getPlayerName(), this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();

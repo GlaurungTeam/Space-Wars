@@ -13,6 +13,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class EnemyManager {
+    private static final int BASE_EXPLOSION_FRAME_INDEX = 0;
+    private static final int LOW_SCREEN_BOUND = 0;
+    private static final int SCREEN_WIDTH_MULTIPLIER = 2;
+    private static final int SCREEN_WIDTH_INCREMENT_VALUE = 1;
+    private static final String X_PLANE = "x";
+    private static final String Y_PLANE = "y";
+
     private NumberRandomizer randomizer;
     private EnemyFactory enemyFactory;
 
@@ -75,10 +82,9 @@ public class EnemyManager {
     }
 
     public void manageEnemies(Level level) {
-        for (HealthableGameObject enemy : level.getRealEnemies()) {
+        for (HealthableGameObject enemy : level.getEnemies()) {
             if (!level.isActiveBoss()) {
-                //TODO Here the index of the current image is hardcoded - change it
-                enemy.setImage(enemy.getCurrentExplosionFrame(0));
+                enemy.setImage(enemy.getCurrentExplosionFrame(BASE_EXPLOSION_FRAME_INDEX));
                 enemy.render(level.getGc());
 
                 this.move(enemy);
@@ -92,21 +98,21 @@ public class EnemyManager {
     }
 
     private void resetEnemyLocationOnActiveBoss(HealthableGameObject enemy) {
-        int x = this.setStartPosition("x");
-        int y = this.setStartPosition("y");
+        int x = this.setStartPosition(X_PLANE);
+        int y = this.setStartPosition(Y_PLANE);
 
         enemy.updateLocation(x, y);
     }
 
     private int setStartPosition(String coordinate) {
         switch (coordinate.toLowerCase()) {
-            case "x":
-                return this.randomizer.getRandomNumber(Constants.SCREEN_WIDTH + 1,
-                        Constants.SCREEN_WIDTH * 2);
-            case "y":
-                return this.randomizer.getRandomNumber(0, Constants.SCREEN_HEIGHT);
+            case X_PLANE:
+                return this.randomizer.getRandomNumber(Constants.SCREEN_WIDTH + SCREEN_WIDTH_INCREMENT_VALUE,
+                        Constants.SCREEN_WIDTH * SCREEN_WIDTH_MULTIPLIER);
+            case Y_PLANE:
+                return this.randomizer.getRandomNumber(LOW_SCREEN_BOUND, Constants.SCREEN_HEIGHT);
             default:
-                return 0;
+                return LOW_SCREEN_BOUND;
         }
     }
 }

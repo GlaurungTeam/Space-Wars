@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class BackgroundManager{
+    private static final int PLANET_X_POSITION_INCREMENTATION = 50;
 
     @FXML
     private double backgroundX;
@@ -37,14 +38,11 @@ public class BackgroundManager{
     }
 
     public void updateBackground(double t, Canvas canvas, GraphicsContext gc) {
-        //The 2 rows below are used to help make the earth move around the sun
-        //No need to understand it
         this.renderBackground(gc);
 
         this.earthX = this.planetX + 36 + 128 * Math.cos(t);
         this.earthY = 232 + 128 * Math.sin(t);
 
-        //Update background, planet and earth location
         this.backgroundX = this.backgroundX - Constants.BACKGROUND_SPEED;
         this.planetX = this.planetX - Constants.BACKGROUND_SPEED;
 
@@ -53,7 +51,7 @@ public class BackgroundManager{
         }
 
         if (this.planetX < -Constants.SCREEN_WIDTH) {
-            this.planetX = canvas.getWidth() + 50; //TODO Hardcoded value
+            this.planetX = canvas.getWidth() + PLANET_X_POSITION_INCREMENTATION; //TODO Hardcoded value
         }
     }
 

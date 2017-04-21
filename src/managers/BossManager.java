@@ -16,6 +16,8 @@ import java.util.TimerTask;
 
 public class BossManager extends EnemyManager {
 
+    private static final int DELAY_TILL_BOSS_SHOW = 5000;
+    private static final int FIRE_DELAY_PERIOD = 2000;
     private Timer showTimer;
     private Timer shootTimer;
     private boolean justShowed;
@@ -63,7 +65,7 @@ public class BossManager extends EnemyManager {
                     public void run() {
                         bossManager.fire(level, boss);
                     }
-                }, 5000, 2000);
+                }, DELAY_TILL_BOSS_SHOW, FIRE_DELAY_PERIOD);
             }
 
             if (level.isActiveBoss()) {
@@ -79,7 +81,7 @@ public class BossManager extends EnemyManager {
                                 showTimer.purge();
                                 showTimer = new Timer();
                             }
-                        }, 5000);
+                        }, DELAY_TILL_BOSS_SHOW);
                     } else {
                         boss.setImage(boss.getCurrentExplosionFrame(0));
                         boss.render(level.getGc());

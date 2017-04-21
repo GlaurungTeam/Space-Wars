@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.Random;
 
 public class FuelManager {
+    private static final int VBOX_SPACING = 20;
+    private static final int LAYOUT_X = 80;
+    private static final int LAYOUT_Y = 60;
 
     private FuelBar fuelBar;
     private FuelCan fuelCan;
@@ -42,9 +45,9 @@ public class FuelManager {
 
         this.setCountdown(Constants.TOTAL_FUEL, workDone);
 
-        VBox layout = new VBox(20);
-        layout.setLayoutX(80);
-        layout.setLayoutY(60);
+        VBox layout = new VBox(VBOX_SPACING);
+        layout.setLayoutX(LAYOUT_X);
+        layout.setLayoutY(LAYOUT_Y);
         layout.getChildren().addAll(bar);
         root.getChildren().add(layout);
 
@@ -120,7 +123,6 @@ public class FuelManager {
     }
 
     private void updateFuelCanLocation(Canvas canvas) {
-        //Offset so that asteroids don't spawn outside of boundaries
         double heightOffset = this.fuelCan.getHeight();
         double offset = canvas.getHeight() - heightOffset;
 

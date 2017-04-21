@@ -33,7 +33,7 @@ public abstract class BaseLevel implements Level {
     private LeaderBoardWriter leaderBoardWriter;
 
     private List<GameObject> missiles;
-    private List<HealthableGameObject> realEnemies;
+    private List<HealthableGameObject> enemies;
     private List<Boss> bosses;
 
     public BaseLevel() {
@@ -58,7 +58,7 @@ public abstract class BaseLevel implements Level {
         this.scene = scene;
         this.setCurrentFrame(currentFrame);
         this.missiles = new ArrayList<>();
-        this.realEnemies = new ArrayList<>();
+        this.enemies = new ArrayList<>();
 
         this.enemyManager = enemyManager;
         this.bossManager = bossManager;
@@ -69,14 +69,25 @@ public abstract class BaseLevel implements Level {
         this.setDifficultyParameters();
     }
 
+    private List<HealthableGameObject> initializeUfos(int health, int speed, int ufoCount) {
+        return this.enemyManager
+                .getEnemyFactory()
+                .initializeEnemies(health, speed, ufoCount, "ufo");
+    }
+
+    private List<HealthableGameObject> initializeAsteroids(int health, int speed, int asteroidCount) {
+        return this.enemyManager.
+                getEnemyFactory().
+                initializeEnemies(health, speed, asteroidCount, "asteroid");
+    }
+
     @Override
     public LeaderBoardWriter getLeaderBoardWriter() {
         return this.leaderBoardWriter;
     }
 
-    @Override
-    public List<HealthableGameObject> getRealEnemies() {
-        return Collections.unmodifiableList(this.realEnemies);
+    public List<HealthableGameObject> getEnemies() {
+        return Collections.unmodifiableList(this.enemies);
     }
 
     @Override
@@ -169,18 +180,6 @@ public abstract class BaseLevel implements Level {
         return this.explosionManager;
     }
 
-    private List<HealthableGameObject> initializeUfos(int health, int speed, int ufoCount) {
-        return this.enemyManager
-                .getEnemyFactory()
-                .initializeEnemies(health, speed, ufoCount, "ufo");
-    }
-
-    private List<HealthableGameObject> initializeAsteroids(int health, int speed, int asteroidCount) {
-        return this.enemyManager.
-                getEnemyFactory().
-                initializeEnemies(health, speed, asteroidCount, "asteroid");
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void initializeBoss(String bossName) throws IOException,
@@ -198,7 +197,7 @@ public abstract class BaseLevel implements Level {
         List<HealthableGameObject> asteroids = this.initializeAsteroids(asteroidsHealth, asteroidsSpeed, asteroidsCount);
         List<HealthableGameObject> ufos = this.initializeUfos(ufoHealth, ufoSpeed, ufoCount);
 
-        this.realEnemies.addAll(asteroids);
-        this.realEnemies.addAll(ufos);
+        this.enemies.addAll(asteroids);
+        this.enemies.addAll(ufos);
     }
 }

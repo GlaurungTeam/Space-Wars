@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class MissileManager {
 
+    private static final int DEFAULT_X_POSITION = 0;
+
     public void manageMissiles(Level level) {
         if (level.getMissiles().size() == 0) {
             return;
@@ -42,8 +44,7 @@ public class MissileManager {
                 level.removeMissile(currentMissile);
             }
 
-            //Collision detection missile hits enemy and removes it from canvas
-            for (HealthableGameObject enemy : level.getRealEnemies()) {
+            for (HealthableGameObject enemy : level.getEnemies()) {
                 if (enemy.getHealth() == 0) {
                     continue;
                 }
@@ -94,17 +95,17 @@ public class MissileManager {
 
     private void updateMissileLocation(GameObject missile) {
         if (missile.getType().equals("player")) {
-            missile.updateLocation(Math.max(0, missile.getPositionX() +
+            missile.updateLocation(Math.max(DEFAULT_X_POSITION, missile.getPositionX() +
                     missile.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), missile.getPositionY());
         } else {
-            missile.updateLocation(Math.max(0, missile.getPositionX() -
+            missile.updateLocation(Math.max(DEFAULT_X_POSITION, missile.getPositionX() -
                     missile.getSpeed() * Constants.MISSILE_SPEED_MULTIPLIER), missile.getPositionY());
         }
     }
 
     private boolean missileOutsideBoundsOfCanvas(GameObject currentMissile, Level level) {
         return currentMissile.getPositionX() >= level.getCanvas().getWidth()
-                || currentMissile.getPositionX() == 0;
+                || currentMissile.getPositionX() == DEFAULT_X_POSITION;
     }
 
     private Explosion generateExplosion(double explosionX, double explosionY) {

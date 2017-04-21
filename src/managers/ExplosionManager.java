@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExplosionManager {
-
+    private static final int CURRENT_FRAME_INDEX_INCREMENT_VALUE = 1;
     private List<GameObject> explosions;
 
     public ExplosionManager() {
@@ -43,7 +43,7 @@ public class ExplosionManager {
             if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {
                 explosion.setImage(currentFrame);
                 explosion.render(graphicsContext);
-                explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + 1);
+                explosion.setCurrentFrameIndex(explosion.getCurrentFrameIndex() + CURRENT_FRAME_INDEX_INCREMENT_VALUE);
             } else {
                 explosions.remove(i);
             }

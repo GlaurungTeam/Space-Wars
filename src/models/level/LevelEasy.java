@@ -2,8 +2,6 @@ package models.level;
 
 import utils.Constants;
 import javafx.scene.image.Image;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 

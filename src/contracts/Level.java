@@ -20,7 +20,7 @@ public interface Level {
                          EnemyManager enemyManager, BossManager bossManager, PlayerManager playerManager,
                          FuelManager fuelManager, ExplosionManager explosionManager);
 
-    List<HealthableGameObject> getRealEnemies();
+    List<HealthableGameObject> getEnemies();
 
     void addMissile(GameObject missile);
 
