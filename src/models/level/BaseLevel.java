@@ -1,8 +1,11 @@
 package models.level;
 
+import contracts.GameObject;
+import contracts.HealthableGameObject;
+import contracts.Level;
 import helpers.LeaderBoardWriter;
 import managers.*;
-import models.enemies.bosses.Boss;
+import contracts.Boss;
 import models.gameObjects.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

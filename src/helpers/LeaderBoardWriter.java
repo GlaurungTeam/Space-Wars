@@ -7,6 +7,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LeaderBoardWriter {
+    private static final int LEADERBOARD_NAMES_COUNT = 10;
+    private static final int USERNAME_INDEX = 0;
+    private static final int RESULT_INDEX = 1;
+    private static final int START_INDEX = 0;
+
 
     public void writeInLeaderboard(String name, long score) throws IOException {
         SortedMap<String, Long> scores = new TreeMap<>();
@@ -16,7 +21,7 @@ public class LeaderBoardWriter {
             String[] allScores = (String[]) in.readObject();
 
             for (int i = 0; i < allScores.length; i++) {
-                if (i >= 10) {
+                if (i >= LEADERBOARD_NAMES_COUNT) {
                     break;
                 }
                 if (allScores[i] == null) {
@@ -24,8 +29,8 @@ public class LeaderBoardWriter {
                 }
 
                 String[] scoreLineArr = allScores[i].split(":");
-                String userName = scoreLineArr[0];
-                Long result = Long.parseLong(scoreLineArr[1]);
+                String userName = scoreLineArr[USERNAME_INDEX];
+                Long result = Long.parseLong(scoreLineArr[RESULT_INDEX]);
                 scores.put(userName, result);
             }
             scores.put(name, score);
@@ -42,9 +47,9 @@ public class LeaderBoardWriter {
                 (new FileOutputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION)))) {
             Iterator it = sortedScores.iterator();
 
-            int i = 0;
+            int i = START_INDEX;
 
-            String[] scoresToWrite = new String[10];
+            String[] scoresToWrite = new String[LEADERBOARD_NAMES_COUNT];
 
             while (it.hasNext() && i < scoresToWrite.length) {
                 Map.Entry pair = (Map.Entry) it.next();

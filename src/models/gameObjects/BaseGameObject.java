@@ -1,5 +1,6 @@
 package models.gameObjects;
 
+import contracts.GameObject;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

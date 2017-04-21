@@ -6,10 +6,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Shape;
-import models.gameObjects.GameObject;
+import contracts.GameObject;
 import models.gameObjects.Missile;
 import models.gameObjects.PlayerImpl;
-import models.level.Level;
+import contracts.Level;
 import utils.Constants;
 
 import javax.imageio.ImageIO;
@@ -195,7 +195,6 @@ public class PlayerManager {
             timer.stop();
 
             try {
-                System.out.println(this.player.getPlayerName());
                 level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
                 level.getLeaderBoardWriter().writeInLeaderboard(this.player.getPlayerName(), this.getPlayer().getPoints());
             } catch (Exception exc) {

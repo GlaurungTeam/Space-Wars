@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import models.gameObjects.Explosion;
-import models.gameObjects.GameObject;
+import contracts.GameObject;
 import utils.Constants;
 
 import java.nio.file.Paths;

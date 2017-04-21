@@ -1,4 +1,4 @@
-package models.gameObjects;
+package contracts;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

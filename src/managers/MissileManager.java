@@ -1,10 +1,10 @@
 package managers;
 
-import models.enemies.bosses.Boss;
+import contracts.Boss;
 import models.gameObjects.Explosion;
-import models.gameObjects.GameObject;
-import models.gameObjects.HealthableGameObject;
-import models.level.Level;
+import contracts.GameObject;
+import contracts.HealthableGameObject;
+import contracts.Level;
 import utils.Constants;
 
 import javax.imageio.ImageIO;

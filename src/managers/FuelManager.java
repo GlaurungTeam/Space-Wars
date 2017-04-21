@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import models.gameObjects.FuelBar;
 import models.gameObjects.FuelCan;
-import models.level.Level;
+import contracts.Level;
 import utils.Constants;
 
 import javax.imageio.ImageIO;

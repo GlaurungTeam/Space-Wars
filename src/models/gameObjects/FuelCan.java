@@ -1,10 +1,11 @@
 package models.gameObjects;
 
+import contracts.TakeAble;
 import enums.SpriteSheetParameters;
 
 import java.awt.image.BufferedImage;
 
-public class FuelCan extends BaseGameObject implements TakeAble{
+public class FuelCan extends BaseGameObject implements TakeAble {
     private static final String TYPE = "fuelcan";
 
     private boolean isTaken;

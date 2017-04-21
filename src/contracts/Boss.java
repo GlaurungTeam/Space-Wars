@@ -1,7 +1,6 @@
-package models.enemies.bosses;
+package contracts;
 
 import javafx.scene.shape.SVGPath;
-import models.gameObjects.HealthableGameObject;
 
 import java.io.FileNotFoundException;
 

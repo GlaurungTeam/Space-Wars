@@ -1,4 +1,4 @@
-package models.gameObjects;
+package contracts;
 
 public interface TakeAble {
 

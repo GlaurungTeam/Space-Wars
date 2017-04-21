@@ -1,12 +1,14 @@
-package models.level;
+package contracts;
 
+import contracts.GameObject;
+import contracts.HealthableGameObject;
 import helpers.LeaderBoardWriter;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import managers.*;
-import models.enemies.bosses.Boss;
+import contracts.Boss;
 import models.gameObjects.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

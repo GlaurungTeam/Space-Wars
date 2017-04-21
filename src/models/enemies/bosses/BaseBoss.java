@@ -1,5 +1,6 @@
 package models.enemies.bosses;
 
+import contracts.Boss;
 import utils.Constants;
 import models.gameObjects.BaseHealthableGameObject;
 import javafx.scene.shape.SVGPath;

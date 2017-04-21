@@ -1,4 +1,6 @@
-package models.gameObjects;
+package contracts;
+
+import contracts.GameObject;
 
 public interface HealthableGameObject extends GameObject {
 

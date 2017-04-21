@@ -1,7 +1,8 @@
 package models.gameObjects;
 
+import contracts.Player;
 import enums.SpriteSheetParameters;
-import helpers.Reader;
+import contracts.Reader;
 import helpers.SVGPathReader;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
@@ -94,7 +95,6 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
     }
 
     private void loadPlayerSprites() throws IOException {
-        //Load sprites from file
         BufferedImage playerSpriteSheet =
                 ImageIO.read(new File(Constants.PROJECT_PATH +
                         Constants.SPACESHIP_SPRITESHEET_IMAGE));

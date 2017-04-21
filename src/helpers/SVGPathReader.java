@@ -4,7 +4,7 @@ import utils.Constants;
 
 import java.io.*;
 
-public class SVGPathReader implements Reader {
+public class SVGPathReader implements contracts.Reader {
 
     public String read(String path) throws FileNotFoundException {
         StringBuilder stringBuilder = new StringBuilder();

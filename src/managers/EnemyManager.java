@@ -3,8 +3,8 @@ package managers;
 import factories.EnemyFactory;
 import helpers.NumberRandomizer;
 import models.gameObjects.Explosion;
-import models.gameObjects.HealthableGameObject;
-import models.level.Level;
+import contracts.HealthableGameObject;
+import contracts.Level;
 import utils.Constants;
 
 import javax.imageio.ImageIO;

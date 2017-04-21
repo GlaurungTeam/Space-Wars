@@ -1,8 +1,11 @@
 package models.gameObjects;
 
+import contracts.HealthableGameObject;
+
 import java.awt.image.BufferedImage;
 
 public abstract class BaseHealthableGameObject extends BaseGameObject implements HealthableGameObject {
+    private static final int DECREMENT_COUNT = 1;
 
     private int health;
     private int defaultHealth;
@@ -32,7 +35,7 @@ public abstract class BaseHealthableGameObject extends BaseGameObject implements
 
     @Override
     public void decrementHealth() {
-        this.health -= 1;
+        this.health -= DECREMENT_COUNT;
     }
 
     @Override

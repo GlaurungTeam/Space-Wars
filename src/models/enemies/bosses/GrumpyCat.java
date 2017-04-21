@@ -1,7 +1,7 @@
 package models.enemies.bosses;
 
 import enums.SpriteSheetParameters;
-import helpers.Reader;
+import contracts.Reader;
 import helpers.SVGPathReader;
 import javafx.scene.shape.SVGPath;
 import utils.Constants;

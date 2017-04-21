@@ -7,7 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import models.gameObjects.PlayerImpl;
-import models.level.Level;
+import contracts.Level;
 import utils.Constants;
 
 public class GameManager {

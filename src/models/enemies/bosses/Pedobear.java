@@ -1,6 +1,6 @@
 package models.enemies.bosses;
 
-import helpers.Reader;
+import contracts.Reader;
 import utils.Constants;
 import enums.SpriteSheetParameters;
 import helpers.SVGPathReader;

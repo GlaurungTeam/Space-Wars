@@ -1,21 +1,16 @@
 package managers;
 
 import factories.BossFactory;
-import javafx.scene.canvas.Canvas;
-import models.enemies.bosses.Boss;
+import contracts.Boss;
 import models.gameObjects.Explosion;
 import models.gameObjects.Missile;
-import models.level.Level;
+import contracts.Level;
 import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 

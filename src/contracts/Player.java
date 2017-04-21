@@ -1,4 +1,4 @@
-package models.gameObjects;
+package contracts;
 
 import javafx.scene.input.KeyCode;
 

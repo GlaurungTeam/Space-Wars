@@ -3,7 +3,7 @@ package factories;
 import helpers.NumberRandomizer;
 import models.enemies.Asteroid;
 import models.enemies.Ufo;
-import models.gameObjects.HealthableGameObject;
+import contracts.HealthableGameObject;
 import utils.Constants;
 
 import javax.imageio.ImageIO;
@@ -14,6 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyFactory {
+    private static final String PNG_SUFFIX = ".png";
+    private static final String UFO_TYPE = "ufo";
+    private static final String ASTEROID_TYPE = "asteroid";
+
+    private static final int ASTEROID_TYPES_COUNT = 4;
+    private static final int MULTIPLIER = 2;
+    private static final int LOW_Y_POSITION_BOUND = 0;
+
     private NumberRandomizer randomizer;
 
     public EnemyFactory() {
@@ -27,10 +35,10 @@ public class EnemyFactory {
             HealthableGameObject enemy = null;
 
             switch (enemyType) {
-                case "ufo":
+                case UFO_TYPE:
                     enemy = createUfo(enemyHealth, enemySpeed);
                     break;
-                case "asteroid":
+                case ASTEROID_TYPE:
                     enemy = createAsteroid(enemyHealth, enemySpeed);
                     break;
             }
@@ -44,7 +52,7 @@ public class EnemyFactory {
         BufferedImage asteroidSpritesheet = null;
 
         String path = Constants.PROJECT_PATH + Constants.ASTEROID_IMAGE +
-                String.valueOf(this.randomizer.getRandomNumber(4)) + ".png";
+                String.valueOf(this.randomizer.getRandomNumber(ASTEROID_TYPES_COUNT)) + PNG_SUFFIX;
 
         File sprites = new File(path);
 
@@ -54,8 +62,8 @@ public class EnemyFactory {
             e.printStackTrace();
         }
 
-        int currentXPos = this.randomizer.getRandomNumber(Constants.SCREEN_WIDTH, Constants.SCREEN_WIDTH * 2);
-        int currentYPos = this.randomizer.getRandomNumber(0, Constants.SCREEN_HEIGHT);
+        int currentXPos = this.randomizer.getRandomNumber(Constants.SCREEN_WIDTH, Constants.SCREEN_WIDTH * MULTIPLIER);
+        int currentYPos = this.randomizer.getRandomNumber(LOW_Y_POSITION_BOUND, Constants.SCREEN_HEIGHT);
 
         HealthableGameObject asteroid = new Asteroid(currentXPos, currentYPos,
                 asteroidSpeed, asteroidSpritesheet, asteroidHealth, asteroidHealth);
@@ -75,7 +83,7 @@ public class EnemyFactory {
         }
 
         int lowBound = Constants.SCREEN_WIDTH;
-        int highBound = Constants.SCREEN_WIDTH * 2;
+        int highBound = Constants.SCREEN_WIDTH * MULTIPLIER;
 
         int currentXPos = this.randomizer.getRandomNumber(lowBound, highBound);
         int currentYPos = this.randomizer.getRandomNumber(Constants.SCREEN_HEIGHT);

@@ -172,8 +172,6 @@ public class MenuController {
         Platform.runLater(() -> {
             Stage stage = new Stage();
 
-            System.out.println(USERNAME);
-
             ((Stage) easyLevelButton.getScene().getWindow()).close();
             GameManager gameManager = new GameManager();
 
