@@ -6,7 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class BackgroundManager {
+public class BackgroundManager{
 
     @FXML
     private double backgroundX;
@@ -25,6 +25,8 @@ public class BackgroundManager {
     public BackgroundManager() {
         this.planetX = Constants.PLANET_START_X;
         this.planetY = Constants.PLANET_START_Y;
+
+        this.backgroundY = 0;
 
         this.earth = new Image(Constants.EARTH_IMAGE);
         this.sun = new Image(Constants.SUN_IMAGE);

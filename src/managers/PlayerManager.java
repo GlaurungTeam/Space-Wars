@@ -1,6 +1,5 @@
 package managers;
 
-import controllers.MenuController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,7 +20,6 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
-
     private PlayerImpl player;
     private GraphicsContext graphicsContext;
 
@@ -197,8 +195,9 @@ public class PlayerManager {
             timer.stop();
 
             try {
+                System.out.println(this.player.getPlayerName());
                 level.getScene().setRoot(FXMLLoader.load(getClass().getResource("../views/game_over.fxml")));
-                level.writeInLeaderboard(MenuController.USERNAME, this.getPlayer().getPoints());
+                level.getLeaderBoardWriter().writeInLeaderboard(this.player.getPlayerName(), this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);
@@ -217,7 +216,7 @@ public class PlayerManager {
     }
 
     public void playerHit() {
-        this.getPlayer().hitPlayer();
+        this.getPlayer().takeHit();
         this.getPlayer().manageSpriteAnimation();
         this.refreshSprites();
     }

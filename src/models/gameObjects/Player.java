@@ -8,7 +8,7 @@ public interface Player {
 
     void manageSpriteAnimation();
 
-    void hitPlayer();
+    void takeHit();
 
     void shiftLightningSpeed(boolean value);
 

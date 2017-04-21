@@ -7,7 +7,6 @@ import enums.SpriteSheetParameters;
 import java.awt.image.BufferedImage;
 
 public class Ufo extends BaseHealthableGameObject {
-
     private static final String TYPE = "ufo";
 
     public Ufo(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, int health, int defaultHealth) {

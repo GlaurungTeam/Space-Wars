@@ -12,7 +12,7 @@ import utils.Constants;
 
 public class GameManager {
 
-    public void start(Stage theStage, Level level) throws Exception {
+    public void start(Stage theStage, Level level, String playerName) throws Exception {
         theStage.setTitle("Space Wars");
 
         Group root = new Group();
@@ -27,7 +27,7 @@ public class GameManager {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         PlayerImpl player = new PlayerImpl(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2,
-                Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene);
+                Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene, playerName);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);

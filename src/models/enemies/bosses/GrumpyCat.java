@@ -28,7 +28,7 @@ public class GrumpyCat extends BaseBoss {
         Reader SVGPathReader = new SVGPathReader();
         SVGPath svgPath = new SVGPath();
 
-        svgPath.setContent(SVGPathReader.read(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION)); //TODO uses pedobear hitbox
+        svgPath.setContent(SVGPathReader.read(Constants.BOSS_PEDOBEAR_SVGPATH_LOCATION));
         super.setSvgPath(svgPath);
     }
 

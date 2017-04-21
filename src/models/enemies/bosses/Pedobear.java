@@ -8,7 +8,6 @@ import javafx.scene.shape.SVGPath;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
-import java.util.Random;
 
 public class Pedobear extends BaseBoss {
 

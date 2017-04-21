@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public abstract class BaseBoss extends BaseHealthableGameObject implements Boss {
-
     private static final String TYPE = "boss";
 
     private SVGPath svgPath;

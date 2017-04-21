@@ -1,7 +1,7 @@
 package managers;
 
-import models.enemies.Asteroid;
-import models.enemies.Ufo;
+import factories.EnemyFactory;
+import helpers.NumberRandomizer;
 import models.gameObjects.Explosion;
 import models.gameObjects.HealthableGameObject;
 import models.level.Level;
@@ -11,75 +11,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class EnemyManager {
+    private NumberRandomizer randomizer;
+    private EnemyFactory enemyFactory;
 
-    public List<HealthableGameObject> initializeEnemies(int enemyHealth, int enemySpeed, int enemyCount, String enemyType) {
-        List<HealthableGameObject> enemiesToReturn = new ArrayList<>();
-
-        for (int i = 0; i < enemyCount; i++) {
-            HealthableGameObject enemy = null;
-
-            switch (enemyType) {
-                case "ufo":
-                    enemy = createUfo(enemyHealth, enemySpeed);
-                    break;
-                case "asteroid":
-                    enemy = createAsteroid(enemyHealth, enemySpeed);
-                    break;
-            }
-            enemiesToReturn.add(enemy);
-        }
-        return enemiesToReturn;
-    }
-
-    //TODO Create EnemyFactory to create enemies!
-    private HealthableGameObject createAsteroid(int asteroidHealth, int asteroidSpeed) {
-        BufferedImage asteroidSpritesheet = null;
-
-        String path = Constants.PROJECT_PATH + Constants.ASTEROID_IMAGE +
-                String.valueOf(this.getRandomNumber(4)) + ".png";
-
-        File sprites = new File(path);
-
-        try {
-            asteroidSpritesheet = ImageIO.read(sprites);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        int currentXPos = this.getRandomNumber(Constants.SCREEN_WIDTH, Constants.SCREEN_WIDTH * 2);
-        int currentYPos = this.getRandomNumber(0, Constants.SCREEN_HEIGHT);
-
-        HealthableGameObject asteroid = new Asteroid(currentXPos, currentYPos,
-                asteroidSpeed, asteroidSpritesheet, asteroidHealth, asteroidHealth);
-
-        return asteroid;
-    }
-
-    //TODO Create EnemyFactory to create enemies!
-    private HealthableGameObject createUfo(int ufoHealth, int ufoSpeed) {
-        BufferedImage ufoSpriteSheet = null;
-
-        try {
-            ufoSpriteSheet = ImageIO.read(new File(
-                    Constants.PROJECT_PATH + Constants.UFO_SPRITESHEET));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        int lowBound = Constants.SCREEN_WIDTH;
-        int highBound = Constants.SCREEN_WIDTH * 2;
-
-        int currentXPos = this.getRandomNumber(lowBound, highBound);
-        int currentYPos = this.getRandomNumber(Constants.SCREEN_HEIGHT);
-
-        HealthableGameObject ufo = new Ufo(currentXPos, currentYPos, ufoSpeed, ufoSpriteSheet, ufoHealth, ufoHealth);
-
-        return ufo;
+    public EnemyManager() {
+        this.randomizer = new NumberRandomizer();
+        this.enemyFactory = new EnemyFactory();
     }
 
     private void manageEnemyCollision(Level level, HealthableGameObject enemy) {
@@ -126,9 +65,13 @@ public class EnemyManager {
     private void resurrectEnemy(HealthableGameObject enemy) {
         double offset = Constants.SCREEN_HEIGHT - Constants.HEIGHT_OFFSET;
 
-        enemy.updateLocation(Constants.SCREEN_WIDTH, this.getRandomNumber((int) offset));
+        enemy.updateLocation(Constants.SCREEN_WIDTH, this.randomizer.getRandomNumber((int) offset));
         enemy.speedUp(Constants.OBJECT_SPEED_UP_VALUE);
         enemy.revive();
+    }
+
+    public EnemyFactory getEnemyFactory(){
+        return this.enemyFactory;
     }
 
     public void manageEnemies(Level level) {
@@ -158,22 +101,12 @@ public class EnemyManager {
     private int setStartPosition(String coordinate) {
         switch (coordinate.toLowerCase()) {
             case "x":
-                return this.getRandomNumber(Constants.SCREEN_WIDTH + 1,
+                return this.randomizer.getRandomNumber(Constants.SCREEN_WIDTH + 1,
                         Constants.SCREEN_WIDTH * 2);
             case "y":
-                return this.getRandomNumber(0, Constants.SCREEN_HEIGHT);
+                return this.randomizer.getRandomNumber(0, Constants.SCREEN_HEIGHT);
             default:
                 return 0;
         }
-    }
-
-    private int getRandomNumber(int bound) {
-        Random rnd = new Random();
-        return rnd.nextInt(bound);
-    }
-
-    private int getRandomNumber(int lowBound, int highBound) {
-        Random rnd = new Random();
-        return rnd.nextInt(highBound - lowBound) + lowBound;
     }
 }

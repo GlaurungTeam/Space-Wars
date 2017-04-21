@@ -15,6 +15,8 @@ import java.nio.file.Paths;
 import managers.*;
 
 public class Main extends Application {
+    private static final String MAIN_MENU_VIEW_FILE_PATH = "../views/mainmenu.fxml";
+    private static final String WINDOW_TITLE = "Launcher";
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -25,7 +27,7 @@ public class Main extends Application {
             Parent root = null;
 
             try {
-                root = FXMLLoader.load(getClass().getResource("../views/mainmenu.fxml"));
+                root = FXMLLoader.load(getClass().getResource(MAIN_MENU_VIEW_FILE_PATH));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -35,7 +37,7 @@ public class Main extends Application {
             Constants.setResolutionConstants((int) dimensionsManager.getCurrentDeviceWidth(),
                     (int) dimensionsManager.getCurrentDeviceHeight());
 
-            theStage.setTitle("Launcher");
+            theStage.setTitle(WINDOW_TITLE);
             theStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
             theStage.show();
             theStage.setFullScreen(true);

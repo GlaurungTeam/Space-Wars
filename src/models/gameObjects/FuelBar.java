@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import utils.Constants;
 
 public class FuelBar extends StackPane {
+    private static final int MULTIPLIER = 2;
 
     private ReadOnlyDoubleProperty workDone;
     private double totalWork;
@@ -26,7 +27,6 @@ public class FuelBar extends StackPane {
         this.syncProgress();
         this.workDone.addListener((observableValue, number, number2) -> syncProgress());
 
-        //Allows the progress bar to expand to fill available horizontal space
         this.bar.setMaxWidth(Double.MAX_VALUE);
         getChildren().setAll(this.bar, this.text);
     }
@@ -35,7 +35,6 @@ public class FuelBar extends StackPane {
         return this.workDone;
     }
 
-    //Synchronizes the progress indicated with the work done
     private void syncProgress() {
         if (this.getWorkDone() == null || this.totalWork == 0) {
             this.text.setText("");
@@ -45,7 +44,7 @@ public class FuelBar extends StackPane {
             this.bar.setProgress(this.getWorkDone().get() / this.totalWork);
         }
 
-        this.bar.setMinHeight(this.text.getBoundsInLocal().getHeight() + Constants.DEFAULT_LABEL_PADDING * 2);
-        this.bar.setMinWidth(this.text.getBoundsInLocal().getWidth() + Constants.DEFAULT_LABEL_PADDING * 2);
+        this.bar.setMinHeight(this.text.getBoundsInLocal().getHeight() + Constants.DEFAULT_LABEL_PADDING * MULTIPLIER);
+        this.bar.setMinWidth(this.text.getBoundsInLocal().getWidth() + Constants.DEFAULT_LABEL_PADDING * MULTIPLIER);
     }
 }

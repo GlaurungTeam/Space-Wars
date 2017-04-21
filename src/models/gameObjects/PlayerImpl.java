@@ -17,15 +17,15 @@ import java.io.IOException;
 import java.util.*;
 
 public class PlayerImpl extends BaseHealthableGameObject implements Player {
-
     private static final String TYPE = "player";
+    private static final int DEFAULT_POINTS_ON_KILL = 0;
 
     private Integer lives;
     private long points;
-    private Scene scene;
     private boolean fired;
     private Timer timer;
     public SVGPath svgPath;
+    private String playerName;
 
     private List<Image> originalSprites;
     private List<Image> playerHitSprites;
@@ -41,7 +41,7 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
     private boolean goDown;
     private boolean held;
 
-    public PlayerImpl(double positionX, double positionY, double objectSpeed, int lives, Scene scene) throws IOException {
+    public PlayerImpl(double positionX, double positionY, double objectSpeed, int lives, Scene scene, String playerName) throws IOException {
         super(positionX, positionY, objectSpeed, null,
                 SpriteSheetParameters.PLAYER_DEFAULT.getWidth(),
                 SpriteSheetParameters.PLAYER_DEFAULT.getHeight(),
@@ -49,14 +49,14 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
                 SpriteSheetParameters.PLAYER_DEFAULT.getCols(),
                 Constants.PLAYER_DEFAULT_HEALTH,
                 Constants.PLAYER_DEFAULT_HEALTH,
-                0, TYPE);
+                DEFAULT_POINTS_ON_KILL, TYPE);
 
         this.changeFiredStatus(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.shiftLightningSpeed(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.points = Constants.START_POINTS;
+        this.playerName = playerName;
 
         this.lives = lives;
-        this.scene = scene;
 
         //We are using SVG Path to make up for the complex form of the spaceship
         this.svgPath = new SVGPath();
@@ -73,6 +73,8 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
         );
         this.loadPlayerSprites();
     }
+
+
 
     private List<Image> splitSprites(BufferedImage bufferedImage) {
         List<Image> sprites = new ArrayList<>();
@@ -126,6 +128,10 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
         super.setSpriteSheet(playerSpriteSheet);
         super.splitSprites();
         this.originalSprites = super.getSprites();
+    }
+
+    public String getPlayerName() {
+        return this.playerName;
     }
 
     @Override
@@ -220,7 +226,7 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
     }
 
     @Override
-    public void hitPlayer() {
+    public void takeHit() {
         isHit = true;
     }
 

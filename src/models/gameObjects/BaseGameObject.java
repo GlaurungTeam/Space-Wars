@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//The whole point of this class is so that we can use hit detection easily
-//Thanks to it every object on the field has width, height, image and coordinates which we can use for the aforementioned reason
 public abstract class BaseGameObject implements GameObject {
     private Image image;
     private double positionX;
@@ -104,7 +102,6 @@ public abstract class BaseGameObject implements GameObject {
         return this.type;
     }
 
-    //Load sprites from image
     @Override
     public void splitSprites() {
         for (int i = 0; i < this.rows; i++) {

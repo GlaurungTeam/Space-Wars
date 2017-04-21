@@ -5,7 +5,6 @@ import enums.SpriteSheetParameters;
 import java.awt.image.BufferedImage;
 
 public class Explosion extends BaseGameObject {
-
     private static final String TYPE = "explosion";
 
     public Explosion(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {

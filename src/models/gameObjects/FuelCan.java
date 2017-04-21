@@ -4,8 +4,7 @@ import enums.SpriteSheetParameters;
 
 import java.awt.image.BufferedImage;
 
-public class FuelCan extends BaseGameObject {
-
+public class FuelCan extends BaseGameObject implements TakeAble{
     private static final String TYPE = "fuelcan";
 
     private boolean isTaken;
@@ -20,10 +19,12 @@ public class FuelCan extends BaseGameObject {
         );
     }
 
+    @Override
     public boolean getTakenStatus() {
         return this.isTaken;
     }
 
+    @Override
     public void setTakenStatus(boolean isTaken) {
         this.isTaken = isTaken;
     }

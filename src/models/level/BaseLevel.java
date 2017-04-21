@@ -1,19 +1,17 @@
 package models.level;
 
+import helpers.LeaderBoardWriter;
 import managers.*;
 import models.enemies.bosses.Boss;
 import models.gameObjects.*;
-import utils.Constants;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class BaseLevel implements Level {
 
@@ -29,6 +27,7 @@ public abstract class BaseLevel implements Level {
     private ExplosionManager explosionManager;
     private Image backgroundImage;
     private boolean isActiveBoss;
+    private LeaderBoardWriter leaderBoardWriter;
 
     private List<GameObject> missiles;
     private List<HealthableGameObject> realEnemies;
@@ -63,8 +62,13 @@ public abstract class BaseLevel implements Level {
         this.playerManager = playerManager;
         this.fuelManager = fuelManager;
         this.explosionManager = explosionManager;
-
+        this.leaderBoardWriter = new LeaderBoardWriter();
         this.setDifficultyParameters();
+    }
+
+    @Override
+    public LeaderBoardWriter getLeaderBoardWriter() {
+        return this.leaderBoardWriter;
     }
 
     @Override
@@ -163,70 +167,25 @@ public abstract class BaseLevel implements Level {
     }
 
     private List<HealthableGameObject> initializeUfos(int health, int speed, int ufoCount) {
-        return this.enemyManager.initializeEnemies(health, speed, ufoCount, "ufo");
+        return this.enemyManager
+                .getEnemyFactory()
+                .initializeEnemies(health, speed, ufoCount, "ufo");
     }
 
     private List<HealthableGameObject> initializeAsteroids(int health, int speed, int asteroidCount) {
-        return this.enemyManager.initializeEnemies(health, speed, asteroidCount, "asteroid");
+        return this.enemyManager.
+                getEnemyFactory().
+                initializeEnemies(health, speed, asteroidCount, "asteroid");
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void initializeBoss(String bossName) throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void initializeBoss(String bossName) throws IOException,
+            ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         ArrayList<Boss> bosses = new ArrayList<>();
 
-        bosses.add(this.bossManager.initializeBoss(canvas, bossName));
+        bosses.add(this.bossManager.getBossFactory().initializeBoss(canvas, bossName));
         this.bosses = bosses;
-    }
-
-    @Override
-    public void writeInLeaderboard(String name, long score) throws IOException {
-        SortedMap<String, Long> scores = new TreeMap<>();
-
-        try (ObjectInputStream in = new ObjectInputStream
-                (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
-            String[] allScores = (String[]) in.readObject();
-
-            for (int i = 0; i < allScores.length; i++) {
-                if (i >= 10) {
-                    break;
-                }
-                if (allScores[i] == null) {
-                    continue;
-                }
-
-                String[] scoreLineArr = allScores[i].split(":");
-                String userName = scoreLineArr[0];
-                Long result = Long.parseLong(scoreLineArr[1]);
-                scores.put(userName, result);
-            }
-            scores.put(name, score);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
-                .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(Map.Entry::getValue).reversed())
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        try (ObjectOutputStream out = new ObjectOutputStream(
-                (new FileOutputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION)))) {
-            Iterator it = sortedScores.iterator();
-
-            int i = 0;
-
-            String[] scoresToWrite = new String[10];
-
-            while (it.hasNext() && i < scoresToWrite.length) {
-                Map.Entry pair = (Map.Entry) it.next();
-                scoresToWrite[i] = pair.getKey() + ":" + pair.getValue();
-                i++;
-            }
-
-            out.writeObject(scoresToWrite);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
