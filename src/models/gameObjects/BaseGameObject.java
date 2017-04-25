@@ -1,6 +1,8 @@
 package models.gameObjects;
 
 import contracts.GameObject;
+import contracts.Randomizer;
+import helpers.NumberRandomizer;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class BaseGameObject implements GameObject {
+
     private Image image;
     private double positionX;
     private double positionY;
@@ -25,10 +28,18 @@ public abstract class BaseGameObject implements GameObject {
     private BufferedImage spriteSheet;
     private int currentFrameIndex;
     private String type;
+    private Randomizer randomizer;
 
-    protected BaseGameObject(double positionX, double positionY, double objectSpeed,
-                             BufferedImage spriteSheet, int width, int height,
-                             int rows, int cols, String type) {
+    protected BaseGameObject(
+            double positionX,
+            double positionY,
+            double objectSpeed,
+            BufferedImage spriteSheet,
+            int width,
+            int height,
+            int rows,
+            int cols,
+            String type) {
 
         this.updateLocation(positionX, positionY);
         this.speed = objectSpeed;
@@ -36,11 +47,19 @@ public abstract class BaseGameObject implements GameObject {
         this.setSpriteParameters(width, height, rows, cols);
         this.splitSprites();
         this.type = type;
+        this.randomizer = new NumberRandomizer();
     }
 
     @Override
     public Image getImage() {
         return this.image;
+    }
+
+    @Override
+    public void setImage(Image image) {
+        this.image = image;
+        this.width = (int) image.getWidth();
+        this.height = (int) image.getHeight();
     }
 
     @Override
@@ -103,6 +122,21 @@ public abstract class BaseGameObject implements GameObject {
         return this.type;
     }
 
+    public Image getFrame(List<Image> sprites, double time, double duration) {
+        int index = (int) ((time % (sprites.size() * duration)) / duration);
+        return sprites.get(index);
+    }
+
+    @Override
+    public int getCurrentFrameIndex() {
+        return this.currentFrameIndex;
+    }
+
+    @Override
+    public void setCurrentFrameIndex(int currentFrameIndex) {
+        this.currentFrameIndex = currentFrameIndex;
+    }
+
     @Override
     public void splitSprites() {
         for (int i = 0; i < this.rows; i++) {
@@ -113,7 +147,6 @@ public abstract class BaseGameObject implements GameObject {
                         this.width,
                         this.height
                 );
-
                 this.sprites.add((i * this.cols) + j, SwingFXUtils.toFXImage(image, null));
             }
         }
@@ -129,20 +162,29 @@ public abstract class BaseGameObject implements GameObject {
     }
 
     @Override
-    public void setImage(Image image) {
-        this.image = image;
-        this.width = (int) image.getWidth();
-        this.height = (int) image.getHeight();
-    }
-
-    public Image getFrame(List<Image> sprites, double time, double duration) {
-        int index = (int) ((time % (sprites.size() * duration)) / duration);
-        return sprites.get(index);
+    public Image getRandomImageFromSpritesheet() {
+        return this.getSprites().get(this.randomizer.getRandomNumber(this.sprites.size()));
     }
 
     @Override
-    public void render(GraphicsContext gc) {
-        gc.drawImage(this.image, this.positionX, this.positionY);
+    public Image getImageFromSpritesheet(int index) {
+        return this.getSprites().get(index);
+    }
+
+    @Override
+    public void updateLocation(double x, double y) {
+        this.positionX = x;
+        this.positionY = y;
+    }
+
+    @Override
+    public void speedUp(double speed) {
+        this.speed = this.speed + speed;
+    }
+
+    @Override
+    public boolean intersects(GameObject object) {
+        return object.getBoundary().intersects(this.getBoundary());
     }
 
     @Override
@@ -156,33 +198,7 @@ public abstract class BaseGameObject implements GameObject {
     }
 
     @Override
-    public boolean intersects(GameObject object) {
-        return object.getBoundary().intersects(this.getBoundary());
-    }
-
-    @Override
-    public void speedUp(double speed) {
-        this.speed = this.speed + speed;
-    }
-
-    @Override
-    public void updateLocation(double x, double y) {
-        this.positionX = x;
-        this.positionY = y;
-    }
-
-    @Override
-    public int getCurrentFrameIndex() {
-        return this.currentFrameIndex;
-    }
-
-    @Override
-    public void setCurrentFrameIndex(int currentFrameIndex) {
-        this.currentFrameIndex = currentFrameIndex;
-    }
-
-    @Override
-    public Image getCurrentExplosionFrame(int index) {
-        return this.getSprites().get(index);
+    public void render(GraphicsContext gc) {
+        gc.drawImage(this.image, this.positionX, this.positionY);
     }
 }

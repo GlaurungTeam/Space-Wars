@@ -4,7 +4,7 @@ import javafx.scene.shape.SVGPath;
 
 import java.io.FileNotFoundException;
 
-public interface Boss extends HealthableGameObject{
+public interface Boss extends HealthableGameObject {
 
     SVGPath getSvgPath();
 

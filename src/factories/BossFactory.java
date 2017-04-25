@@ -64,5 +64,4 @@ public class BossFactory {
         Boss bossObject = constructor.newInstance(startPosX, startPosY, bossSpeed, bossSpriteSheet, bossHealth);
         return bossObject;
     }
-
 }

@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import utils.Constants;
 
 public class FuelBar extends StackPane {
+
     private static final int MULTIPLIER = 2;
 
     private ReadOnlyDoubleProperty workDone;

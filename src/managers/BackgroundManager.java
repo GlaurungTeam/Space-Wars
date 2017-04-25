@@ -6,7 +6,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class BackgroundManager{
+public class BackgroundManager {
+
     private static final int PLANET_X_POSITION_INCREMENTATION = 50;
 
     @FXML
@@ -51,7 +52,7 @@ public class BackgroundManager{
         }
 
         if (this.planetX < -Constants.SCREEN_WIDTH) {
-            this.planetX = canvas.getWidth() + PLANET_X_POSITION_INCREMENTATION; //TODO Hardcoded value
+            this.planetX = canvas.getWidth() + PLANET_X_POSITION_INCREMENTATION;
         }
     }
 

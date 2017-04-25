@@ -1,11 +1,10 @@
 package models.gameObjects;
 
 import contracts.Player;
-import enums.SpriteSheetParameters;
 import contracts.Reader;
+import enums.SpritesheetParameters;
 import helpers.SVGPathReader;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.SVGPath;
@@ -15,9 +14,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
 
 public class PlayerImpl extends BaseHealthableGameObject implements Player {
+
     private static final String TYPE = "player";
     private static final int DEFAULT_POINTS_ON_KILL = 0;
 
@@ -42,21 +44,25 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
     private boolean goDown;
     private boolean held;
 
-    public PlayerImpl(double positionX, double positionY, double objectSpeed, int lives, Scene scene, String playerName) throws IOException {
-        super(positionX, positionY, objectSpeed, null,
-                SpriteSheetParameters.PLAYER_DEFAULT.getWidth(),
-                SpriteSheetParameters.PLAYER_DEFAULT.getHeight(),
-                SpriteSheetParameters.PLAYER_DEFAULT.getRows(),
-                SpriteSheetParameters.PLAYER_DEFAULT.getCols(),
+    public PlayerImpl(double positionX, double positionY, double objectSpeed, int lives, String playerName) throws IOException {
+        super(
+                positionX,
+                positionY,
+                objectSpeed,
+                null,
+                SpritesheetParameters.PLAYER_DEFAULT.getWidth(),
+                SpritesheetParameters.PLAYER_DEFAULT.getHeight(),
+                SpritesheetParameters.PLAYER_DEFAULT.getRows(),
+                SpritesheetParameters.PLAYER_DEFAULT.getCols(),
                 Constants.PLAYER_DEFAULT_HEALTH,
                 Constants.PLAYER_DEFAULT_HEALTH,
-                DEFAULT_POINTS_ON_KILL, TYPE);
+                DEFAULT_POINTS_ON_KILL,
+                TYPE);
 
         this.changeFiredStatus(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.shiftLightningSpeed(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.points = Constants.START_POINTS;
         this.playerName = playerName;
-
         this.lives = lives;
 
         //We are using SVG Path to make up for the complex form of the spaceship
@@ -67,15 +73,13 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
 
         this.timer = new Timer();
         super.setSpriteParameters(
-                SpriteSheetParameters.PLAYER.getWidth(),
-                SpriteSheetParameters.PLAYER.getHeight(),
-                SpriteSheetParameters.PLAYER.getRows(),
-                SpriteSheetParameters.PLAYER.getCols()
+                SpritesheetParameters.PLAYER.getWidth(),
+                SpritesheetParameters.PLAYER.getHeight(),
+                SpritesheetParameters.PLAYER.getRows(),
+                SpritesheetParameters.PLAYER.getCols()
         );
         this.loadPlayerSprites();
     }
-
-
 
     private List<Image> splitSprites(BufferedImage bufferedImage) {
         List<Image> sprites = new ArrayList<>();
@@ -90,7 +94,6 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
                 ), null));
             }
         }
-
         return sprites;
     }
 

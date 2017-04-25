@@ -1,23 +1,29 @@
 package models.gameObjects;
 
-import contracts.TakeAble;
-import enums.SpriteSheetParameters;
+import contracts.Takeаble;
+import enums.SpritesheetParameters;
 
 import java.awt.image.BufferedImage;
 
-public class FuelCan extends BaseGameObject implements TakeAble {
+public class FuelCan extends BaseGameObject implements Takeаble {
+
     private static final String TYPE = "fuelcan";
 
     private boolean isTaken;
 
     public FuelCan(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet) {
-        super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.FUEL_CAN.getWidth(),
-                SpriteSheetParameters.FUEL_CAN.getHeight(),
-                SpriteSheetParameters.FUEL_CAN.getRows(),
-                SpriteSheetParameters.FUEL_CAN.getCols(),
+        super(
+                positionX,
+                positionY,
+                objectSpeed,
+                spriteSheet,
+                SpritesheetParameters.FUEL_CAN.getWidth(),
+                SpritesheetParameters.FUEL_CAN.getHeight(),
+                SpritesheetParameters.FUEL_CAN.getRows(),
+                SpritesheetParameters.FUEL_CAN.getCols(),
                 TYPE
         );
+        super.setImage(super.getRandomImageFromSpritesheet());
     }
 
     @Override

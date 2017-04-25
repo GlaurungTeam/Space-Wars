@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.TimerTask;
 
 public class PlayerManager {
+
     private static final String GAME_OVER_SCREEN_PATH = "../views/game_over.fxml";
     private static final double SHOOT_VOLUME = 0.7;
 
@@ -199,7 +200,7 @@ public class PlayerManager {
 
             try {
                 level.getScene().setRoot(FXMLLoader.load(getClass().getResource(GAME_OVER_SCREEN_PATH)));
-                level.getLeaderBoardWriter().writeInLeaderboard(this.player.getPlayerName(), this.getPlayer().getPoints());
+                level.getLeaderboardWriter().writeInLeaderboard(this.player.getPlayerName(), this.getPlayer().getPoints());
             } catch (Exception exc) {
                 exc.printStackTrace();
                 throw new RuntimeException(exc);

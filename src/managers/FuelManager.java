@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class FuelManager {
+
     private static final int VBOX_SPACING = 20;
     private static final int LAYOUT_X = 80;
     private static final int LAYOUT_Y = 60;
@@ -91,7 +92,6 @@ public class FuelManager {
 
     public void updateFuel(Level level) {
         if (!this.fuelCan.getTakenStatus()) {
-            this.fuelCan.setImage(this.fuelCan.getCurrentExplosionFrame(0));
             this.fuelCan.render(level.getGc());
         }
 

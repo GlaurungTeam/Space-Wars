@@ -1,6 +1,6 @@
 package contracts;
 
-public interface TakeAble {
+public interface Takeаble {
 
     void setTakenStatus(boolean isTaken);
 

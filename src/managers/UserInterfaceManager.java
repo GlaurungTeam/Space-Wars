@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class UserInterfaceManager {
+
     private Text scoreLine;
     private Text lives;
     private Text fuelBarText;

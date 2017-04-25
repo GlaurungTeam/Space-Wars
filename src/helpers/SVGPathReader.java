@@ -16,8 +16,7 @@ public class SVGPathReader implements contracts.Reader {
             String line = bufferedReader.readLine();
 
             while (line != null) {
-                for (char ch :
-                        line.toCharArray()) {
+                for (char ch : line.toCharArray()) {
                     stringBuilder.append(ch);
                 }
                 line = bufferedReader.readLine();

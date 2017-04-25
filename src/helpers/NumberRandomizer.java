@@ -4,20 +4,21 @@ import contracts.Randomizer;
 
 import java.util.Random;
 
-public class NumberRandomizer implements Randomizer{
-    private Random rnd;
+public class NumberRandomizer implements Randomizer {
+
+    private Random random;
 
     public NumberRandomizer() {
-        this.rnd = new Random();
+        this.random = new Random();
     }
 
     @Override
     public int getRandomNumber(int bound) {
-        return this.rnd.nextInt(bound);
+        return this.random.nextInt(bound);
     }
 
     @Override
     public int getRandomNumber(int lowBound, int highBound) {
-        return this.rnd.nextInt(highBound - lowBound) + lowBound;
+        return this.random.nextInt(highBound - lowBound) + lowBound;
     }
 }

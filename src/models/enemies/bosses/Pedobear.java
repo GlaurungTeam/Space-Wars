@@ -2,7 +2,7 @@ package models.enemies.bosses;
 
 import contracts.Reader;
 import utils.Constants;
-import enums.SpriteSheetParameters;
+import enums.SpritesheetParameters;
 import helpers.SVGPathReader;
 import javafx.scene.shape.SVGPath;
 
@@ -11,15 +11,24 @@ import java.io.FileNotFoundException;
 
 public class Pedobear extends BaseBoss {
 
-    public Pedobear(double positionX, double positionY, double objectSpeed,
-                    BufferedImage spriteSheet, int health) throws FileNotFoundException {
+    public Pedobear(
+            double positionX,
+            double positionY,
+            double objectSpeed,
+            BufferedImage spriteSheet,
+            int health) throws FileNotFoundException {
 
-        super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.BOSS_PEDOBEAR.getWidth(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getHeight(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getRows(),
-                SpriteSheetParameters.BOSS_PEDOBEAR.getCols(),
-                health);
+        super(
+                positionX,
+                positionY,
+                objectSpeed,
+                spriteSheet,
+                SpritesheetParameters.BOSS_PEDOBEAR.getWidth(),
+                SpritesheetParameters.BOSS_PEDOBEAR.getHeight(),
+                SpritesheetParameters.BOSS_PEDOBEAR.getRows(),
+                SpritesheetParameters.BOSS_PEDOBEAR.getCols(),
+                health
+        );
         this.initializeHitbox();
     }
 

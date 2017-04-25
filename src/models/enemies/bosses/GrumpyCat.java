@@ -1,6 +1,6 @@
 package models.enemies.bosses;
 
-import enums.SpriteSheetParameters;
+import enums.SpritesheetParameters;
 import contracts.Reader;
 import helpers.SVGPathReader;
 import javafx.scene.shape.SVGPath;
@@ -11,15 +11,24 @@ import java.io.FileNotFoundException;
 
 public class GrumpyCat extends BaseBoss {
 
-    public GrumpyCat(double positionX, double positionY, double objectSpeed,
-                     BufferedImage spriteSheet, int health) throws FileNotFoundException {
+    public GrumpyCat(
+            double positionX,
+            double positionY,
+            double objectSpeed,
+            BufferedImage spriteSheet,
+            int health) throws FileNotFoundException {
 
-        super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.BOSS_GRUMPYCAT.getWidth(),
-                SpriteSheetParameters.BOSS_GRUMPYCAT.getHeight(),
-                SpriteSheetParameters.BOSS_GRUMPYCAT.getRows(),
-                SpriteSheetParameters.BOSS_GRUMPYCAT.getCols(),
-                health);
+        super(
+                positionX,
+                positionY,
+                objectSpeed,
+                spriteSheet,
+                SpritesheetParameters.BOSS_GRUMPYCAT.getWidth(),
+                SpritesheetParameters.BOSS_GRUMPYCAT.getHeight(),
+                SpritesheetParameters.BOSS_GRUMPYCAT.getRows(),
+                SpritesheetParameters.BOSS_GRUMPYCAT.getCols(),
+                health
+        );
         this.initializeHitbox();
     }
 

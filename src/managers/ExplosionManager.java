@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExplosionManager {
+
     private static final int CURRENT_FRAME_INDEX_INCREMENT_VALUE = 1;
+
     private List<GameObject> explosions;
 
     public ExplosionManager() {
@@ -38,7 +40,7 @@ public class ExplosionManager {
 
         for (int i = 0; i < this.explosions.size(); i++) {
             GameObject explosion = this.explosions.get(i);
-            Image currentFrame = explosion.getCurrentExplosionFrame(explosion.getCurrentFrameIndex());
+            Image currentFrame = explosion.getImageFromSpritesheet(explosion.getCurrentFrameIndex());
 
             if (explosion.getCurrentFrameIndex() < explosion.getSprites().size() - 1) {
                 explosion.setImage(currentFrame);

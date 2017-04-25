@@ -83,7 +83,7 @@ public class BossManager extends EnemyManager {
                             }
                         }, DELAY_TILL_BOSS_SHOW);
                     } else {
-                        boss.setImage(boss.getCurrentExplosionFrame(0));
+                        boss.setImage(boss.getRandomImageFromSpritesheet());
                         boss.render(level.getGc());
                         boss.move();
                         boss.setVisible(true);
@@ -130,7 +130,7 @@ public class BossManager extends EnemyManager {
         }
     }
 
-    public BossFactory getBossFactory(){
+    public BossFactory getBossFactory() {
         return this.bossFactory;
     }
 

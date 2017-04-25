@@ -1,17 +1,21 @@
 package models.gameObjects;
 
-import enums.SpriteSheetParameters;
+import enums.SpritesheetParameters;
 
 import java.awt.image.BufferedImage;
 
 public class Missile extends BaseGameObject {
 
     public Missile(double positionX, double positionY, double objectSpeed, BufferedImage spriteSheet, String type) {
-        super(positionX, positionY, objectSpeed, spriteSheet,
-                SpriteSheetParameters.MISSILE.getWidth(),
-                SpriteSheetParameters.MISSILE.getHeight(),
-                SpriteSheetParameters.MISSILE.getRows(),
-                SpriteSheetParameters.MISSILE.getCols(),
+        super(
+                positionX,
+                positionY,
+                objectSpeed,
+                spriteSheet,
+                SpritesheetParameters.MISSILE.getWidth(),
+                SpritesheetParameters.MISSILE.getHeight(),
+                SpritesheetParameters.MISSILE.getRows(),
+                SpritesheetParameters.MISSILE.getCols(),
                 type
         );
     }

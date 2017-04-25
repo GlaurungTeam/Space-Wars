@@ -12,6 +12,8 @@ public interface GameObject {
 
     Image getImage();
 
+    void setImage(Image image);
+
     double getPositionX();
 
     double getPositionY();
@@ -26,39 +28,39 @@ public interface GameObject {
 
     int getCols();
 
-    String getType();
-
     List<Image> getSprites();
-
-    BufferedImage getSpriteSheet();
 
     void setSprites(List<Image> sprites);
 
+    BufferedImage getSpriteSheet();
+
     void setSpriteSheet(BufferedImage spriteSheet);
 
-    void splitSprites();
-
-    void setSpriteParameters(int width, int height, int rows, int cols);
-
-    void setImage(Image image);
+    String getType();
 
     Image getFrame(List<Image> sprites, double time, double duration);
-
-    void render(GraphicsContext gc);
-
-    Rectangle getBoundsAsShape();
-
-    Rectangle2D getBoundary();
-
-    boolean intersects(GameObject object);
-
-    void speedUp(double speed);
-
-    void updateLocation(double x, double y);
 
     int getCurrentFrameIndex();
 
     void setCurrentFrameIndex(int currentFrameIndex);
 
-    Image getCurrentExplosionFrame(int index);
+    void splitSprites();
+
+    void setSpriteParameters(int width, int height, int rows, int cols);
+
+    Image getRandomImageFromSpritesheet();
+
+    Image getImageFromSpritesheet(int index);
+
+    void updateLocation(double x, double y);
+
+    void speedUp(double speed);
+
+    boolean intersects(GameObject object);
+
+    Rectangle getBoundsAsShape();
+
+    Rectangle2D getBoundary();
+
+    void render(GraphicsContext gc);
 }

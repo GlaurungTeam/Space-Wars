@@ -27,7 +27,7 @@ public class GameManager {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         PlayerImpl player = new PlayerImpl(Constants.PLAYER_START_X, Constants.SCREEN_HEIGHT / 2,
-                Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, theScene, playerName);
+                Constants.PLAYER_SPEED, Constants.PLAYER_LIVES, playerName);
 
         //Initialize managers
         PlayerManager playerManager = new PlayerManager(player, gc);

@@ -41,8 +41,8 @@ public class Constants {
     public static final String EASY_LEVEL_BACKGROUND = "resources/backgrounds/easyBackground.png";
     public static final String HARD_LEVEL_BACKGROUND = "resources/backgrounds/hardBackground.png";
     public static final String FUELCAN_IMAGE = "resources/fuelcan/fuelCan.png";
-    public static final String UFO_SPRITESHEET = "resources/ufo/UFO_type1.png";
-    public static final String ASTEROID_IMAGE = "resources/asteroid/asteroid";
+    public static final String UFO_SPRITESHEET = "resources/ufo/ufo.png";
+    public static final String ASTEROID_SPRITESHEET = "resources/asteroid/asteroid.png";
     public static final String EARTH_IMAGE = "resources/planets/earth.png";
     public static final String SUN_IMAGE = "resources/planets/sun.png";
 
@@ -105,6 +105,7 @@ public class Constants {
     public static final String LEADERBOARD_FILE_LOCATION = "leaderboard/leaderboard.ser";
     public static final String CONSTANTS_PACKAGE = "utils.";
     public static final String BOSSES_PACKAGE = "models.enemies.bosses.";
+    public static final String ENEMIES_PACKAGE = "models.enemies.genericEnemies.";
     public static final String ANNOTATIONS_PACKAGE = "annotations.";
 
     //Resolution

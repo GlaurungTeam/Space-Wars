@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import managers.*;
 
 public class Main extends Application {
+
     private static final String MAIN_MENU_VIEW_FILE_PATH = "../views/mainmenu.fxml";
     private static final String WINDOW_TITLE = "Launcher";
 

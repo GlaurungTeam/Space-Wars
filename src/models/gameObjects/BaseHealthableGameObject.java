@@ -5,16 +5,26 @@ import contracts.HealthableGameObject;
 import java.awt.image.BufferedImage;
 
 public abstract class BaseHealthableGameObject extends BaseGameObject implements HealthableGameObject {
+
     private static final int DECREMENT_COUNT = 1;
 
     private int health;
     private int defaultHealth;
     private int pointsOnKill;
 
-    protected BaseHealthableGameObject(double positionX, double positionY, double objectSpeed,
-                                       BufferedImage spriteSheet, int width, int height,
-                                       int rows, int cols, int health,
-                                       int defaultHealth, int pointsOnKill, String type) {
+    protected BaseHealthableGameObject(
+            double positionX,
+            double positionY,
+            double objectSpeed,
+            BufferedImage spriteSheet,
+            int width,
+            int height,
+            int rows,
+            int cols,
+            int health,
+            int defaultHealth,
+            int pointsOnKill,
+            String type) {
 
         super(positionX, positionY, objectSpeed, spriteSheet, width, height, rows, cols, type);
 

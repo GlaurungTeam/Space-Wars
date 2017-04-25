@@ -3,6 +3,7 @@ package managers;
 import java.awt.*;
 
 public class DimensionsManager {
+
     private double currentDeviceWidth;
     private double currentDeviceHeight;
 

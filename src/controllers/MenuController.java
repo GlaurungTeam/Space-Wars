@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class MenuController {
+
     private static final String LOGIN_VIEW_PATH = "../views/login.fxml";
     private static final String LEADER_BOARD_VIEW_PATH = "../views/leaderboard.fxml";
     private static final String DIFICULT_SCREEN_PATH = "../views/difficulty.fxml";
@@ -31,17 +32,15 @@ public class MenuController {
 
     private static final String LOGIN_WINDOW_TITLE = "User Login";
     private static final String DIFFICULTY_SELECTOR_SCREEN_TITLE = "Difficulty selector";
-    private static String USERNAME = "Pesho";
     private static final String LEADERBOARD_WINDOW_TITLE = "Leaderboard";
     private static final String LAUNCHER_WINDOW_TITLE = "Launcher";
 
     private static final String TEXT_FONT = "Verdana";
+    private static final int SCORELINE_FONT_SIZE = 18;
 
     private static final int USERNAME_INDEX = 0;
     private static final int STARTING_ROW_INDEX = 1;
     private static final int RESULT_INDEX = 1;
-
-    private static final int SCORELINE_FONT_SIZE = 18;
 
     private static final int FIRST_TEXTFIELD_Y_COORDINATE = 125;
     private static final int TEXTFIELD_Y_COORDINATE_INCREMENT = 36;
@@ -49,8 +48,6 @@ public class MenuController {
 
     private static final int USERNAME_MIN_LENGTH = 0;
     private static final int USERNAME_MAX_LENGTH = 10;
-
-
 
     @FXML
     private TextField usernameField;
@@ -60,6 +57,8 @@ public class MenuController {
     private Button easyLevelButton;
     @FXML
     private Button hardLevelButton;
+
+    private static String username;
 
     public void start() throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource(LOGIN_VIEW_PATH));
@@ -130,8 +129,10 @@ public class MenuController {
 
     public void startGame() throws Exception {
         Platform.runLater(() -> {
-            USERNAME = this.usernameField.getText();
-            if (USERNAME.trim().length() != USERNAME_MIN_LENGTH && USERNAME.trim().length() <= USERNAME_MAX_LENGTH) {
+            username = this.usernameField.getText();
+
+            if (username.trim().length() != USERNAME_MIN_LENGTH &&
+                    username.trim().length() <= USERNAME_MAX_LENGTH) {
                 Parent root = null;
 
                 try {
@@ -161,7 +162,7 @@ public class MenuController {
             stage.setFullScreen(true);
 
             try {
-                gameManager.start(stage, level, USERNAME);
+                gameManager.start(stage, level, username);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -178,7 +179,7 @@ public class MenuController {
             BaseLevel level = new LevelHard();
 
             try {
-                gameManager.start(stage, level, USERNAME);
+                gameManager.start(stage, level, username);
             } catch (Exception e) {
                 e.printStackTrace();
             }

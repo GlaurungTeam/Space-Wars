@@ -3,7 +3,7 @@ package models.level;
 import contracts.GameObject;
 import contracts.HealthableGameObject;
 import contracts.Level;
-import helpers.LeaderBoardWriter;
+import helpers.LeaderboardWriter;
 import managers.*;
 import contracts.Boss;
 import models.gameObjects.*;
@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import utils.Constants;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +31,7 @@ public abstract class BaseLevel implements Level {
     private ExplosionManager explosionManager;
     private Image backgroundImage;
     private boolean isActiveBoss;
-    private LeaderBoardWriter leaderBoardWriter;
+    private LeaderboardWriter leaderboardWriter;
 
     private List<GameObject> missiles;
     private List<HealthableGameObject> enemies;
@@ -50,7 +51,7 @@ public abstract class BaseLevel implements Level {
             BossManager bossManager,
             PlayerManager playerManager,
             FuelManager fuelManager,
-            ExplosionManager explosionManager) {
+            ExplosionManager explosionManager) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         this.player = player;
         this.gc = gc;
@@ -65,25 +66,25 @@ public abstract class BaseLevel implements Level {
         this.playerManager = playerManager;
         this.fuelManager = fuelManager;
         this.explosionManager = explosionManager;
-        this.leaderBoardWriter = new LeaderBoardWriter();
+        this.leaderboardWriter = new LeaderboardWriter();
         this.setDifficultyParameters();
     }
 
-    private List<HealthableGameObject> initializeUfos(int health, int speed, int ufoCount) {
+    private List<HealthableGameObject> initializeUfos(int health, int speed, int ufoCount) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         return this.enemyManager
                 .getEnemyFactory()
-                .initializeEnemies(health, speed, ufoCount, "ufo");
+                .createEnemies(health, speed, ufoCount, "Ufo", Constants.UFO_SPRITESHEET);
     }
 
-    private List<HealthableGameObject> initializeAsteroids(int health, int speed, int asteroidCount) {
+    private List<HealthableGameObject> initializeAsteroids(int health, int speed, int asteroidCount) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         return this.enemyManager.
                 getEnemyFactory().
-                initializeEnemies(health, speed, asteroidCount, "asteroid");
+                createEnemies(health, speed, asteroidCount, "Asteroid", Constants.ASTEROID_SPRITESHEET);
     }
 
     @Override
-    public LeaderBoardWriter getLeaderBoardWriter() {
-        return this.leaderBoardWriter;
+    public LeaderboardWriter getLeaderboardWriter() {
+        return this.leaderboardWriter;
     }
 
     public List<HealthableGameObject> getEnemies() {
@@ -191,8 +192,9 @@ public abstract class BaseLevel implements Level {
     }
 
     @Override
-    public void initializeEnemies(int asteroidsHealth, int asteroidsSpeed, int asteroidsCount,
-                                  int ufoHealth, int ufoSpeed, int ufoCount) {
+    public void initializeEnemies(
+            int asteroidsHealth, int asteroidsSpeed, int asteroidsCount,
+            int ufoHealth, int ufoSpeed, int ufoCount) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         List<HealthableGameObject> asteroids = this.initializeAsteroids(asteroidsHealth, asteroidsSpeed, asteroidsCount);
         List<HealthableGameObject> ufos = this.initializeUfos(ufoHealth, ufoSpeed, ufoCount);

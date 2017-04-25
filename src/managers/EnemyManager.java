@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class EnemyManager {
-    private static final int BASE_EXPLOSION_FRAME_INDEX = 0;
+
     private static final int LOW_SCREEN_BOUND = 0;
     private static final int SCREEN_WIDTH_MULTIPLIER = 2;
     private static final int SCREEN_WIDTH_INCREMENT_VALUE = 1;
@@ -77,16 +77,14 @@ public class EnemyManager {
         enemy.revive();
     }
 
-    public EnemyFactory getEnemyFactory(){
+    public EnemyFactory getEnemyFactory() {
         return this.enemyFactory;
     }
 
     public void manageEnemies(Level level) {
         for (HealthableGameObject enemy : level.getEnemies()) {
             if (!level.isActiveBoss()) {
-                enemy.setImage(enemy.getCurrentExplosionFrame(BASE_EXPLOSION_FRAME_INDEX));
                 enemy.render(level.getGc());
-
                 this.move(enemy);
                 this.manageEnemyCollision(level, enemy);
             } else if (enemy.getPositionX() > Constants.OBJECT_RESTART_LEFT_COORDINATE &&

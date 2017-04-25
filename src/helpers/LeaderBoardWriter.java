@@ -6,15 +6,15 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LeaderBoardWriter {
+public class LeaderboardWriter {
+
     private static final int LEADERBOARD_NAMES_COUNT = 10;
     private static final int USERNAME_INDEX = 0;
     private static final int RESULT_INDEX = 1;
     private static final int START_INDEX = 0;
 
-
     public void writeInLeaderboard(String name, long score) throws IOException {
-        SortedMap<String, Long> scores = new TreeMap<>();
+        Map<String, Long> scores = new TreeMap<>();
 
         try (ObjectInputStream in = new ObjectInputStream
                 (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
@@ -62,6 +62,4 @@ public class LeaderBoardWriter {
             e.printStackTrace();
         }
     }
-
-
 }
