@@ -1,25 +1,19 @@
 package managers;
 
+import contracts.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import models.gameObjects.PlayerImpl;
-import contracts.Level;
 import utils.Constants;
 
 public class GameManager {
 
     public void start(Stage theStage, Level level, String playerName) throws Exception {
-        theStage.setTitle("Space Wars");
-
         Group root = new Group();
-        Scene theScene = new Scene(root);
-        theStage.setScene(theScene);
-        theStage.setFullScreen(true);
-        theStage.setFullScreenExitHint("");
+        theStage.getScene().setRoot(root);
 
         Canvas canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         root.getChildren().add(canvas);
@@ -39,7 +33,7 @@ public class GameManager {
         BackgroundManager backgroundManager = new BackgroundManager();
         BossManager bossManager = new BossManager();
 
-        level.initializeLevel(player, gc, canvas, theScene, 0.0,
+        level.initializeLevel(player, gc, canvas, theStage.getScene(), 0.0,
                 enemyManager, bossManager, playerManager, fuelManager, explosionManager);
 
         backgroundManager.setBackgroundImage(level.getBackgroundImage());

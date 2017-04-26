@@ -39,7 +39,7 @@ public class LeaderboardWriter {
             e.printStackTrace();
         }
 
-        ArrayList<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
+        List<Map.Entry<String, Long>> sortedScores = scores.entrySet().stream()
                 .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(Map.Entry::getValue).reversed())
                 .collect(Collectors.toCollection(ArrayList::new));
 

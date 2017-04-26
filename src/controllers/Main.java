@@ -17,7 +17,7 @@ import managers.*;
 public class Main extends Application {
 
     private static final String MAIN_MENU_VIEW_FILE_PATH = "../views/mainmenu.fxml";
-    private static final String WINDOW_TITLE = "Launcher";
+    private static final String WINDOW_TITLE = "Space Wars";
 
     @Override
     public void start(Stage theStage) throws Exception {
@@ -40,9 +40,9 @@ public class Main extends Application {
 
             theStage.setTitle(WINDOW_TITLE);
             theStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
-            theStage.show();
             theStage.setFullScreen(true);
             theStage.setFullScreenExitHint("");
+            theStage.show();
         });
     }
 

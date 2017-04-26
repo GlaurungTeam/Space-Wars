@@ -30,11 +30,6 @@ public class MenuController {
     private static final String DIFICULT_SCREEN_PATH = "../views/difficulty.fxml";
     private static final String PANE_PATH = "../views/mainmenu.fxml";
 
-    private static final String LOGIN_WINDOW_TITLE = "User Login";
-    private static final String DIFFICULTY_SELECTOR_SCREEN_TITLE = "Difficulty selector";
-    private static final String LEADERBOARD_WINDOW_TITLE = "Leaderboard";
-    private static final String LAUNCHER_WINDOW_TITLE = "Launcher";
-
     private static final String TEXT_FONT = "Verdana";
     private static final int SCORELINE_FONT_SIZE = 18;
 
@@ -61,24 +56,17 @@ public class MenuController {
     private static String username;
 
     public void start() throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(LOGIN_VIEW_PATH));
         Stage loginStage = (Stage) this.spaceWars.getScene().getWindow();
 
-        loginStage.setTitle(LOGIN_WINDOW_TITLE);
-        loginStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
-        loginStage.show();
-        loginStage.setFullScreen(true);
+        Parent root = FXMLLoader.load(getClass().getResource(LOGIN_VIEW_PATH));
+        loginStage.getScene().setRoot(root);
     }
 
     public void openHighScores() throws IOException, InterruptedException {
         Stage primaryStage = (Stage) this.spaceWars.getScene().getWindow();
 
         Pane root = FXMLLoader.load(getClass().getResource(LEADER_BOARD_VIEW_PATH));
-        Scene scene = new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-
-        primaryStage.setTitle(LEADERBOARD_WINDOW_TITLE);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.getScene().setRoot(root);
 
         try (ObjectInputStream in = new ObjectInputStream
                 (new FileInputStream(Constants.PROJECT_PATH + Constants.LEADERBOARD_FILE_LOCATION))) {
@@ -118,13 +106,10 @@ public class MenuController {
     }
 
     public void goBack() throws Exception {
-        Pane root = FXMLLoader.load(getClass().getResource(PANE_PATH));
-
         Stage leaderBoardStage = (Stage) this.spaceWars.getScene().getWindow();
 
-        leaderBoardStage.setTitle(LAUNCHER_WINDOW_TITLE);
-        leaderBoardStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
-        leaderBoardStage.show();
+        Pane root = FXMLLoader.load(getClass().getResource(PANE_PATH));
+        leaderBoardStage.getScene().setRoot(root);
     }
 
     public void startGame() throws Exception {
@@ -142,11 +127,7 @@ public class MenuController {
                 }
 
                 Stage difficultyStage = (Stage) this.spaceWars.getScene().getWindow();
-
-                difficultyStage.setTitle(DIFFICULTY_SELECTOR_SCREEN_TITLE);
-                difficultyStage.setScene(new Scene(root, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
-                difficultyStage.show();
-                difficultyStage.setFullScreen(true);
+                difficultyStage.getScene().setRoot(root);
             }
         });
     }
@@ -154,12 +135,10 @@ public class MenuController {
     public void startEasyLevel() throws Exception {
         Platform.runLater(() -> {
 
-            Stage stage = new Stage();
-            ((Stage) easyLevelButton.getScene().getWindow()).close();
+            Stage stage = (Stage) easyLevelButton.getScene().getWindow();
             GameManager gameManager = new GameManager();
 
             BaseLevel level = new LevelEasy();
-            stage.setFullScreen(true);
 
             try {
                 gameManager.start(stage, level, username);
@@ -171,9 +150,8 @@ public class MenuController {
 
     public void startHardLevel() throws Exception {
         Platform.runLater(() -> {
-            Stage stage = new Stage();
 
-            ((Stage) easyLevelButton.getScene().getWindow()).close();
+            Stage stage = (Stage) easyLevelButton.getScene().getWindow();
             GameManager gameManager = new GameManager();
 
             BaseLevel level = new LevelHard();
