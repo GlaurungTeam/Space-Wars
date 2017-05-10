@@ -57,7 +57,8 @@ public class PlayerImpl extends BaseHealthableGameObject implements Player {
                 Constants.PLAYER_DEFAULT_HEALTH,
                 Constants.PLAYER_DEFAULT_HEALTH,
                 DEFAULT_POINTS_ON_KILL,
-                TYPE);
+                TYPE
+        );
 
         this.changeFiredStatus(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);
         this.shiftLightningSpeed(Constants.DEFAULT_BOOLEAN_VALUE_FOR_PRESSED_KEY);

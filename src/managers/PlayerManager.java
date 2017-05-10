@@ -29,7 +29,7 @@ public class PlayerManager {
 
     public PlayerManager(PlayerImpl player, GraphicsContext graphicsContext) {
         this.player = player;
-        this.getFirePermission();
+        this.configureShootingTimer();
         this.graphicsContext = graphicsContext;
     }
 
@@ -80,9 +80,9 @@ public class PlayerManager {
         player.svgPath.setLayoutY(player.getPositionY());
     }
 
-    private void getFirePermission() {
+    private void configureShootingTimer() {
         PlayerImpl that = this.getPlayer();
-        this.getPlayer().getTimer().scheduleAtFixedRate(new TimerTask() {
+        that.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 that.changeFiredStatus(false);

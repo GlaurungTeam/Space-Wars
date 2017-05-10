@@ -1,14 +1,9 @@
 package controllers;
 
-import javafx.fxml.FXML;
-import utils.Constants;
-import models.level.BaseLevel;
-import models.level.LevelEasy;
-import models.level.LevelHard;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,6 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import managers.GameManager;
+import models.level.BaseLevel;
+import models.level.LevelEasy;
+import models.level.LevelHard;
+import utils.Constants;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class MenuController {
 
     private static final String LOGIN_VIEW_PATH = "../views/login.fxml";
     private static final String LEADER_BOARD_VIEW_PATH = "../views/leaderboard.fxml";
-    private static final String DIFICULT_SCREEN_PATH = "../views/difficulty.fxml";
+    private static final String DIFFICULTY_SCREEN_PATH = "../views/difficulty.fxml";
     private static final String PANE_PATH = "../views/mainmenu.fxml";
 
     private static final String TEXT_FONT = "Verdana";
@@ -121,7 +120,7 @@ public class MenuController {
                 Parent root = null;
 
                 try {
-                    root = FXMLLoader.load(getClass().getResource(DIFICULT_SCREEN_PATH));
+                    root = FXMLLoader.load(getClass().getResource(DIFFICULTY_SCREEN_PATH));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -151,7 +150,7 @@ public class MenuController {
     public void startHardLevel() throws Exception {
         Platform.runLater(() -> {
 
-            Stage stage = (Stage) easyLevelButton.getScene().getWindow();
+            Stage stage = (Stage) hardLevelButton.getScene().getWindow();
             GameManager gameManager = new GameManager();
 
             BaseLevel level = new LevelHard();
